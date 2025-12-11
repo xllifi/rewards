@@ -3,9 +3,7 @@ package ru.xllifi.rewards.config
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import net.minecraft.world.item.ItemStack
-import ru.xllifi.rewards.conditions.Condition
 import ru.xllifi.rewards.serializers.text.Component
-import ru.xllifi.rewards.serializers.time.InstantAsDay
 
 @Serializable
 data class Progression(

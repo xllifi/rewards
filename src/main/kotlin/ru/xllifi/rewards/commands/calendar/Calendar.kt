@@ -1,92 +1,103 @@
 package ru.xllifi.rewards.commands.calendar
 
 import com.mojang.brigadier.arguments.StringArgumentType
-import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.CommandSyntaxException
-import com.mojang.brigadier.suggestion.SuggestionProvider
-import com.mojang.brigadier.suggestion.Suggestions
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
+import de.phyrone.brig.wrapper.DSLCommandNode
 import net.minecraft.commands.CommandSourceStack
-import net.minecraft.commands.Commands
-import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.commands.Command
 import ru.xllifi.rewards.config.Calendar
-import java.util.concurrent.CompletableFuture
+import ru.xllifi.rewards.config.getServerAttachment
+import ru.xllifi.rewards.serializers.text.Component
 
-class CalendarCommands : Command {
-  override fun run(context: CommandContext<CommandSourceStack>): Int {
+object CalendarCommands : Command {
+  override fun run(ctx: CommandContext<CommandSourceStack>): Int {
     throw IllegalStateException("${this::class.simpleName} cannot be run.")
   }
 
-  override fun register(): LiteralArgumentBuilder<CommandSourceStack> =
-    Commands.literal("calendar")
-      .then(CalendarOpenCommand().register())
+  fun open(ctx: CommandContext<CommandSourceStack>): Int {
+    val calendar = ctx.getCalendarArgument("calendar")
+    ctx.source.sendMessage {
+      Component.text(ctx.getServerAttachment().jsonSerializers.json.encodeToString(calendar))
+    }
+
+    return Command.SINGLE_SUCCESS
+  }
+
+  override fun DSLCommandNode<CommandSourceStack>.register() {
+    literal("calendar") {
+      literal("open") {
+        calendarArgument("calendar") {
+          executes { ctx -> open(ctx) }
+        }
+      }
+    }
+  }
 }
 
 fun CommandContext<CommandSourceStack>.getCalendarArgument(calendarArgumentName: String): Calendar {
   val calendarId = StringArgumentType.getString(this, calendarArgumentName)
-  val calendar = Main.configs.calendars.firstOrNull { it.id == calendarId }
+  val calendar = getServerAttachment().calendars.firstOrNull { it.id == calendarId }
   if (calendar == null)
-    throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherParseException().create("No such calendar with ID $calendarId")
+    throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherParseException()
+      .create("No such calendar with ID $calendarId")
   return calendar
 }
 
-fun calendarArgument(name: String): RequiredArgumentBuilder<CommandSourceStack, String> =
-  Commands
-    .argument(name, StringArgumentType.string())
-    .suggests(CalendarSuggestionProvider())
-
-class CalendarSuggestionProvider : SuggestionProvider<CommandSourceStack> {
-  override fun getSuggestions(
-    context: CommandContext<CommandSourceStack>,
-    builder: SuggestionsBuilder,
-  ): CompletableFuture<Suggestions> {
-    val lastInputPart = context.input.split(' ').last()
-    Main.configs.calendars
-      .map { it.id }
-      .filter { it.startsWith(lastInputPart) }
-      .forEach {
-        builder.suggest(it)
-      }
-    return builder.buildFuture()
+fun DSLCommandNode<CommandSourceStack>.calendarArgument(
+  calendarArgumentName: String,
+  setup: DSLCommandNode<CommandSourceStack>.() -> Unit
+) =
+  argument(calendarArgumentName, StringArgumentType.string()) {
+    suggest { calendarSuggestions(it) }
+    setup()
   }
+
+fun SuggestionsBuilder.calendarSuggestions(ctx: CommandContext<CommandSourceStack>) {
+  val lastInputPart = ctx.input.split(' ').last()
+  ctx.getServerAttachment().calendars
+    .map { it.id }
+    .filter { it.startsWith(lastInputPart) }
+    .forEach { suggest(it) }
 }
 
-fun CommandContext<CommandSourceStack>.getCalendarAndCellArguments(calendarArgumentName: String, cellArgumentName: String): Pair<Calendar, Calendar.Cell> {
+fun CommandContext<CommandSourceStack>.getCalendarAndCellArguments(
+  calendarArgumentName: String,
+  cellArgumentName: String
+): Pair<Calendar, Calendar.Cell> {
   val calendar = this.getCalendarArgument(calendarArgumentName)
   val cell = this.getCellArgument(calendarArgumentName, cellArgumentName)
   return calendar to cell
 }
 
-fun CommandContext<CommandSourceStack>.getCellArgument(calendarArgumentName: String, cellArgumentName: String): Calendar.Cell {
+fun DSLCommandNode<CommandSourceStack>.cellArgument(
+  calendarArgumentName: String,
+  cellArgumentName: String,
+  setup: DSLCommandNode<CommandSourceStack>.() -> Unit
+) =
+  argument(cellArgumentName, StringArgumentType.string()) {
+    suggest { cellSuggestions(calendarArgumentName, it) }
+    setup()
+  }
+
+fun SuggestionsBuilder.cellSuggestions(calendarArgumentName: String, ctx: CommandContext<CommandSourceStack>) {
+  val calendar = ctx.getCalendarArgument(calendarArgumentName)
+  val lastInputPart = ctx.input.split(' ').last()
+  calendar.cells
+    .map { it.id }
+    .filter { it.startsWith(lastInputPart) }
+    .forEach { suggest(it) }
+}
+
+fun CommandContext<CommandSourceStack>.getCellArgument(
+  calendarArgumentName: String,
+  cellArgumentName: String
+): Calendar.Cell {
   val calendar = this.getCalendarArgument(calendarArgumentName)
   val cellId = StringArgumentType.getString(this, cellArgumentName)
   val cell = calendar.cells.firstOrNull { it.id == cellId }
   if (cell == null)
     throw CommandSyntaxException.BUILT_IN_EXCEPTIONS.dispatcherParseException().create("No such cell with ID $cellId")
   return cell
-}
-
-fun cellArgument(calendarArgumentName: String, cellArgumentName: String): RequiredArgumentBuilder<CommandSourceStack, String> =
-  Commands
-    .argument(cellArgumentName, StringArgumentType.string())
-    .suggests(CellSuggestionProvider(calendarArgumentName))
-
-class CellSuggestionProvider(
-  val calendarArgumentName: String
-) : SuggestionProvider<CommandSourceStack> {
-  override fun getSuggestions(
-    context: CommandContext<CommandSourceStack>,
-    builder: SuggestionsBuilder,
-  ): CompletableFuture<Suggestions> {
-    val calendar = context.getCalendarArgument(calendarArgumentName)
-    val lastInputPart = context.input.split(' ').last()
-    calendar.cells
-      .map { it.id }
-      .filter { it.startsWith(lastInputPart) }
-      .forEach { builder.suggest(it) }
-    return builder.buildFuture()
-  }
 }

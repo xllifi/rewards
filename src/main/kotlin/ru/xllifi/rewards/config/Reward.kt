@@ -10,17 +10,9 @@ import kotlinx.serialization.modules.subclass
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.item.ItemStack
 
-val rewardsSerializersModule = SerializersModule {
-  polymorphic(Reward::class) {
-    subclass(ItemReward::class)
-    subclass(XpReward::class)
-  }
-}
-
 @Serializable
-@Polymorphic
-sealed class Reward {
-  abstract fun grant(player: ServerPlayer)
+sealed interface Reward {
+  fun grant(player: ServerPlayer)
 }
 
 fun List<Reward>.grant(player: ServerPlayer) = this.forEach { it.grant(player) }
@@ -29,7 +21,7 @@ fun List<Reward>.grant(player: ServerPlayer) = this.forEach { it.grant(player) }
 @SerialName("item")
 class ItemReward(
   @Contextual val itemStack: ItemStack,
-) : Reward() {
+) : Reward {
   override fun grant(player: ServerPlayer) {
     player.addItem(itemStack)
   }
@@ -40,7 +32,7 @@ class ItemReward(
 class XpReward(
   val amount: Int,
   val xpUnit: XpUnit,
-) : Reward() {
+) : Reward {
   override fun grant(player: ServerPlayer) {
     when (xpUnit) {
       XpUnit.Points ->

@@ -1,20 +1,19 @@
 package ru.xllifi.rewards.commands
 
-import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
+import de.phyrone.brig.wrapper.DSLCommandNode
 import net.fabricmc.loader.api.FabricLoader
 import net.kyori.adventure.text.format.NamedTextColor
 import net.minecraft.commands.CommandSourceStack
-import net.minecraft.commands.Commands
 import ru.xllifi.rewards.commands.admin.AdminCommands
 import ru.xllifi.rewards.commands.calendar.CalendarCommands
 import ru.xllifi.rewards.modId
 import ru.xllifi.rewards.serializers.text.Component
 import ru.xllifi.rewards.utils.plus
 
-class RewardsCommands : Command {
-  override fun run(context: CommandContext<CommandSourceStack>): Int {
-    context.source.sendMessage {
+object RewardsCommands : Command {
+  override fun run(ctx: CommandContext<CommandSourceStack>): Int {
+    ctx.source.sendMessage {
       Component
         .text("Running rewards version ")
         .color(NamedTextColor.GRAY) +
@@ -25,16 +24,17 @@ class RewardsCommands : Command {
     return Command.SINGLE_SUCCESS
   }
 
-  override fun register(): LiteralArgumentBuilder<CommandSourceStack> =
-    Commands.literal("rewards")
-      .executes(this::run)
-      .then(CalendarCommands().register())
-      .then(AdminCommands.register())
+  override fun DSLCommandNode<CommandSourceStack>.register() {
+    with(CalendarCommands) { register() }
+    with(AdminCommands) { register() }
+  }
 }
 
 interface Command : com.mojang.brigadier.Command<CommandSourceStack> {
-  override fun run(context: CommandContext<CommandSourceStack>): Int
-  fun register(): LiteralArgumentBuilder<CommandSourceStack>
+  override fun run(ctx: CommandContext<CommandSourceStack>): Int {
+    throw IllegalStateException("${this::class.simpleName} cannot be run.")
+  }
+  fun DSLCommandNode<CommandSourceStack>.register(): Unit
 
   companion object {
     const val SINGLE_SUCCESS = 1

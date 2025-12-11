@@ -1,11 +1,7 @@
-package ru.xllifi.rewards.conditions
+package ru.xllifi.rewards.config
 
-import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.polymorphic
-import kotlinx.serialization.modules.subclass
 import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
@@ -17,21 +13,19 @@ import ru.xllifi.rewards.utils.getOrThrow
 import kotlin.time.Clock
 import kotlin.time.Instant
 
-val conditionsSerializersModule = SerializersModule {
-  polymorphic(Condition::class) {
-    subclass(StatCondition::class)
-    subclass(TimeUnixCondition::class)
-    subclass(TimeDaysCondition::class)
-    subclass(AllCondition::class)
-    subclass(AnyCondition::class)
-    subclass(SomeCondition::class)
-  }
+@Serializable
+sealed interface Condition {
+  fun isMet(player: ServerPlayer): Boolean
+  // TODO: extend contract with a fun renderConditions(player: ServerPlayer): List<Component>
+  //  for showing conditions in cells' or tiers' descriptions
 }
 
 @Serializable
-@Polymorphic
-sealed class Condition {
-  abstract fun isMet(player: ServerPlayer): Boolean
+@SerialName("none")
+data class NoCondition(
+  val isMet: Boolean
+) : Condition {
+    override fun isMet(player: ServerPlayer): Boolean = isMet
 }
 
 @Serializable
@@ -40,7 +34,7 @@ data class StatCondition(
   val statType: Type,
   val stat: String,
   val threshold: Int,
-) : Condition() {
+) : Condition {
   @Serializable
   enum class Type {
     @SerialName("block_mined") BLOCK_MINED,
@@ -162,7 +156,7 @@ data class StatCondition(
 data class TimeUnixCondition(
   val unlockedAt: InstantAsUnix,
   val expiredAt: InstantAsUnix?,
-): Condition() {
+): Condition {
   override fun isMet(player: ServerPlayer): Boolean {
     val now = Clock.System.now()
     return now in unlockedAt..(expiredAt ?: Instant.DISTANT_FUTURE)
@@ -174,7 +168,7 @@ data class TimeUnixCondition(
 data class TimeDaysCondition(
   val unlockedAt: InstantAsDay,
   val expiredAt: InstantAsDay?,
-): Condition() {
+): Condition {
   override fun isMet(player: ServerPlayer): Boolean {
     val now = Clock.System.now()
     return now in unlockedAt..(expiredAt ?: Instant.DISTANT_FUTURE)
@@ -185,7 +179,7 @@ data class TimeDaysCondition(
 @SerialName("all")
 data class AllCondition(
   val conditions: List<Condition>
-): Condition() {
+): Condition {
   override fun isMet(player: ServerPlayer): Boolean = conditions.all { it.isMet(player) }
 }
 
@@ -193,7 +187,7 @@ data class AllCondition(
 @SerialName("any")
 data class AnyCondition(
   val conditions: List<Condition>
-): Condition() {
+): Condition {
   override fun isMet(player: ServerPlayer): Boolean = conditions.any { it.isMet(player) }
 }
 
@@ -202,7 +196,7 @@ data class AnyCondition(
 data class SomeCondition(
   val conditions: List<Condition>,
   val threshold: Int,
-): Condition() {
+): Condition {
   override fun isMet(player: ServerPlayer): Boolean =
     conditions.filter { it.isMet(player) }.size > threshold
 }

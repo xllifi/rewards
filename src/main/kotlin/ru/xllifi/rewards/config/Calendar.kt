@@ -7,7 +7,6 @@ import net.minecraft.world.item.ItemStack
 import org.jetbrains.exposed.v1.dao.exceptions.EntityNotFoundException
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import ru.xllifi.rewards.Main
-import ru.xllifi.rewards.conditions.Condition
 import ru.xllifi.rewards.serializers.text.Component
 import ru.xllifi.rewards.serializers.time.InstantAsDay
 import ru.xllifi.rewards.sql.PlayerData

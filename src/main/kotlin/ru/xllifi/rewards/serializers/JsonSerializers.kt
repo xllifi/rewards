@@ -16,8 +16,6 @@ import kotlinx.serialization.json.JsonNamingStrategy
 import kotlinx.serialization.modules.SerializersModule
 import net.minecraft.server.MinecraftServer
 import net.minecraft.world.item.ItemStack
-import ru.xllifi.rewards.conditions.conditionsSerializersModule
-import ru.xllifi.rewards.config.rewardsSerializersModule
 import kotlin.reflect.KClass
 
 class JsonSerializers(
@@ -51,8 +49,6 @@ class JsonSerializers(
       codec = ItemStack.CODEC,
       kClass = ItemStack::class,
     ))
-    include(conditionsSerializersModule)
-    include(rewardsSerializersModule)
   }
 
   @OptIn(ExperimentalSerializationApi::class)

@@ -36,6 +36,7 @@ repositories {
   // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
   // See https://docs.gradle.org/current/userguide/declaring_repositories.html
   // for more information about repositories.
+  maven { url = uri("https://jitpack.io") }
   maven { url = uri("https://maven.nucleoid.xyz") }
 }
 
@@ -60,7 +61,8 @@ dependencies {
   implementation(libs.exposed.jdbc)
   implementation(libs.exposed.json)
   implementation(libs.sqlite.jdbc)
-  implementation("org.slf4j:slf4j-nop:1.7.30")
+  implementation(libs.pqsql.jdbc)
+  implementation(libs.brigadierkt)
 }
 
 tasks.processResources {

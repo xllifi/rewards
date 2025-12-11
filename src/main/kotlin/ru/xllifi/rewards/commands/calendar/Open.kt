@@ -1,26 +1,28 @@
 package ru.xllifi.rewards.commands.calendar
 
-import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
+import de.phyrone.brig.wrapper.DSLCommandNode
 import net.minecraft.commands.CommandSourceStack
-import net.minecraft.commands.Commands
 import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.commands.Command
+import ru.xllifi.rewards.config.getServerAttachment
 import ru.xllifi.rewards.serializers.text.Component
 
-class CalendarOpenCommand : Command {
-  override fun run(context: CommandContext<CommandSourceStack>): Int {
-    val calendar = context.getCalendarArgument("calendar")
-    context.source.sendMessage {
-      Component.text(Main.jsonSerializers.json.encodeToString(calendar))
+object CalendarOpenCommand : Command {
+  override fun run(ctx: CommandContext<CommandSourceStack>): Int {
+    val calendar = ctx.getCalendarArgument("calendar")
+    ctx.source.sendMessage {
+      Component.text(ctx.getServerAttachment().jsonSerializers.json.encodeToString(calendar))
     }
 
     return Command.SINGLE_SUCCESS
   }
 
-  override fun register(): LiteralArgumentBuilder<CommandSourceStack> =
-    Commands.literal("open")
-      .then(
-        calendarArgument("calendar").executes(this::run)
-      )
+  override fun DSLCommandNode<CommandSourceStack>.register() {
+    literal("open") {
+      calendarArgument("calendar") {
+        executes { ctx -> run(ctx) }
+      }
+    }
+  }
 }

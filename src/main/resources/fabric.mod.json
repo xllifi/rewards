@@ -1,0 +1,32 @@
+{
+	"schemaVersion": 1,
+	"id": "rewards",
+	"version": "${version}",
+	"name": "rewards",
+	"description": "A mod to reward players for in-game achievements",
+	"authors": [
+		"xllifi"
+	],
+	"contact": {
+		"homepage": "",
+		"sources": ""
+	},
+	"license": "GPL-3.0-only",
+	"icon": "assets/rewards/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			{
+				"value": "ru.xllifi.rewards.Main",
+				"adapter": "kotlin"
+			}
+		]
+	},
+	"depends": {
+		"fabricloader": ">=${fabric_loader_version}",
+		"minecraft": "${minecraft_version}",
+		"java": ">=21",
+		"fabric-api": "*",
+		"fabric-language-kotlin": "*"
+	}
+}

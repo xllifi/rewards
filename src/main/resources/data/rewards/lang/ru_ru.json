@@ -1,0 +1,29 @@
+{
+  "rewards.generic.mark": "–",
+
+  "rewards.condition.mark.pending": "–",
+  "rewards.condition.mark.success": "✔",
+  "rewards.condition.mark.failure": "✘",
+
+  "rewards.condition.none": "Ничего",
+  "rewards.condition.stat.custom": "Достигните %2$d в статистике \"%1$s\"",
+  "rewards.condition.stat.block_mined": "Добудьте %s %d раз(а)",
+  "rewards.condition.stat.item_crafted": "Создайте %s %d раз(а)",
+  "rewards.condition.stat.item_used": "Используйте %s %d раз(а)",
+  "rewards.condition.stat.item_broken": "Сломайте %s %d раз(а)",
+  "rewards.condition.stat.item_picked_up": "Подберите %s %d раз(а)",
+  "rewards.condition.stat.item_dropped": "Выбросьте %s %d раз(а)",
+  "rewards.condition.stat.entity_killed": "Убейте %s %d раз(а)",
+  "rewards.condition.stat.entity_killed_by": "Умрите от %s %d раз(а)",
+  "rewards.condition.time.wait": "Подождите до %s",
+  "rewards.condition.time.wait_expirable": "Подождите до %s и соберите ранее %s",
+  "rewards.condition.time.expired": "Соберите ранее %s",
+  "rewards.condition.all": "Всё из следующего:",
+  "rewards.condition.any": "Одно из следующего:",
+  "rewards.condition.some": "Хотя бы %d из следующего:",
+
+  "rewards.generic.rewards": "Rewards:",
+  "rewards.generic.click_to_collect": "Click to collect!",
+
+  "": ""
+}

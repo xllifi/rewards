@@ -1,0 +1,34 @@
+{
+  "rewards.generic.mark": "–",
+
+  "rewards.condition.mark.pending": "–",
+  "rewards.condition.mark.success": "✔",
+  "rewards.condition.mark.failure": "✘",
+
+  "rewards.condition.none": "None",
+  "rewards.condition.stat.custom": "Reach %2$d in %1$s statistic",
+  "rewards.condition.stat.block_mined": "Mine \"%s\" %d time(s)",
+  "rewards.condition.stat.item_crafted": "Craft \"%s\" %d time(s)",
+  "rewards.condition.stat.item_used": "Use \"%s\" %d time(s)",
+  "rewards.condition.stat.item_broken": "Break \"%s\" %d time(s)",
+  "rewards.condition.stat.item_picked_up": "Pick up \"%s\" %d time(s)",
+  "rewards.condition.stat.item_dropped": "Drop \"%s\" %d time(s)",
+  "rewards.condition.stat.entity_killed": "Kill \"%s\" %d time(s)",
+  "rewards.condition.stat.entity_killed_by": "Get killed by \"%s\" %d time(s)",
+  "rewards.condition.time.wait": "Wait until %s",
+  "rewards.condition.time.wait_expirable": "Wait until %s and collect before %s",
+  "rewards.condition.time.expired": "Collect before %s",
+  "rewards.condition.all": "All of the following:",
+  "rewards.condition.any": "Any of the following:",
+  "rewards.condition.some": "At least %d of the following:",
+
+  "rewards.reward.item": "%s x%d",
+  "rewards.reward.xp": "%d %s of XP",
+  "rewards.reward.xp.points": "point(s)",
+  "rewards.reward.xp.levels": "level(s)",
+
+  "rewards.generic.rewards": "Rewards:",
+  "rewards.generic.click_to_collect": "Click to collect!",
+
+  "": ""
+}

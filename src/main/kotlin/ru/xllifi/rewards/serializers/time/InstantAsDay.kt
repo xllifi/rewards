@@ -17,7 +17,22 @@ import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 import kotlin.time.Instant
 
+val dayHumanFormat = DateTimeComponents.Format {
+  year()
+  char('-')
+  monthNumber()
+  char('-')
+  day()
+  chars(" (UTC")
+  offsetHours()
+  char(')')
+}
+
 typealias InstantAsDay = @Serializable(InstantAsDaySerializer::class) Instant
+
+fun InstantAsDay.dayHumanReadable(): String {
+  return this.format(dayHumanFormat, TimeZone.currentSystemDefault().offsetAt(this))
+}
 
 object InstantAsDaySerializer : KSerializer<Instant> {
   val format = DateTimeComponents.Format {
@@ -26,10 +41,7 @@ object InstantAsDaySerializer : KSerializer<Instant> {
     monthNumber()
     char('-')
     day()
-    char('@')
-    char('U')
-    char('T')
-    char('C')
+    chars("@UTC")
     offsetHours()
   }
 

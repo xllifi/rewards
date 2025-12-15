@@ -11,6 +11,8 @@ advntr = "6.7.0"
 sgui = "1.11.0+1.21.9"
 # https://maven.nucleoid.xyz/eu/pb4/polymer-core/
 polymer = "0.14.3+1.21.10"
+# https://maven.nucleoid.xyz/xyz/nucleoid/server-translations-api/
+servertranslations = "2.5.2+1.21.9-pre3"
 # https://github.com/JetBrains/Exposed/releases
 exposed = "1.0.0-rc-4"
 # https://github.com/xerial/sqlite-jdbc/releases
@@ -29,6 +31,8 @@ advntr = { module = "net.kyori:adventure-platform-fabric", version.ref = "advntr
 sgui = { module = "eu.pb4:sgui", version.ref = "sgui" }
 polymer-core = { module = "eu.pb4:polymer-core", version.ref = "polymer" }
 polymer-resourcepack = { module = "eu.pb4:polymer-resource-pack", version.ref = "polymer" }
+servertranslations = { module = "xyz.nucleoid:server-translations-api", version.ref = "servertranslations" }
+
 exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed" }
 exposed-dao = { module = "org.jetbrains.exposed:exposed-dao", version.ref = "exposed" }
 exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed" }

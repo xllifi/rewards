@@ -32,24 +32,29 @@ class ConfigManager(
           saveFile(path, default)
           return default
         } else {
-          throw IOException("File at path \"$path\" doesn't exist and default is null!")
+          throw IOException("File at path $path doesn't exist and default is null!")
         }
       } else {
         return json.decodeFromString(path.inputStream().bufferedReader().readText())
       }
     } catch (e: Exception) {
-      logger.error("Failed to load file. See trace below.")
+      logger.error("Failed to load $path. See trace below.")
       throw e
     }
   }
 
-  inline fun <reified T : Any> loadDir(path: Path, extension: String = "json"): List<T> =
+  inline fun <reified T : Any> loadDirAsList(path: Path, extension: String = "json"): List<T> =
     Files.walk(path).use { paths ->
       paths.filter { Files.isRegularFile(it) && it.extension == extension }
-        .map {
-          logger.info("Loading ${T::class.simpleName ?: T::class.jvmName}s from path \"${it}\"")
-          loadFile<T>(it, null)
-        }
         .toList()
+        .mapNotNull {
+          logger.info("Loading a ${T::class.simpleName ?: T::class.jvmName} from path $it")
+          try {
+            loadFile<T>(it, null)
+          } catch (e: Exception) {
+            logger.error(e.stackTraceToString())
+            null
+          }
+        }
     }
 }

@@ -1,12 +1,8 @@
 package ru.xllifi.rewards.config
 
-import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.polymorphic
-import kotlinx.serialization.modules.subclass
 import ru.xllifi.rewards.configDir
 import ru.xllifi.rewards.serializers.text.Component
 import java.nio.file.Path

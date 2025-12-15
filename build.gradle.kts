@@ -55,6 +55,8 @@ dependencies {
   include(libs.polymer.core)
   modImplementation(libs.polymer.resourcepack)
   include(libs.polymer.resourcepack)
+  modImplementation(libs.servertranslations)
+  include(libs.servertranslations)
 
   implementation(libs.exposed.core)
   implementation(libs.exposed.dao)

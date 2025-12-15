@@ -10,6 +10,7 @@ import ru.xllifi.rewards.commands.Command
 import ru.xllifi.rewards.config.Calendar
 import ru.xllifi.rewards.config.getServerAttachment
 import ru.xllifi.rewards.serializers.text.Component
+import ru.xllifi.rewards.ui.calendar.CalendarScreen
 
 object CalendarCommands : Command {
   override fun run(ctx: CommandContext<CommandSourceStack>): Int {
@@ -21,6 +22,8 @@ object CalendarCommands : Command {
     ctx.source.sendMessage {
       Component.text(ctx.getServerAttachment().jsonSerializers.json.encodeToString(calendar))
     }
+    val screen = CalendarScreen(calendar, ctx.source.playerOrException)
+    screen.open()
 
     return Command.SINGLE_SUCCESS
   }

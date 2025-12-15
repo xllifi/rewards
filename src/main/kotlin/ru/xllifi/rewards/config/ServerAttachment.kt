@@ -41,12 +41,13 @@ private val MinecraftServer.defaultServerAttachment: ServerAttachment
   get() {
     val jsonSerializers = JsonSerializers(this)
     val configManager = ConfigManager(jsonSerializers.json)
+
     return ServerAttachment(
       audiences = MinecraftServerAudiences.of(this),
       jsonSerializers = jsonSerializers,
       configManager = configManager,
-      calendars = configManager.loadDir(calendarsDir),
-      progressions = configManager.loadDir(progressionsDir),
+      calendars = configManager.loadDirAsList(calendarsDir),
+      progressions = configManager.loadDirAsList(progressionsDir),
     )
   }
 

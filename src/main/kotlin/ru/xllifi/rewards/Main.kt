@@ -16,9 +16,7 @@ import org.slf4j.LoggerFactory
 import ru.xllifi.rewards.commands.DebugCommands
 import ru.xllifi.rewards.commands.RewardsCommands
 import ru.xllifi.rewards.config.ConfigManager
-import ru.xllifi.rewards.config.MainConfig
 import ru.xllifi.rewards.config.defaultMainConfig
-import ru.xllifi.rewards.config.getServerAttachment
 import ru.xllifi.rewards.config.localDbPath
 import ru.xllifi.rewards.config.setServerAttachment
 import ru.xllifi.rewards.serializers.text.Component

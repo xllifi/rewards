@@ -19,9 +19,6 @@ object CalendarCommands : Command {
 
   fun open(ctx: CommandContext<CommandSourceStack>): Int {
     val calendar = ctx.getCalendarArgument("calendar")
-    ctx.source.sendMessage {
-      Component.text(ctx.getServerAttachment().jsonSerializers.json.encodeToString(calendar))
-    }
     val screen = CalendarScreen(calendar, ctx.source.playerOrException)
     screen.open()
 
@@ -29,11 +26,9 @@ object CalendarCommands : Command {
   }
 
   override fun DSLCommandNode<CommandSourceStack>.register() {
-    literal("calendar") {
-      literal("open") {
-        calendarArgument("calendar") {
-          executes { ctx -> open(ctx) }
-        }
+    literal("open") {
+      calendarArgument("calendar") {
+        executes { ctx -> open(ctx) }
       }
     }
   }

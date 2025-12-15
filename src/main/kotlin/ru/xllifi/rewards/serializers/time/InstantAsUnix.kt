@@ -12,6 +12,7 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import ru.xllifi.rewards.Main
 import kotlin.time.Instant
 
 val unixHumanFormat = DateTimeComponents.Format {
@@ -33,9 +34,8 @@ val unixHumanFormat = DateTimeComponents.Format {
 
 typealias InstantAsUnix = @Serializable(InstantAsUnixSerializer::class) Instant
 
-fun InstantAsUnix.unixHumanReadable(): String {
-  return this.format(unixHumanFormat, TimeZone.currentSystemDefault().offsetAt(this))
-}
+fun InstantAsUnix.unixHumanReadable(): String =
+  this.format(unixHumanFormat, Main.globalConfig.timeZoneForSure.offsetAt(this))
 
 object InstantAsUnixSerializer : KSerializer<Instant> {
   override val descriptor: SerialDescriptor

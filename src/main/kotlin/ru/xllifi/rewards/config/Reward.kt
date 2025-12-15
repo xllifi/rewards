@@ -1,18 +1,16 @@
 package ru.xllifi.rewards.config
 
 import kotlinx.serialization.Contextual
-import kotlinx.serialization.Polymorphic
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.polymorphic
-import kotlinx.serialization.modules.subclass
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.item.ItemStack
+import ru.xllifi.rewards.utils.displayNameNoBrackets
+import ru.xllifi.rewards.utils.plus
 
-val mark = Component.translatable("rewards.generic.mark").append(" ").withStyle(ChatFormatting.GRAY)
+val mark: Component = Component.translatable("rewards.generic.mark").append(" ").withStyle(ChatFormatting.GRAY)
 
 @Serializable
 sealed interface Reward {
@@ -32,12 +30,10 @@ class ItemReward(
   }
 
   override fun lore(): Component =
-    mark.append(
-      Component.translatable(
-        "rewards.reward.item",
-        itemStack.count,
-        itemStack.displayName,
-      )
+    mark.copy() + Component.translatable(
+      "rewards.reward.item",
+      itemStack.count,
+      itemStack.displayNameNoBrackets,
     )
 }
 
@@ -58,16 +54,14 @@ class XpReward(
   }
 
   override fun lore(): Component =
-    mark.append(
+    mark.copy() + Component.translatable(
+      "rewards.reward.xp",
+      amount,
       Component.translatable(
-        "rewards.reward.xp",
-        amount,
-        Component.translatable(
-          "rewards.reward.xp." + when (xpUnit) {
-            XpUnit.Points -> "points"
-            XpUnit.Levels -> "levels"
-          }
-        )
+        "rewards.reward.xp." + when (xpUnit) {
+          XpUnit.Points -> "points"
+          XpUnit.Levels -> "levels"
+        }
       )
     )
 }

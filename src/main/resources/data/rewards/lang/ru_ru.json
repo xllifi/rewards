@@ -1,5 +1,13 @@
 {
   "rewards.generic.mark": "–",
+  "rewards.generic.rewards": "Награды:",
+  "rewards.generic.click_to_collect": "Кликните, чтобы собрать!",
+
+  "rewards.commands.admin.reload_configs.success": "Конфиг перезагружен!",
+  "rewards.commands.admin.reload_configs.failure": "Не удалось перезагрузить конфиг. Смотрите консоль сервера, чтобы узнать подробности",
+  "rewards.commands.admin.calendar.cell.generic.failure.no_player": "Не удалось найти данные игрока %s (%s)",
+  "rewards.commands.admin.calendar.cell.collect.success": "Ячейка %s теперь собрана для %s",
+  "rewards.commands.admin.calendar.cell.uncollect.success": "Ячейка %s теперь не собрана для %s",
 
   "rewards.condition.mark.pending": "–",
   "rewards.condition.mark.success": "✔",
@@ -22,8 +30,17 @@
   "rewards.condition.any": "Одно из следующего:",
   "rewards.condition.some": "Хотя бы %d из следующего:",
 
-  "rewards.generic.rewards": "Rewards:",
-  "rewards.generic.click_to_collect": "Click to collect!",
+  "rewards.reward.item": "x%d %s",
+  "rewards.reward.xp": "x%d %s опыта",
+  "rewards.reward.xp.points": "очко",
+  "rewards.reward.xp.levels": "уровень",
+
+  "rewards.calendar.cell.upcoming": "Предстоящая ячейка",
+  "rewards.calendar.cell.upcoming.lore": "Эту ячейку нельзя собрать до %s",
+  "rewards.calendar.cell.missed": "Пропущенная ячейка",
+  "rewards.calendar.cell.missed.lore": "Эту ячейку больше не собрать",
+  "rewards.calendar.cell.collected": "Собранная ячейка",
+  "rewards.calendar.cell.collected.lore": "Эта ячейка уже собрана",
 
   "": ""
 }

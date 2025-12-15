@@ -2,6 +2,8 @@ package ru.xllifi.rewards.commands
 
 import com.mojang.brigadier.context.CommandContext
 import de.phyrone.brig.wrapper.DSLCommandNode
+import de.phyrone.brig.wrapper.literal
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.loader.api.FabricLoader
 import net.kyori.adventure.text.format.NamedTextColor
 import net.minecraft.commands.CommandSourceStack
@@ -10,6 +12,20 @@ import ru.xllifi.rewards.commands.calendar.CalendarCommands
 import ru.xllifi.rewards.modId
 import ru.xllifi.rewards.serializers.text.Component
 import ru.xllifi.rewards.utils.plus
+
+fun registerCommands() {
+  CommandRegistrationCallback.EVENT.register { dispatcher, registryAccess, environment ->
+    dispatcher.literal("rewards") {
+      with(RewardsCommands) { register() }
+      if (FabricLoader.getInstance().isDevelopmentEnvironment) {
+        with(DebugCommands) { register() }
+      }
+    }
+    dispatcher.literal("calendar") {
+      with(CalendarCommands) { register() }
+    }
+  }
+}
 
 object RewardsCommands : Command {
   override fun run(ctx: CommandContext<CommandSourceStack>): Int {
@@ -25,7 +41,9 @@ object RewardsCommands : Command {
   }
 
   override fun DSLCommandNode<CommandSourceStack>.register() {
-    with(CalendarCommands) { register() }
+    literal("calendar") {
+      with(CalendarCommands) { register() }
+    }
     with(AdminCommands) { register() }
   }
 }

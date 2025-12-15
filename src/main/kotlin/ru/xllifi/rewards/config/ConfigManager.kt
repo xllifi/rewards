@@ -1,6 +1,8 @@
 package ru.xllifi.rewards.config
 
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonNamingStrategy
 import ru.xllifi.rewards.logger
 import java.io.IOException
 import java.nio.file.Files
@@ -11,8 +13,18 @@ import kotlin.io.path.notExists
 import kotlin.io.path.outputStream
 import kotlin.reflect.jvm.jvmName
 
+@OptIn(ExperimentalSerializationApi::class)
+val defaultJson = Json {
+  ignoreUnknownKeys = true
+  isLenient = true
+  encodeDefaults = true
+  explicitNulls = false
+  prettyPrint = true
+  namingStrategy = JsonNamingStrategy.SnakeCase
+}
+
 class ConfigManager(
-  val json: Json
+  val json: Json = defaultJson
 ) {
   inline fun <reified T : Any> saveFile(path: Path, config: T) {
     try {

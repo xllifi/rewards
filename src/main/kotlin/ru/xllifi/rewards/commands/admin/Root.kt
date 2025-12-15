@@ -6,8 +6,10 @@ import de.phyrone.brig.wrapper.DSLCommandNode
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.Commands
 import net.minecraft.network.chat.Component
+import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.commands.Command
 import ru.xllifi.rewards.config.setServerAttachment
+import ru.xllifi.rewards.loadMainConfig
 import ru.xllifi.rewards.logger
 
 object AdminCommands : Command {
@@ -17,13 +19,15 @@ object AdminCommands : Command {
 
   fun reloadConfigs(ctx: CommandContext<CommandSourceStack>): Int {
     try {
+      Main.globalConfig = loadMainConfig()
       ctx.source.server.setServerAttachment()
+      ctx.source.sendSuccess({ Component.translatable("rewards.commands.admin.reload_configs.success") }, true)
+      return Command.SINGLE_SUCCESS
     } catch (e: Exception) {
-      ctx.source.sendSystemMessage(Component.literal("Failed to reload configs. See details in server console"))
+      ctx.source.sendFailure(Component.translatable("rewards.commands.admin.reload_configs.failure"))
       logger.error(e.stackTraceToString())
       return Command.SINGLE_FAILURE
     }
-    return Command.SINGLE_SUCCESS
   }
 
   override fun DSLCommandNode<CommandSourceStack>.register() {
@@ -32,7 +36,7 @@ object AdminCommands : Command {
       literal("reload_configs") {
         executes { ctx -> reloadConfigs(ctx) }
       }
-      with (AdminCalendarCommands) { register() }
+      with(AdminCalendarCommands) { register() }
     }
   }
 }

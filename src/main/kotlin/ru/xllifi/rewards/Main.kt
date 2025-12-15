@@ -15,10 +15,13 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ru.xllifi.rewards.commands.DebugCommands
 import ru.xllifi.rewards.commands.RewardsCommands
+import ru.xllifi.rewards.commands.registerCommands
 import ru.xllifi.rewards.config.ConfigManager
+import ru.xllifi.rewards.config.defaultJson
 import ru.xllifi.rewards.config.defaultMainConfig
 import ru.xllifi.rewards.config.localDbPath
 import ru.xllifi.rewards.config.setServerAttachment
+import ru.xllifi.rewards.config.textures.TextureManager
 import ru.xllifi.rewards.serializers.text.Component
 import ru.xllifi.rewards.sql.PlayerData
 import ru.xllifi.rewards.sql.PlayerDatas
@@ -30,11 +33,12 @@ import kotlin.io.path.notExists
 const val modId = "rewards"
 val configDir: Path = FabricLoader.getInstance().configDir.resolve(modId)
 val mainConfigFile: Path = configDir.resolve("config.json")
+fun loadMainConfig() = Main.globalConfigManager.loadFile(mainConfigFile, defaultMainConfig)
 val logger: Logger = LoggerFactory.getLogger(modId)
 
 object Main : ModInitializer {
-  val globalConfigManager = ConfigManager(Json)
-  val globalConfig = globalConfigManager.loadFile(mainConfigFile, defaultMainConfig)
+  val globalConfigManager = ConfigManager(Json(defaultJson) { explicitNulls = true })
+  var globalConfig = loadMainConfig()
   val database =
     with(globalConfig.database) {
       Database.connect(
@@ -47,11 +51,11 @@ object Main : ModInitializer {
 
   override fun onInitialize() {
     setup()
+    TextureManager.registerResourceLoader()
+    registerCommands()
 
     ServerLifecycleEvents.SERVER_STARTED.register { server -> server.setServerAttachment() }
     ServerLifecycleEvents.END_DATA_PACK_RELOAD.register { server, _, _ -> server.setServerAttachment() }
-
-    registerCommands()
 
     if (FabricLoader.getInstance().isDevelopmentEnvironment) {
       ServerPlayerEvents.JOIN.register { player ->
@@ -74,16 +78,5 @@ object Main : ModInitializer {
     if (configDir.notExists()) configDir.createDirectories()
     if (localDbPath.notExists()) localDbPath.createFile()
     transaction(database) { SchemaUtils.create(PlayerDatas) }
-  }
-
-  fun registerCommands() {
-    CommandRegistrationCallback.EVENT.register { dispatcher, registryAccess, environment ->
-      dispatcher.literal("rewards") {
-        with(RewardsCommands) { register() }
-        if (FabricLoader.getInstance().isDevelopmentEnvironment) {
-          with(DebugCommands) { register() }
-        }
-      }
-    }
   }
 }

@@ -1,5 +1,6 @@
 package ru.xllifi.rewards.config
 
+import kotlinx.datetime.TimeZone
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -12,13 +13,14 @@ val defaultMainConfig = MainConfig(
   database = SqliteConfig,
 )
 
-// TODO: extend to support texts & languages configurations
-//  via config files, like paper plugins do it
 @Serializable
 data class MainConfig(
   val prefix: Component,
   val database: DatabaseConfig,
-)
+  private val timeZone: TimeZone? = null,
+) {
+  val timeZoneForSure: TimeZone get() = this.timeZone ?: TimeZone.currentSystemDefault()
+}
 
 val localDbPath: Path = configDir.resolve("database.db")
 

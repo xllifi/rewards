@@ -16,6 +16,7 @@ import kotlinx.serialization.json.JsonNamingStrategy
 import kotlinx.serialization.modules.SerializersModule
 import net.minecraft.server.MinecraftServer
 import net.minecraft.world.item.ItemStack
+import ru.xllifi.rewards.config.defaultJson
 import kotlin.reflect.KClass
 
 class JsonSerializers(
@@ -51,15 +52,8 @@ class JsonSerializers(
     ))
   }
 
-  @OptIn(ExperimentalSerializationApi::class)
-  val json = Json {
-    ignoreUnknownKeys = true
-    isLenient = true
-    encodeDefaults = true
-    explicitNulls = false
-    prettyPrint = true
+  val json = Json(defaultJson) {
     serializersModule = module
-    namingStrategy = JsonNamingStrategy.SnakeCase
   }
 
   val jsonStrict get() = Json(json) {

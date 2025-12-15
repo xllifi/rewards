@@ -3,7 +3,6 @@ package ru.xllifi.rewards.config
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.TimeZone
-import kotlinx.datetime.atStartOfDayIn
 import kotlinx.datetime.plus
 import kotlinx.datetime.toLocalDateTime
 import kotlinx.serialization.Contextual
@@ -20,13 +19,13 @@ import net.minecraft.world.item.ItemStack
 import org.jetbrains.exposed.v1.dao.exceptions.EntityNotFoundException
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import ru.xllifi.rewards.Main
+import ru.xllifi.rewards.logger
 import ru.xllifi.rewards.serializers.text.Component
 import ru.xllifi.rewards.serializers.text.ComponentSerializer
 import ru.xllifi.rewards.serializers.time.InstantAsDay
 import ru.xllifi.rewards.serializers.time.InstantAsDaySerializer
 import ru.xllifi.rewards.sql.PlayerData
 import kotlin.time.Clock
-import kotlin.time.Instant
 
 class CalendarSerializer : KSerializer<Calendar> {
   @OptIn(InternalSerializationApi::class)
@@ -70,41 +69,36 @@ data class Calendar(
     if (isCellCollected(player, cell)) {
       throw IllegalStateException("Cell already collected!")
     }
-    if (cell.unlockCondition.status(player) != true) {
-      throw IllegalStateException("Cell unlock condition is not met!")
+    if (getCellStatus(cell) != CellStatus.Available) {
+      throw IllegalStateException("Cell is not available!")
     }
     player.collectCell(this, cell)
     cell.rewards.grant(player)
   }
 
-  private fun getCellStartLocalDate(cell: Cell): LocalDate {
+  fun getCellStartLocalDate(cell: Cell): LocalDate {
     val index = cells.indexOf(cell)
     if (index == -1) throw IllegalStateException("Cell ${cell.id} not in calendar ${this.id}!")
-    val startLocalDateTime = startDay.toLocalDateTime(TimeZone.currentSystemDefault()).date
+    val startLocalDateTime = startDay.toLocalDateTime(Main.globalConfig.timeZoneForSure).date
     return startLocalDateTime.plus(index, DateTimeUnit.DAY)
   }
-//  fun cellStartInstant(cell: Cell): Instant {
-//    val cellStartLocalDate = getCellStartLocalDate(cell)
-//    return cellStartLocalDate.atStartOfDayIn(TimeZone.currentSystemDefault())
-//  }
-//  fun cellEndInstant(cell: Cell): Instant {
-//    val cellStartLocalDate = getCellStartLocalDate(cell).plus(1, DateTimeUnit.DAY)
-//    return cellStartLocalDate.atStartOfDayIn(TimeZone.currentSystemDefault())
-//  }
+
+  val firstDayOrdinal: Int
+    get() = getCellStartLocalDate(cells.first()).dayOfWeek.ordinal
 
   fun getCellStatus(cell: Cell): CellStatus {
     val cellStartLocalDate = getCellStartLocalDate(cell)
-    val now = Clock.System.now().toLocalDateTime(TimeZone.currentSystemDefault()).date
+    val now = Clock.System.now().toLocalDateTime(Main.globalConfig.timeZoneForSure).date
     return when {
       now > cellStartLocalDate -> CellStatus.Ended
-      now >= cellStartLocalDate -> CellStatus.Started
+      now >= cellStartLocalDate -> CellStatus.Available
       else -> CellStatus.Upcoming
     }
   }
 
   enum class CellStatus {
     Upcoming,
-    Started,
+    Available,
     Ended,
   }
 
@@ -114,7 +108,6 @@ data class Calendar(
     val title: Component,
     val description: List<Component>,
     @Contextual val displayItem: ItemStack,
-    val unlockCondition: Condition,
     val rewards: List<Reward>,
   )
 }

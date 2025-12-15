@@ -1,5 +1,13 @@
 {
   "rewards.generic.mark": "–",
+  "rewards.generic.rewards": "Rewards:",
+  "rewards.generic.click_to_collect": "Click to collect!",
+
+  "rewards.commands.admin.reload_configs.success": "Reloaded configs!",
+  "rewards.commands.admin.reload_configs.failure": "Failed to reload configs. See details in server console",
+  "rewards.commands.admin.calendar.cell.generic.failure.no_player": "Failed to find data for player %s (%s)",
+  "rewards.commands.admin.calendar.cell.collect.success": "Cell %s is now collected for %s",
+  "rewards.commands.admin.calendar.cell.uncollect.success": "Cell %s is now not collected for %s",
 
   "rewards.condition.mark.pending": "–",
   "rewards.condition.mark.success": "✔",
@@ -22,13 +30,17 @@
   "rewards.condition.any": "Any of the following:",
   "rewards.condition.some": "At least %d of the following:",
 
-  "rewards.reward.item": "%s x%d",
-  "rewards.reward.xp": "%d %s of XP",
-  "rewards.reward.xp.points": "point(s)",
-  "rewards.reward.xp.levels": "level(s)",
+  "rewards.reward.item": "x%d %s",
+  "rewards.reward.xp": "x%d XP %s",
+  "rewards.reward.xp.points": "point",
+  "rewards.reward.xp.levels": "level",
 
-  "rewards.generic.rewards": "Rewards:",
-  "rewards.generic.click_to_collect": "Click to collect!",
+  "rewards.calendar.cell.upcoming": "Upcoming cell",
+  "rewards.calendar.cell.upcoming.lore": "This cell can't be collected until %s",
+  "rewards.calendar.cell.missed": "Missed cell",
+  "rewards.calendar.cell.missed.lore": "This cell can't be collected anymore",
+  "rewards.calendar.cell.collected": "Collected cell",
+  "rewards.calendar.cell.collected.lore": "This cell is already collected",
 
   "": ""
 }

@@ -13,6 +13,7 @@ import ru.xllifi.rewards.configDir
 import ru.xllifi.rewards.modId
 import ru.xllifi.rewards.serializers.JsonSerializers
 import java.nio.file.Path
+import kotlin.io.path.createDirectories
 
 val serverAttachmentType: AttachmentType<ServerAttachment> = AttachmentRegistry.create(
   ResourceLocation.fromNamespaceAndPath(modId, "server_attachment")
@@ -39,6 +40,10 @@ val progressionsDir: Path = configDir.resolve("progressions")
 
 private val MinecraftServer.defaultServerAttachment: ServerAttachment
   get() {
+    // Ensure config dirs exists
+    calendarsDir.createDirectories()
+    progressionsDir.createDirectories()
+
     val jsonSerializers = JsonSerializers(this)
     val configManager = ConfigManager(jsonSerializers.json)
 

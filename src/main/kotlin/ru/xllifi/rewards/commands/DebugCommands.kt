@@ -7,17 +7,12 @@ import net.kyori.adventure.text.minimessage.MiniMessage
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.arguments.EntityArgument
 import net.minecraft.network.chat.Component
-import ru.xllifi.rewards.commands.calendar.calendarArgument
-import ru.xllifi.rewards.commands.calendar.cellArgument
-import ru.xllifi.rewards.commands.calendar.getCalendarAndCellArguments
 import ru.xllifi.rewards.config.getServerAttachment
 import ru.xllifi.rewards.sql.isCellCollectedBy
 
-object Debug {
-  var calendarsIgnoreCellStatus: Boolean = false
-}
-
 object DebugCommands : Command {
+  var calendarsIgnoreCellStatus: Boolean = false
+
   fun showServer(ctx: CommandContext<CommandSourceStack>): Int {
     val serverAttachment = ctx.getServerAttachment()
     ctx.source.sendSystemMessage(
@@ -71,7 +66,7 @@ object DebugCommands : Command {
       }
       literal("toggle_calendarsIgnoreCellStatus") {
         executes {
-          Debug.calendarsIgnoreCellStatus = !Debug.calendarsIgnoreCellStatus
+          calendarsIgnoreCellStatus = !calendarsIgnoreCellStatus
           Command.SINGLE_SUCCESS
         }
       }

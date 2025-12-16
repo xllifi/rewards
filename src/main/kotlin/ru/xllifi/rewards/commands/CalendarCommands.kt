@@ -1,4 +1,4 @@
-package ru.xllifi.rewards.commands.calendar
+package ru.xllifi.rewards.commands
 
 import com.mojang.brigadier.arguments.StringArgumentType
 import com.mojang.brigadier.context.CommandContext
@@ -6,10 +6,8 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import de.phyrone.brig.wrapper.DSLCommandNode
 import net.minecraft.commands.CommandSourceStack
-import ru.xllifi.rewards.commands.Command
 import ru.xllifi.rewards.config.Calendar
 import ru.xllifi.rewards.config.getServerAttachment
-import ru.xllifi.rewards.serializers.text.Component
 import ru.xllifi.rewards.ui.calendar.CalendarScreen
 
 object CalendarCommands : Command {

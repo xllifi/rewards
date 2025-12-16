@@ -1,10 +1,8 @@
 package ru.xllifi.rewards.commands.admin
 
-import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
 import de.phyrone.brig.wrapper.DSLCommandNode
 import net.minecraft.commands.CommandSourceStack
-import net.minecraft.commands.Commands
 import net.minecraft.network.chat.Component
 import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.commands.Command

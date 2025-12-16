@@ -11,7 +11,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ru.xllifi.rewards.commands.registerCommands
 import ru.xllifi.rewards.config.*
-import ru.xllifi.rewards.config.textures.TextureManager
+import ru.xllifi.rewards.config.TextureManager
 import ru.xllifi.rewards.sql.CollectedCellTable
 import java.nio.file.Path
 import kotlin.io.path.createDirectories

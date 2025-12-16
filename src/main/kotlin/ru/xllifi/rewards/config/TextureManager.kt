@@ -1,4 +1,4 @@
-package ru.xllifi.rewards.config.textures
+package ru.xllifi.rewards.config
 
 import eu.pb4.polymer.resourcepack.api.PolymerResourcePackUtils
 import net.fabricmc.loader.api.FabricLoader

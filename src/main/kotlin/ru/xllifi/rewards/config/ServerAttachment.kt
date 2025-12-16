@@ -51,8 +51,8 @@ private val MinecraftServer.defaultServerAttachment: ServerAttachment
       audiences = MinecraftServerAudiences.of(this),
       jsonSerializers = jsonSerializers,
       configManager = configManager,
-      calendars = configManager.loadDirAsList(calendarsDir),
-      progressions = configManager.loadDirAsList(progressionsDir),
+      calendars = configManager.loadDir(calendarsDir),
+      progressions = configManager.loadDir(progressionsDir),
     )
   }
 

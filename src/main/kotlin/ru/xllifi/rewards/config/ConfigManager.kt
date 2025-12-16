@@ -55,7 +55,7 @@ class ConfigManager(
     }
   }
 
-  inline fun <reified T : Any> loadDirAsList(path: Path, extension: String = "json"): List<T> =
+  inline fun <reified T : Any> loadDir(path: Path, extension: String = "json"): List<T> =
     Files.walk(path).use { paths ->
       paths.filter { Files.isRegularFile(it) && it.extension == extension }
         .toList()

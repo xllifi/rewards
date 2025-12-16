@@ -10,7 +10,6 @@ import net.minecraft.commands.CommandSourceStack
 import net.minecraft.network.chat.Component
 import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.commands.admin.AdminCommands
-import ru.xllifi.rewards.commands.calendar.CalendarCommands
 import ru.xllifi.rewards.config.getServerAttachment
 import ru.xllifi.rewards.modId
 import ru.xllifi.rewards.utils.plus

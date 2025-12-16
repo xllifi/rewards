@@ -3,6 +3,7 @@
   "rewards.generic.rewards": "Rewards:",
   "rewards.generic.click_to_collect": "Click to collect!",
 
+  "rewards.commands.root": "Running Rewards version %s",
   "rewards.commands.admin.reload_configs.success": "Reloaded configs!",
   "rewards.commands.admin.reload_configs.failure": "Failed to reload configs. See details in server console",
   "rewards.commands.admin.calendar.cell.generic.failure.no_player": "Failed to find data for player %s (%s)",

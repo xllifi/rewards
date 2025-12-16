@@ -3,6 +3,7 @@
   "rewards.generic.rewards": "Награды:",
   "rewards.generic.click_to_collect": "Кликните, чтобы собрать!",
 
+  "rewards.commands.root": "Используется Rewards, версия %s",
   "rewards.commands.admin.reload_configs.success": "Конфиг перезагружен!",
   "rewards.commands.admin.reload_configs.failure": "Не удалось перезагрузить конфиг. Смотрите консоль сервера, чтобы узнать подробности",
   "rewards.commands.admin.calendar.cell.generic.failure.no_player": "Не удалось найти данные игрока %s (%s)",

@@ -26,10 +26,11 @@ val defaultJson = Json {
 class ConfigManager(
   val json: Json = defaultJson
 ) {
-  inline fun <reified T : Any> saveFile(path: Path, config: T) {
+  val explicitJson = Json(json) { explicitNulls = true }
+  inline fun <reified T : Any> saveFile(path: Path, content: T) {
     try {
-      val yamlString = json.encodeToString(config)
-      path.outputStream().write(yamlString.encodeToByteArray())
+      val jsonString = explicitJson.encodeToString(content)
+      path.outputStream().write(jsonString.encodeToByteArray())
       logger.info("File saved successfully to $path")
     } catch (e: Exception) {
       logger.error("Failed to save file: ${e.localizedMessage}")
@@ -47,7 +48,9 @@ class ConfigManager(
           throw IOException("File at path $path doesn't exist and default is null!")
         }
       } else {
-        return json.decodeFromString(path.inputStream().bufferedReader().readText())
+        val ret: T = json.decodeFromString(path.inputStream().bufferedReader().readText())
+        saveFile(path, ret)
+        return ret
       }
     } catch (e: Exception) {
       logger.error("Failed to load $path. See trace below.")

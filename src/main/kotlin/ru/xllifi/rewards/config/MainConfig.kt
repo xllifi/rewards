@@ -11,6 +11,7 @@ import java.nio.file.Path
 val defaultMainConfig = MainConfig(
   prefix = Component.text("[Rewards]"),
   database = SqliteConfig,
+  calendarReminders = true,
 )
 
 @Serializable
@@ -18,6 +19,7 @@ data class MainConfig(
   val prefix: Component,
   val database: DatabaseConfig,
   private val timeZone: TimeZone? = null,
+  val calendarReminders: Boolean,
 ) {
   val timeZoneForSure: TimeZone get() = this.timeZone ?: TimeZone.currentSystemDefault()
 }

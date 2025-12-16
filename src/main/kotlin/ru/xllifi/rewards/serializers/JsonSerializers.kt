@@ -15,6 +15,7 @@ import kotlinx.serialization.json.JsonEncoder
 import kotlinx.serialization.json.JsonNamingStrategy
 import kotlinx.serialization.modules.SerializersModule
 import net.minecraft.server.MinecraftServer
+import net.minecraft.sounds.SoundEvent
 import net.minecraft.world.item.ItemStack
 import ru.xllifi.rewards.config.defaultJson
 import kotlin.reflect.KClass
@@ -49,6 +50,10 @@ class JsonSerializers(
     contextual(ItemStack::class, CodecSerializer(
       codec = ItemStack.CODEC,
       kClass = ItemStack::class,
+    ))
+    contextual(SoundEvent::class, CodecSerializer(
+      codec = SoundEvent.DIRECT_CODEC,
+      kClass = SoundEvent::class,
     ))
   }
 

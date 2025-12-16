@@ -44,6 +44,7 @@ object TextureManager {
   fun registerResourceLoader() {
     if (texturesPath.notExists()) texturesPath.createDirectories()
     copyDefaultTextures()
+    // TODO: Properly load textures for client when running this mod on client
 
     PolymerResourcePackUtils.RESOURCE_PACK_CREATION_EVENT.register { builder ->
       // From assets

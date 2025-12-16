@@ -14,12 +14,15 @@ import kotlinx.serialization.descriptors.SerialKind
 import kotlinx.serialization.descriptors.buildSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
+import net.kyori.adventure.sound.Sound
 import net.minecraft.server.level.ServerPlayer
+import net.minecraft.sounds.SoundEvent
 import net.minecraft.world.item.ItemStack
 import org.jetbrains.exposed.v1.dao.exceptions.EntityNotFoundException
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.logger
+import ru.xllifi.rewards.serializers.ResourceLocation
 import ru.xllifi.rewards.serializers.text.Component
 import ru.xllifi.rewards.serializers.text.ComponentSerializer
 import ru.xllifi.rewards.serializers.time.InstantAsDay
@@ -65,6 +68,7 @@ data class Calendar(
     val id: String,
     val title: Component,
     val description: List<Component>,
+    val collectionSound: ResourceLocation? = null,
     @Contextual val displayItem: ItemStack,
     val rewards: List<Reward>,
   )

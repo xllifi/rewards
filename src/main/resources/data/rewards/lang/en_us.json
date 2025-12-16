@@ -39,6 +39,8 @@
   "rewards.reward.xp.points": "point",
   "rewards.reward.xp.levels": "level",
 
+  "rewards.calendar.notification": "%s has a collectable cell!",
+  "rewards.calendar.notification.action": "Open the calendar",
   "rewards.calendar.cell.upcoming": "Upcoming cell",
   "rewards.calendar.cell.upcoming.lore": "This cell can't be collected until %s",
   "rewards.calendar.cell.missed": "Missed cell",

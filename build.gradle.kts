@@ -52,9 +52,7 @@ dependencies {
   modImplementation(libs.sgui)
   include(libs.sgui)
   modImplementation(libs.polymer.core)
-  include(libs.polymer.core)
   modImplementation(libs.polymer.resourcepack)
-  include(libs.polymer.resourcepack)
   modImplementation(libs.servertranslations)
   include(libs.servertranslations)
 

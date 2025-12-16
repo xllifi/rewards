@@ -39,6 +39,8 @@
   "rewards.reward.xp.points": "очко",
   "rewards.reward.xp.levels": "уровень",
 
+  "rewards.calendar.notification": "В календаре «%s» можно собрать ячейку!",
+  "rewards.calendar.notification.action": "Открыть календарь",
   "rewards.calendar.cell.upcoming": "Предстоящая ячейка",
   "rewards.calendar.cell.upcoming.lore": "Эту ячейку нельзя собрать до %s",
   "rewards.calendar.cell.missed": "Пропущенная ячейка",

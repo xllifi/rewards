@@ -11,10 +11,11 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.world.item.Items
 import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.config.Calendar
-import ru.xllifi.rewards.config.collectCell
 import ru.xllifi.rewards.config.grant
 import ru.xllifi.rewards.modId
 import ru.xllifi.rewards.serializers.time.dayHumanReadable
+import ru.xllifi.rewards.sql.isCellCollectedBy
+import ru.xllifi.rewards.sql.setCellCollectedFor
 
 val CalendarScreen.noCellGuiElement: GuiElement
   get() = GuiElementBuilder(Items.PAPER)
@@ -74,10 +75,8 @@ fun CalendarScreen.activeGuiElement(cell: Calendar.Cell): GuiElement {
       )
     )
     .setCallback { itemIndex, simpleClickType, minecraftClickType ->
-      if (simpleClickType == ClickType.MOUSE_LEFT && !calendar.isCellCollected(player, cell)) {
-        cell.rewards.grant(player)
-        player.collectCell(calendar, cell)
-      }
+      calendar.setCellCollectedFor(player, cell, true)
+      cell.rewards.grant(player)
       updateDisplay()
     }
 

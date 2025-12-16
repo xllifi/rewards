@@ -9,10 +9,15 @@ import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.inventory.MenuType
 import net.minecraft.world.item.Items
+import org.jetbrains.exposed.v1.core.StdOutSqlLogger
+import org.jetbrains.exposed.v1.core.eq
+import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import ru.xllifi.rewards.commands.Debug
 import ru.xllifi.rewards.config.Calendar
 import ru.xllifi.rewards.logger
 import ru.xllifi.rewards.modId
+import ru.xllifi.rewards.sql.CollectedCell
+import ru.xllifi.rewards.sql.CollectedCellTable
 import ru.xllifi.rewards.utils.resizeEnd
 
 class CalendarScreen : SimpleGui {
@@ -64,28 +69,34 @@ class CalendarScreen : SimpleGui {
           .build()
       )
     }
+    val collectedCells = transaction {
+      addLogger(StdOutSqlLogger)
+      CollectedCell.find {
+        CollectedCellTable.playerUuid eq player.uuid
+        CollectedCellTable.calendarId eq calendar.id
+      }.map { it.cellId }.toSet()
+    }
+    logger.info("Updaing screen for ${player.uuid}")
     weeks.forEachIndexed { weekIndex, week ->
       week.forEachIndexed { cellIndex, cell ->
         this.setSlot(
           column = cellIndex + 1,
           row = weekIndex,
-          element = cell.getGuiElement(),
+          element = getGuiElement(cell, collectedCells),
         )
       }
     }
   }
 
-  fun Calendar.Cell?.getGuiElement(): GuiElement {
-    val cell = this
-
-    return if (cell == null) {
+  fun getGuiElement(cell: Calendar.Cell?, collectedCells: Set<String>): GuiElement =
+    if (cell == null) {
       noCellGuiElement
     } else {
-      if (calendar.isCellCollected(player, cell)) {
+      if (collectedCells.contains(cell.id)) {
         collectedCellGuiElement
       } else {
-        if (Debug.calendarsIgnoreCellStatus) return activeGuiElement(cell)
-        when (calendar.getCellStatus(cell)) {
+        if (Debug.calendarsIgnoreCellStatus) activeGuiElement(cell)
+        else when (calendar.getCellStatus(cell)) {
           Calendar.CellStatus.Upcoming -> upcomingCellElement(cell)
           Calendar.CellStatus.Available -> activeGuiElement(cell)
           Calendar.CellStatus.Ended -> missedCellElement
@@ -93,7 +104,6 @@ class CalendarScreen : SimpleGui {
       }
     }
   }
-}
 
 fun SimpleGui.setSlot(
   column: Int,

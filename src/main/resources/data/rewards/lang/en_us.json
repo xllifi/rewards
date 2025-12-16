@@ -7,7 +7,9 @@
   "rewards.commands.admin.reload_configs.success": "Reloaded configs!",
   "rewards.commands.admin.reload_configs.failure": "Failed to reload configs. See details in server console",
   "rewards.commands.admin.calendar.cell.generic.failure.no_player": "Failed to find data for player %s (%s)",
+  "rewards.commands.admin.calendar.collect_all.success": "All cells in calendar %s are now collected for %s",
   "rewards.commands.admin.calendar.cell.collect.success": "Cell %s is now collected for %s",
+  "rewards.commands.admin.calendar.uncollect_all.success": "All cells in calendar %s are now not collected for %s",
   "rewards.commands.admin.calendar.cell.uncollect.success": "Cell %s is now not collected for %s",
 
   "rewards.condition.mark.pending": "–",

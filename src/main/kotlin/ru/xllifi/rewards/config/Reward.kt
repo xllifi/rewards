@@ -26,7 +26,7 @@ class ItemReward(
   @Contextual val itemStack: ItemStack,
 ) : Reward {
   override fun grant(player: ServerPlayer) {
-    player.addItem(itemStack)
+    player.addItem(itemStack.copy())
   }
 
   override fun lore(): Component =

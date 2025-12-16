@@ -11,6 +11,7 @@ import ru.xllifi.rewards.commands.calendar.calendarArgument
 import ru.xllifi.rewards.commands.calendar.cellArgument
 import ru.xllifi.rewards.commands.calendar.getCalendarAndCellArguments
 import ru.xllifi.rewards.config.getServerAttachment
+import ru.xllifi.rewards.sql.isCellCollectedBy
 
 object Debug {
   var calendarsIgnoreCellStatus: Boolean = false
@@ -31,10 +32,7 @@ object DebugCommands : Command {
     ctx.source.sendSystemMessage(
       Component.literal(
         "Cell ${cell.id} in ${calendar.id} collection status: ${
-          calendar.isCellCollected(
-            player,
-            cell
-          )
+          calendar.isCellCollectedBy(player, cell)
         }"
       )
     )

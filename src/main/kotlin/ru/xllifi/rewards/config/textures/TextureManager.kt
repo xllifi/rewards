@@ -77,6 +77,6 @@ const val itemDefinitionTemplate: String = """{
 const val itemModelDefinitionTemplate: String = """{
   "parent": "$modId:item/gui18",
   "textures": {
-    "0": "$modId:item/<NAME>"
+    "layer0": "$modId:item/<NAME>"
   }
 }"""

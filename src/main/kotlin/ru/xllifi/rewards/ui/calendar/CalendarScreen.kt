@@ -12,7 +12,7 @@ import net.minecraft.world.item.Items
 import org.jetbrains.exposed.v1.core.StdOutSqlLogger
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
-import ru.xllifi.rewards.commands.Debug
+import ru.xllifi.rewards.commands.DebugCommands
 import ru.xllifi.rewards.config.Calendar
 import ru.xllifi.rewards.logger
 import ru.xllifi.rewards.modId
@@ -95,7 +95,7 @@ class CalendarScreen : SimpleGui {
       if (collectedCells.contains(cell.id)) {
         collectedCellGuiElement
       } else {
-        if (Debug.calendarsIgnoreCellStatus) activeGuiElement(cell)
+        if (DebugCommands.calendarsIgnoreCellStatus) activeGuiElement(cell)
         else when (calendar.getCellStatus(cell)) {
           Calendar.CellStatus.Upcoming -> upcomingCellElement(cell)
           Calendar.CellStatus.Available -> activeGuiElement(cell)

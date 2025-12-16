@@ -7,6 +7,7 @@
   "rewards.commands.admin.reload_configs.success": "Конфиг перезагружен!",
   "rewards.commands.admin.reload_configs.failure": "Не удалось перезагрузить конфиг. Смотрите консоль сервера, чтобы узнать подробности",
   "rewards.commands.admin.calendar.cell.generic.failure.no_player": "Не удалось найти данные игрока %s (%s)",
+  "rewards.commands.admin.calendar.uncollect_all_for_everyone.success": "Все ячейки календаря %s теперь не собраны для всех",
   "rewards.commands.admin.calendar.collect_all.success": "Все ячейки календаря %s теперь собраны для %s",
   "rewards.commands.admin.calendar.cell.collect.success": "Ячейка %s теперь собрана для %s",
   "rewards.commands.admin.calendar.uncollect_all.success": "Все ячейки календаря %s теперь не собраны для %s",

@@ -1,6 +1,5 @@
 package ru.xllifi.rewards.ui.calendar
 
-import eu.pb4.sgui.api.ClickType
 import eu.pb4.sgui.api.elements.GuiElement
 import eu.pb4.sgui.api.elements.GuiElementBuilder
 import kotlinx.datetime.atStartOfDayIn
@@ -14,7 +13,6 @@ import ru.xllifi.rewards.config.Calendar
 import ru.xllifi.rewards.config.grant
 import ru.xllifi.rewards.modId
 import ru.xllifi.rewards.serializers.time.dayHumanReadable
-import ru.xllifi.rewards.sql.isCellCollectedBy
 import ru.xllifi.rewards.sql.setCellCollectedFor
 
 val CalendarScreen.noCellGuiElement: GuiElement

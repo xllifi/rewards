@@ -26,6 +26,27 @@ object AdminCalendarCommands : Command {
 }
 
 object AdminCellsCommands : Command {
+  fun uncollectAllForEveryone(ctx: CommandContext<CommandSourceStack>): Int {
+    val calendar = ctx.getCalendarArgument("calendar")
+
+    transaction(Main.database) {
+      val cells = CollectedCell.find {
+        CollectedCellTable.calendarId eq calendar.id
+      }
+      for (cell in cells) {
+        cell.delete()
+      }
+    }
+
+    ctx.source.sendSuccess({
+      Component.translatable(
+        "rewards.commands.admin.calendar.uncollect_all_for_everyone.success",
+        calendar.id
+      )
+    }, true)
+    return Command.SINGLE_SUCCESS
+  }
+
   fun collectAll(ctx: CommandContext<CommandSourceStack>): Int {
     val calendar = ctx.getCalendarArgument("calendar")
     val player = EntityArgument.getPlayer(ctx, "player")
@@ -54,14 +75,18 @@ object AdminCellsCommands : Command {
     val player = EntityArgument.getPlayer(ctx, "player")
 
     transaction(Main.database) {
-      for (cell in CollectedCell.find { CollectedCellTable.playerUuid eq player.uuid }) {
+      val cells = CollectedCell.find {
+        CollectedCellTable.playerUuid eq player.uuid
+        CollectedCellTable.calendarId eq calendar.id
+      }
+      for (cell in cells) {
         cell.delete()
       }
     }
 
     ctx.source.sendSuccess({
       Component.translatable(
-        "rewards.commands.admin.calendar.collect_all.success",
+        "rewards.commands.admin.calendar.uncollect_all.success",
         calendar.id, player.plainTextName
       )
     }, true)
@@ -100,6 +125,11 @@ object AdminCellsCommands : Command {
 
   override fun DSLCommandNode<CommandSourceStack>.register() {
     literal("cell") {
+      literal("uncollect_all_for_everyone") {
+        calendarArgument("calendar") {
+          executes { ctx -> uncollectAllForEveryone(ctx) }
+        }
+      }
       argument("player", EntityArgument.player()) {
         calendarArgument("calendar") {
           literal("collect_all") { executes { ctx -> collectAll(ctx) } }

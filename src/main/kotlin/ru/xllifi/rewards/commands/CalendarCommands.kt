@@ -6,6 +6,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import de.phyrone.brig.wrapper.DSLCommandNode
 import net.minecraft.commands.CommandSourceStack
+import net.minecraft.network.chat.Component
 import ru.xllifi.rewards.config.Calendar
 import ru.xllifi.rewards.config.getServerAttachment
 import ru.xllifi.rewards.ui.calendar.CalendarScreen
@@ -17,6 +18,12 @@ object CalendarCommands : Command {
 
   fun open(ctx: CommandContext<CommandSourceStack>): Int {
     val calendar = ctx.getCalendarArgument("calendar")
+    if (!calendar.isActive) {
+      ctx.source.sendFailure(
+        Component.translatable("rewards.commands.calendar.open.failure.inactive", calendar.title)
+      )
+      return Command.SINGLE_FAILURE
+    }
     val screen = CalendarScreen(calendar, ctx.source.playerOrException)
     screen.open()
 
@@ -53,6 +60,7 @@ fun DSLCommandNode<CommandSourceStack>.calendarArgument(
 fun SuggestionsBuilder.calendarSuggestions(ctx: CommandContext<CommandSourceStack>) {
   val lastInputPart = ctx.input.split(' ').last()
   ctx.getServerAttachment().calendars
+    .filter { it.isActive }
     .map { it.id }
     .filter { it.startsWith(lastInputPart) }
     .forEach { suggest(it) }

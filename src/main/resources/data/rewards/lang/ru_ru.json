@@ -13,6 +13,8 @@
   "rewards.commands.admin.calendar.uncollect_all.success": "Все ячейки календаря %s теперь не собраны для %s",
   "rewards.commands.admin.calendar.cell.uncollect.success": "Ячейка %s теперь не собрана для %s",
 
+  "rewards.commands.calendar.open.failure.inactive": "Календарь «%s» не активен!",
+
   "rewards.condition.mark.pending": "–",
   "rewards.condition.mark.success": "✔",
   "rewards.condition.mark.failure": "✘",

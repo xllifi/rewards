@@ -7,6 +7,9 @@ import net.kyori.adventure.text.minimessage.MiniMessage
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.arguments.EntityArgument
 import net.minecraft.network.chat.Component
+import ru.xllifi.rewards.calendar.commands.calendarArgument
+import ru.xllifi.rewards.calendar.commands.cellArgument
+import ru.xllifi.rewards.calendar.commands.getCalendarAndCellArguments
 import ru.xllifi.rewards.config.getServerAttachment
 import ru.xllifi.rewards.calendar.sql.isCellCollectedBy
 

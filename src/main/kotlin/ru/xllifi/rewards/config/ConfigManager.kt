@@ -1,9 +1,14 @@
 package ru.xllifi.rewards.config
 
 import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.descriptors.elementNames
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonNamingStrategy
+import kotlinx.serialization.json.decodeFromJsonElement
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.serializer
 import ru.xllifi.rewards.logger
+import ru.xllifi.rewards.utils.camelToSnakeCase
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
@@ -48,8 +53,15 @@ class ConfigManager(
           throw IOException("File at path $path doesn't exist and default is null!")
         }
       } else {
-        val ret: T = json.decodeFromString(path.inputStream().bufferedReader().readText())
-        saveFile(path, ret)
+        val jsonEl = json.parseToJsonElement(path.inputStream().bufferedReader().readText())
+        val jsonObj = jsonEl.jsonObject
+        val descriptor = serializer<T>().descriptor
+        val inputKeys = jsonObj.keys
+        val ret: T = json.decodeFromJsonElement(jsonEl)
+        // Only write to file if any default keys are missing
+        if (descriptor.elementNames.any { !inputKeys.contains(it.camelToSnakeCase()) }) {
+          saveFile(path, ret)
+        }
         return ret
       }
     } catch (e: Exception) {
@@ -60,6 +72,7 @@ class ConfigManager(
 
   inline fun <reified T : Any> loadDir(path: Path, extension: String = "json"): List<T> =
     Files.walk(path).use { paths ->
+      logger.info("Loading all json as ${T::class.simpleName ?: T::class.jvmName} files from dir $path")
       paths.filter { Files.isRegularFile(it) && it.extension == extension }
         .toList()
         .mapNotNull {

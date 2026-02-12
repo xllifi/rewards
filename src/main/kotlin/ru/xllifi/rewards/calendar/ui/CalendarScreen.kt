@@ -20,27 +20,36 @@ import ru.xllifi.rewards.calendar.sql.CollectedCell
 import ru.xllifi.rewards.calendar.sql.CollectedCellTable
 import ru.xllifi.rewards.utils.plus
 import ru.xllifi.rewards.utils.resizeEnd
+import kotlin.math.ceil
 
 class CalendarScreen : SimpleGui {
   val calendar: Calendar
+  val weeksCount: Int
   val weeks: List<List<Calendar.Cell?>>
   val audiences: MinecraftServerAudiences
 
   constructor(
     calendar: Calendar,
     player: ServerPlayer,
+    weeksCount: Int = ceil(calendar.cells.size / 7f).toInt(),
   ) : super(
-    /* type = */ MenuType.GENERIC_9x5,
+    /* type = */ when (weeksCount) {
+      1 -> MenuType.GENERIC_9x1
+      2 -> MenuType.GENERIC_9x2
+      3 -> MenuType.GENERIC_9x3
+      4 -> MenuType.GENERIC_9x4
+      5 -> MenuType.GENERIC_9x5
+      6 -> MenuType.GENERIC_9x6
+      else -> throw IllegalStateException("Invalid weekCount: $weeksCount!")
+    },
     /* player = */ player,
     /* manipulatePlayerSlots = */ false,
   ) {
     this.calendar = calendar
-    if (calendar.cells.size > 34) {
-      logger.warn("Calendar ${calendar.id} has too many cells (${calendar.cells.size}/35)! Every cell after 35th will not be accessible.")
-    }
+    this.weeksCount = weeksCount
     val paddedCells = List(calendar.firstDayOrdinal) { null } + calendar.cells
     this.weeks = paddedCells
-      .resizeEnd(35, null) { a, b -> a ?: b }
+      .resizeEnd(weeksCount * 7, null) { a, b -> a ?: b }
       .chunked(7)
 
     this.audiences = MinecraftServerAudiences.of(player.level().server)
@@ -50,7 +59,7 @@ class CalendarScreen : SimpleGui {
   }
 
   fun updateDisplay() {
-    for (i in 0..4) {
+    for (i in 0..<weeksCount) {
       // Weeks (most left column)
       this.setSlot(
         column = 0,
@@ -90,21 +99,31 @@ class CalendarScreen : SimpleGui {
   }
 
   fun getGuiElement(cell: Calendar.Cell?, collectedCells: Set<String>): GuiElement =
-    if (cell == null) {
-      noCellGuiElement
-    } else {
-      if (collectedCells.contains(cell.id)) {
-        collectedCellGuiElement
-      } else {
-        if (DebugCommands.calendarsIgnoreCellStatus) activeGuiElement(cell)
-        else when (calendar.getCellStatus(cell)) {
-          Calendar.CellStatus.Upcoming -> upcomingCellElement(cell)
-          Calendar.CellStatus.Available -> activeGuiElement(cell)
-          Calendar.CellStatus.Ended -> missedCellElement
-        }
+    when {
+      cell == null -> noCellGuiElement
+      collectedCells.contains(cell.id) -> collectedCellGuiElement
+      DebugCommands.calendarsIgnoreCellStatus -> activeGuiElement(cell)
+      else -> when (calendar.getCellStatus(cell)) {
+        Calendar.CellStatus.Upcoming -> upcomingCellElement(cell)
+        Calendar.CellStatus.Available -> activeGuiElement(cell)
+        Calendar.CellStatus.Ended -> missedCellElement
       }
     }
-  }
+//if (cell == null) {
+//  noCellGuiElement
+//} else {
+//  if (collectedCells.contains(cell.id)) {
+//    collectedCellGuiElement
+//  } else {
+//    if (DebugCommands.calendarsIgnoreCellStatus) activeGuiElement(cell)
+//    else when (calendar.getCellStatus(cell)) {
+//      Calendar.CellStatus.Upcoming -> upcomingCellElement(cell)
+//      Calendar.CellStatus.Available -> activeGuiElement(cell)
+//      Calendar.CellStatus.Ended -> missedCellElement
+//    }
+//  }
+//}
+}
 
 fun SimpleGui.setSlot(
   column: Int,

@@ -4,7 +4,6 @@ import kotlinx.serialization.json.Json
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents
 import net.fabricmc.loader.api.FabricLoader
 import org.jetbrains.exposed.v1.jdbc.Database
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
@@ -23,13 +22,13 @@ import kotlin.io.path.notExists
 
 const val modId = "rewards"
 val configDir: Path = FabricLoader.getInstance().configDir.resolve(modId)
-val mainConfigFile: Path = configDir.resolve("config.json")
-fun loadMainConfig() = Main.globalConfigManager.loadFile(mainConfigFile, defaultMainConfig)
+val globalConfigFile: Path = configDir.resolve("config.json")
+fun loadGlobalConfig() = Main.globalConfigManager.loadFile(globalConfigFile, defaultGlobalConfig)
 val logger: Logger = LoggerFactory.getLogger(modId)
 
 object Main : ModInitializer {
   val globalConfigManager = ConfigManager(Json(defaultJson) { explicitNulls = true })
-  var globalConfig = loadMainConfig()
+  var globalConfig = loadGlobalConfig()
   val database =
     with(globalConfig.database) {
       Database.connect(

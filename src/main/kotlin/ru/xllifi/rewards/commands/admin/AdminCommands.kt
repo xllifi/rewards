@@ -7,7 +7,7 @@ import net.minecraft.network.chat.Component
 import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.commands.Command
 import ru.xllifi.rewards.config.setServerAttachment
-import ru.xllifi.rewards.loadMainConfig
+import ru.xllifi.rewards.loadGlobalConfig
 import ru.xllifi.rewards.logger
 
 object AdminCommands : Command {
@@ -17,7 +17,7 @@ object AdminCommands : Command {
 
   fun reloadConfigs(ctx: CommandContext<CommandSourceStack>): Int {
     try {
-      Main.globalConfig = loadMainConfig()
+      Main.globalConfig = loadGlobalConfig()
       ctx.source.server.setServerAttachment()
       ctx.source.sendSuccess({ Component.translatable("rewards.commands.admin.reload_configs.success") }, true)
       return Command.SINGLE_SUCCESS

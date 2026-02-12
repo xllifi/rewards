@@ -8,14 +8,14 @@ import ru.xllifi.rewards.configDir
 import ru.xllifi.rewards.serializers.text.Component
 import java.nio.file.Path
 
-val defaultMainConfig = MainConfig(
+val defaultGlobalConfig = GlobalConfig(
   prefix = Component.text("[Rewards]"),
   database = SqliteConfig,
   calendarReminders = true,
 )
 
 @Serializable
-data class MainConfig(
+data class GlobalConfig(
   val prefix: Component,
   val database: DatabaseConfig,
   private val timeZone: TimeZone? = null,

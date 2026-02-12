@@ -17,9 +17,8 @@ import net.minecraft.world.item.ItemStack
 import net.minecraft.network.chat.Component as McComponent
 import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.calendar.sql.isCellCollectedBy
-import ru.xllifi.rewards.config.MainConfig
+import ru.xllifi.rewards.config.GlobalConfig
 import ru.xllifi.rewards.config.getServerAttachment
-import ru.xllifi.rewards.logger
 import ru.xllifi.rewards.rewards.Reward
 import ru.xllifi.rewards.serializers.ResourceLocation
 import ru.xllifi.rewards.serializers.text.Component
@@ -82,7 +81,7 @@ data class Calendar(
 
   companion object {
     fun notifyPlayerOfAvailableUncollectedCells(
-      globalConfig: MainConfig,
+      globalConfig: GlobalConfig,
       player: ServerPlayer,
     ) {
       if (globalConfig.calendarReminders) {

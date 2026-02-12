@@ -20,36 +20,32 @@ import ru.xllifi.rewards.calendar.sql.CollectedCell
 import ru.xllifi.rewards.calendar.sql.CollectedCellTable
 import ru.xllifi.rewards.utils.plus
 import ru.xllifi.rewards.utils.resizeEnd
-import kotlin.math.ceil
 
 class CalendarScreen : SimpleGui {
   val calendar: Calendar
-  val weeksCount: Int
   val weeks: List<List<Calendar.Cell?>>
   val audiences: MinecraftServerAudiences
 
   constructor(
     calendar: Calendar,
     player: ServerPlayer,
-    weeksCount: Int = ceil(calendar.cells.size / 7f).toInt(),
   ) : super(
-    /* type = */ when (weeksCount) {
+    /* type = */ when (calendar.weeksCount) {
       1 -> MenuType.GENERIC_9x1
       2 -> MenuType.GENERIC_9x2
       3 -> MenuType.GENERIC_9x3
       4 -> MenuType.GENERIC_9x4
       5 -> MenuType.GENERIC_9x5
       6 -> MenuType.GENERIC_9x6
-      else -> throw IllegalStateException("Invalid weekCount: $weeksCount!")
+      else -> throw IllegalStateException("Invalid weeksCount: ${calendar.weeksCount}!")
     },
     /* player = */ player,
     /* manipulatePlayerSlots = */ false,
   ) {
     this.calendar = calendar
-    this.weeksCount = weeksCount
-    val paddedCells = List(calendar.firstDayOrdinal) { null } + calendar.cells
+    val paddedCells = List(calendar.startDayPadding) { null } + calendar.cells
     this.weeks = paddedCells
-      .resizeEnd(weeksCount * 7, null) { a, b -> a ?: b }
+      .resizeEnd(calendar.weeksCount * 7, null) { a, b -> a ?: b }
       .chunked(7)
 
     this.audiences = MinecraftServerAudiences.of(player.level().server)
@@ -59,7 +55,7 @@ class CalendarScreen : SimpleGui {
   }
 
   fun updateDisplay() {
-    for (i in 0..<weeksCount) {
+    for (i in 0..<calendar.weeksCount) {
       // Weeks (most left column)
       this.setSlot(
         column = 0,

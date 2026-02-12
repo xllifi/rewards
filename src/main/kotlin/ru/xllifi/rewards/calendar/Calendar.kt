@@ -1,11 +1,6 @@
 package ru.xllifi.rewards.calendar
 
-import kotlinx.datetime.DateTimeUnit
-import kotlinx.datetime.LocalDate
-import kotlinx.datetime.atTime
-import kotlinx.datetime.minus
-import kotlinx.datetime.plus
-import kotlinx.datetime.toLocalDateTime
+import kotlinx.datetime.*
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
@@ -14,7 +9,6 @@ import net.minecraft.network.chat.ClickEvent
 import net.minecraft.network.chat.Style
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.item.ItemStack
-import net.minecraft.network.chat.Component as McComponent
 import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.calendar.sql.isCellCollectedBy
 import ru.xllifi.rewards.config.GlobalConfig
@@ -24,8 +18,10 @@ import ru.xllifi.rewards.serializers.ResourceLocation
 import ru.xllifi.rewards.serializers.text.Component
 import ru.xllifi.rewards.serializers.time.InstantAsDay
 import ru.xllifi.rewards.utils.plus
+import kotlin.math.ceil
 import kotlin.time.Clock
 import kotlin.time.Instant
+import net.minecraft.network.chat.Component as McComponent
 
 @Serializable
 data class Calendar(
@@ -36,7 +32,18 @@ data class Calendar(
 
   @Transient
   val endDay: Instant = startDay.plus(cells.size * 24, DateTimeUnit.HOUR),
+  @Transient
+  val startDayPadding: Int = startDay.toLocalDateTime(Main.globalConfig.timeZoneForSure).dayOfWeek.ordinal,
+  @Transient
+  val weeksCount: Int = ceil((cells.size + startDayPadding) / 7f).toInt()
 ) {
+  init {
+    // Coerce weeksCount for this expression to get valid maxCells. It's still gonna throw later.
+    val maxCells = weeksCount.coerceIn(1, 6) * 7 - startDayPadding
+    require(weeksCount in 1..6) { "Invalid weeks count ($weeksCount)! Make sure there is at least one but no more than $maxCells cells." }
+    require(cells.size <= maxCells) { "Too many cells (${cells.size}). Make sure there are no more than $maxCells cells." }
+  }
+
   val isActive: Boolean get() {
     val now = Clock.System.now()
     return now in startDay..endDay
@@ -48,9 +55,6 @@ data class Calendar(
     val startLocalDateTime = startDay.toLocalDateTime(Main.globalConfig.timeZoneForSure).date
     return startLocalDateTime.plus(index, DateTimeUnit.DAY)
   }
-
-  val firstDayOrdinal: Int
-    get() = getCellStartLocalDate(cells.first()).dayOfWeek.ordinal
 
   fun getCellStatus(cell: Cell): CellStatus {
     val cellStart = getCellStartLocalDate(cell).atTime(0, 0)

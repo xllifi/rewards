@@ -9,8 +9,10 @@ import net.kyori.adventure.platform.modcommon.MinecraftServerAudiences
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.MinecraftServer
+import ru.xllifi.rewards.calendar.Calendar
 import ru.xllifi.rewards.configDir
 import ru.xllifi.rewards.modId
+import ru.xllifi.rewards.progression.Progression
 import ru.xllifi.rewards.serializers.JsonSerializers
 import java.nio.file.Path
 import kotlin.io.path.createDirectories

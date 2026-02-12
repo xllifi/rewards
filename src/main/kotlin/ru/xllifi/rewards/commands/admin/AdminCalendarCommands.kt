@@ -13,9 +13,10 @@ import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.commands.getCalendarArgument
-import ru.xllifi.rewards.sql.CollectedCell
-import ru.xllifi.rewards.sql.CollectedCellTable
-import ru.xllifi.rewards.sql.setCellCollectedFor
+import ru.xllifi.rewards.calendar.sql.CollectedCell
+import ru.xllifi.rewards.calendar.sql.CollectedCellTable
+import ru.xllifi.rewards.calendar.sql.setCellCollectedFor
+import ru.xllifi.rewards.utils.plus
 
 object AdminCalendarCommands : Command {
   override fun DSLCommandNode<CommandSourceStack>.register() {
@@ -76,8 +77,8 @@ object AdminCellsCommands : Command {
 
     transaction(Main.database) {
       val cells = CollectedCell.find {
-        CollectedCellTable.playerUuid eq player.uuid
-        CollectedCellTable.calendarId eq calendar.id
+        CollectedCellTable.playerUuid.eq(player.uuid) +
+        CollectedCellTable.calendarId.eq(calendar.id)
       }
       for (cell in cells) {
         cell.delete()

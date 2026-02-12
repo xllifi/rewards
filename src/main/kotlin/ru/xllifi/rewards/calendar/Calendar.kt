@@ -1,4 +1,4 @@
-package ru.xllifi.rewards.config
+package ru.xllifi.rewards.calendar
 
 import kotlinx.datetime.DateTimeUnit
 import kotlinx.datetime.LocalDate
@@ -8,6 +8,7 @@ import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import net.minecraft.world.item.ItemStack
 import ru.xllifi.rewards.Main
+import ru.xllifi.rewards.rewards.Reward
 import ru.xllifi.rewards.serializers.ResourceLocation
 import ru.xllifi.rewards.serializers.text.Component
 import ru.xllifi.rewards.serializers.time.InstantAsDay
@@ -30,7 +31,7 @@ data class Calendar(
     val index = cells.indexOf(cell)
     if (index == -1) throw IllegalStateException("Cell ${cell.id} not in calendar ${this.id}!")
     val startLocalDateTime = startDay.toLocalDateTime(Main.globalConfig.timeZoneForSure).date
-    return startLocalDateTime.plus(index, DateTimeUnit.DAY)
+    return startLocalDateTime.plus(index, DateTimeUnit.Companion.DAY)
   }
 
   val firstDayOrdinal: Int

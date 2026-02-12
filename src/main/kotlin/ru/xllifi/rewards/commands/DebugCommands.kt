@@ -8,7 +8,7 @@ import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.arguments.EntityArgument
 import net.minecraft.network.chat.Component
 import ru.xllifi.rewards.config.getServerAttachment
-import ru.xllifi.rewards.sql.isCellCollectedBy
+import ru.xllifi.rewards.calendar.sql.isCellCollectedBy
 
 object DebugCommands : Command {
   var calendarsIgnoreCellStatus: Boolean = false

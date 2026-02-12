@@ -1,8 +1,10 @@
-package ru.xllifi.rewards.config
+package ru.xllifi.rewards.progression
 
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.Serializable
 import net.minecraft.world.item.ItemStack
+import ru.xllifi.rewards.conditions.Condition
+import ru.xllifi.rewards.rewards.Reward
 import ru.xllifi.rewards.serializers.text.Component
 
 @Serializable

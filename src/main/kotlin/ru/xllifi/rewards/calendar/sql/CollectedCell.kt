@@ -1,4 +1,4 @@
-package ru.xllifi.rewards.sql
+package ru.xllifi.rewards.calendar.sql
 
 import net.minecraft.server.level.ServerPlayer
 import org.jetbrains.exposed.v1.core.Column
@@ -9,7 +9,8 @@ import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.dao.IntEntity
 import org.jetbrains.exposed.v1.dao.IntEntityClass
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
-import ru.xllifi.rewards.config.Calendar
+import ru.xllifi.rewards.calendar.Calendar
+import ru.xllifi.rewards.utils.plus
 import java.util.UUID
 
 class CollectedCell(id: EntityID<Int>) : IntEntity(id) {
@@ -38,9 +39,9 @@ private fun Calendar.getCollectedCell(cell: Calendar.Cell, player: ServerPlayer)
   return transaction {
     addLogger(StdOutSqlLogger)
     CollectedCell.find {
-      CollectedCellTable.playerUuid eq player.uuid
-      CollectedCellTable.calendarId eq calendar.id
-      CollectedCellTable.cellId eq cell.id
+      CollectedCellTable.playerUuid.eq(player.uuid) +
+      CollectedCellTable.cellId.eq(cell.id) +
+      CollectedCellTable.calendarId.eq(calendar.id)
     }.firstOrNull()
   }
 }

@@ -1,4 +1,4 @@
-package ru.xllifi.rewards.ui.calendar
+package ru.xllifi.rewards.calendar.ui
 
 import eu.pb4.sgui.api.elements.GuiElement
 import eu.pb4.sgui.api.elements.GuiElementBuilder
@@ -13,11 +13,12 @@ import org.jetbrains.exposed.v1.core.StdOutSqlLogger
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import ru.xllifi.rewards.commands.DebugCommands
-import ru.xllifi.rewards.config.Calendar
+import ru.xllifi.rewards.calendar.Calendar
 import ru.xllifi.rewards.logger
 import ru.xllifi.rewards.modId
-import ru.xllifi.rewards.sql.CollectedCell
-import ru.xllifi.rewards.sql.CollectedCellTable
+import ru.xllifi.rewards.calendar.sql.CollectedCell
+import ru.xllifi.rewards.calendar.sql.CollectedCellTable
+import ru.xllifi.rewards.utils.plus
 import ru.xllifi.rewards.utils.resizeEnd
 
 class CalendarScreen : SimpleGui {
@@ -72,8 +73,8 @@ class CalendarScreen : SimpleGui {
     val collectedCells = transaction {
       addLogger(StdOutSqlLogger)
       CollectedCell.find {
-        CollectedCellTable.playerUuid eq player.uuid
-        CollectedCellTable.calendarId eq calendar.id
+        CollectedCellTable.playerUuid.eq(player.uuid) +
+        CollectedCellTable.calendarId.eq(calendar.id)
       }.map { it.cellId }.toSet()
     }
     logger.info("Updaing screen for ${player.uuid}")

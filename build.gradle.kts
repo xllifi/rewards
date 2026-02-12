@@ -13,7 +13,7 @@ version = "${project.property("mod_version")}+mc${libs.versions.minecraft.get()}
 group = project.property("maven_group") as String
 
 base {
-  archivesName = "${project.property("archives_base_name")}-$version"
+  archivesName = project.property("archives_base_name") as String
 }
 
 val targetJavaVersion = 21

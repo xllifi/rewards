@@ -7,9 +7,9 @@ import com.mojang.brigadier.suggestion.SuggestionsBuilder
 import de.phyrone.brig.wrapper.DSLCommandNode
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.network.chat.Component
-import ru.xllifi.rewards.config.Calendar
+import ru.xllifi.rewards.calendar.Calendar
 import ru.xllifi.rewards.config.getServerAttachment
-import ru.xllifi.rewards.ui.calendar.CalendarScreen
+import ru.xllifi.rewards.calendar.ui.CalendarScreen
 
 object CalendarCommands : Command {
   override fun run(ctx: CommandContext<CommandSourceStack>): Int {

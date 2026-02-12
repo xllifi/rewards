@@ -1,26 +1,23 @@
-package ru.xllifi.rewards.ui.calendar
+package ru.xllifi.rewards.calendar.ui
 
 import eu.pb4.sgui.api.elements.GuiElement
 import eu.pb4.sgui.api.elements.GuiElementBuilder
 import kotlinx.datetime.atStartOfDayIn
 import net.minecraft.ChatFormatting
 import net.minecraft.core.component.DataComponents
-import net.minecraft.core.registries.BuiltInRegistries
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
 import net.minecraft.resources.ResourceLocation
-import net.minecraft.sounds.SoundEvent
 import net.minecraft.sounds.SoundSource
 import net.minecraft.world.item.Items
 import ru.xllifi.rewards.Main
-import ru.xllifi.rewards.config.Calendar
-import ru.xllifi.rewards.config.grant
+import ru.xllifi.rewards.calendar.Calendar
+import ru.xllifi.rewards.rewards.grant
 import ru.xllifi.rewards.logger
 import ru.xllifi.rewards.modId
 import ru.xllifi.rewards.serializers.time.dayHumanReadable
-import ru.xllifi.rewards.sql.setCellCollectedFor
-import kotlin.reflect.jvm.jvmName
+import ru.xllifi.rewards.calendar.sql.setCellCollectedFor
 
 val CalendarScreen.noCellGuiElement: GuiElement
   get() = GuiElementBuilder(Items.PAPER)

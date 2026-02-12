@@ -20,8 +20,8 @@ import org.slf4j.LoggerFactory
 import ru.xllifi.rewards.commands.registerCommands
 import ru.xllifi.rewards.config.*
 import ru.xllifi.rewards.config.TextureManager
-import ru.xllifi.rewards.sql.CollectedCellTable
-import ru.xllifi.rewards.sql.isCellCollectedBy
+import ru.xllifi.rewards.calendar.sql.CollectedCellTable
+import ru.xllifi.rewards.calendar.sql.isCellCollectedBy
 import ru.xllifi.rewards.utils.plus
 import java.nio.file.Path
 import kotlin.io.path.createDirectories

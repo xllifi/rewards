@@ -105,20 +105,6 @@ class CalendarScreen : SimpleGui {
         Calendar.CellStatus.Ended -> missedCellElement
       }
     }
-//if (cell == null) {
-//  noCellGuiElement
-//} else {
-//  if (collectedCells.contains(cell.id)) {
-//    collectedCellGuiElement
-//  } else {
-//    if (DebugCommands.calendarsIgnoreCellStatus) activeGuiElement(cell)
-//    else when (calendar.getCellStatus(cell)) {
-//      Calendar.CellStatus.Upcoming -> upcomingCellElement(cell)
-//      Calendar.CellStatus.Available -> activeGuiElement(cell)
-//      Calendar.CellStatus.Ended -> missedCellElement
-//    }
-//  }
-//}
 }
 
 fun SimpleGui.setSlot(

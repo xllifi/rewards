@@ -11,6 +11,7 @@ import java.nio.file.Path
 import kotlin.io.path.copyTo
 import kotlin.io.path.createDirectories
 import kotlin.io.path.extension
+import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
 import kotlin.io.path.name
 import kotlin.io.path.nameWithoutExtension
@@ -31,9 +32,15 @@ object TextureManager {
       return
     }
 
+    val dirs = Files.walk(defaultTexturesPath).filter { it.isDirectory() }
+    for (path in dirs) {
+      val targetPath = texturesPath.resolve(defaultTexturesPath.relativize(path))
+      targetPath.createDirectories()
+    }
+
     val pngs = Files.walk(defaultTexturesPath).filter { it.isRegularFile() && it.extension == "png" }
     for (path in pngs) {
-      val targetPath = texturesPath.resolve(path.name)
+      val targetPath = texturesPath.resolve(defaultTexturesPath.relativize(path))
       try {
         path.copyTo(targetPath)
       } catch (_: FileAlreadyExistsException) {
@@ -52,16 +59,17 @@ object TextureManager {
 
       // From configs
       val pngs = Files.walk(texturesPath).filter { it.isRegularFile() && it.extension == "png" }
-      pngs.forEach {
-        val bytes = it.readBytes()
-        builder.addData("assets/$modId/textures/item/${it.name}", bytes)
+      pngs.forEach { path ->
+        val assetName = texturesPath.relativize(path).toString().split(".").first()
+        val bytes = path.readBytes()
+        builder.addData("assets/$modId/textures/item/${assetName}.png", bytes)
         builder.addStringData(
-          "assets/$modId/items/${it.nameWithoutExtension}.json",
-          itemDefinitionTemplate.replace("<NAME>", it.nameWithoutExtension)
+          "assets/$modId/items/${assetName}.json",
+          itemDefinitionTemplate.replace("<NAME>", assetName)
         )
         builder.addStringData(
-          "assets/$modId/models/item/${it.nameWithoutExtension}.json",
-          itemModelDefinitionTemplate.replace("<NAME>", it.nameWithoutExtension)
+          "assets/$modId/models/item/${assetName}.json",
+          itemModelDefinitionTemplate.replace("<NAME>", assetName)
         )
       }
     }

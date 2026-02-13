@@ -108,9 +108,7 @@ data class CondStat(
 
   override fun status(player: ServerPlayer): Boolean? {
     val statValue = player.stats.getValue(getStat())
-    logger.info("Stat value $statValue, threshold $threshold")
-
-    return if (statValue > threshold) true else null
+    return if (statValue >= threshold) true else null
   }
 
   override fun lore(player: ServerPlayer): List<Component> {
@@ -140,14 +138,23 @@ data class CondStat(
     )
     val stat = getStat()
 
-    return listOf(
-      this.mark(player).append(
-        Component.translatable(
-          displayTextKey,
-          Component.translatable(statTextKey),
-          stat.format(this.threshold)
-        )
+    val component = this.mark(player).append(
+      Component.translatable(
+        displayTextKey,
+        Component.translatable(statTextKey),
+        stat.format(this.threshold)
       )
     )
+    val statValue = player.stats.getValue(getStat())
+    if (statValue < this.threshold) {
+      component.append(
+        Component.translatable(
+          "rewards.condition.stat.x_more",
+          this.threshold - statValue
+        )
+      )
+    }
+
+    return listOf(component)
   }
 }

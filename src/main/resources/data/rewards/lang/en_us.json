@@ -6,12 +6,16 @@
   "rewards.commands.root": "Running Rewards version %s",
   "rewards.commands.admin.reload_configs.success": "Reloaded configs!",
   "rewards.commands.admin.reload_configs.failure": "Failed to reload configs. See details in server console",
-  "rewards.commands.admin.calendar.cell.generic.failure.no_player": "Failed to find data for player %s (%s)",
   "rewards.commands.admin.calendar.uncollect_all_for_everyone.success": "All cells in calendar %s are now not collected for everyone",
   "rewards.commands.admin.calendar.collect_all.success": "All cells in calendar %s are now collected for %s",
   "rewards.commands.admin.calendar.cell.collect.success": "Cell %s is now collected for %s",
   "rewards.commands.admin.calendar.uncollect_all.success": "All cells in calendar %s are now not collected for %s",
   "rewards.commands.admin.calendar.cell.uncollect.success": "Cell %s is now not collected for %s",
+  "rewards.commands.admin.progression.uncollect_all_for_everyone.success": "All tiers in progression %s are now not collected for everyone",
+  "rewards.commands.admin.progression.collect_all.success": "All tiers in progression %s are now collected for %s",
+  "rewards.commands.admin.progression.tier.collect.success": "Tier %s is now collected for %s",
+  "rewards.commands.admin.progression.uncollect_all.success": "All tiers in progression %s are now not collected for %s",
+  "rewards.commands.admin.progression.tier.uncollect.success": "Tier %s is now not collected for %s",
 
   "rewards.commands.calendar.open.failure.inactive": "\"%s\" calendar is not active!",
 
@@ -29,6 +33,7 @@
   "rewards.condition.stat.item_dropped": "Drop \"%s\" %d time(s)",
   "rewards.condition.stat.entity_killed": "Kill \"%s\" %d time(s)",
   "rewards.condition.stat.entity_killed_by": "Get killed by \"%s\" %d time(s)",
+  "rewards.condition.stat.x_more": " (%s more)",
   "rewards.condition.time.wait": "Wait until %s",
   "rewards.condition.time.wait_expirable": "Wait until %s and collect before %s",
   "rewards.condition.time.expired": "Collect before %s",
@@ -49,6 +54,13 @@
   "rewards.calendar.cell.missed.lore": "This cell can't be collected anymore",
   "rewards.calendar.cell.collected": "Collected cell",
   "rewards.calendar.cell.collected.lore": "This cell is already collected",
+
+  "rewards.progression.tier.pending": "Incomplete tier",
+  "rewards.progression.tier.pending.lore": "Complete the following condition:",
+  "rewards.progression.tier.failed": "Failed tier",
+  "rewards.progression.tier.failed.lore": "You've failed this tier's condition:",
+  "rewards.progression.tier.collected": "Collected tier",
+  "rewards.progression.tier.collected.lore": "You've already collected this tier's rewards:",
 
   "": ""
 }

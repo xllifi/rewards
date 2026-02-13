@@ -15,6 +15,7 @@ import ru.xllifi.rewards.commands.registerCommands
 import ru.xllifi.rewards.config.*
 import ru.xllifi.rewards.config.TextureManager
 import ru.xllifi.rewards.calendar.sql.CollectedCellTable
+import ru.xllifi.rewards.progression.sql.CollectedProgressionTiersTable
 import java.nio.file.Path
 import kotlin.io.path.createDirectories
 import kotlin.io.path.createFile
@@ -56,6 +57,9 @@ object Main : ModInitializer {
   fun setup() {
     if (configDir.notExists()) configDir.createDirectories()
     if (localDbPath.notExists()) localDbPath.createFile()
-    transaction(database) { SchemaUtils.create(CollectedCellTable) }
+    transaction(database) {
+      SchemaUtils.create(CollectedCellTable)
+      SchemaUtils.create(CollectedProgressionTiersTable)
+    }
   }
 }

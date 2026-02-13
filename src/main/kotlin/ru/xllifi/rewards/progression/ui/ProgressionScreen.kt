@@ -1,0 +1,98 @@
+package ru.xllifi.rewards.progression.ui
+
+import eu.pb4.sgui.api.elements.GuiElement
+import eu.pb4.sgui.api.elements.GuiElementBuilder
+import eu.pb4.sgui.api.gui.SimpleGui
+import net.kyori.adventure.platform.modcommon.MinecraftServerAudiences
+import net.minecraft.core.component.DataComponents
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.server.level.ServerPlayer
+import net.minecraft.world.inventory.MenuType
+import net.minecraft.world.item.Items
+import ru.xllifi.rewards.logger
+import ru.xllifi.rewards.modId
+import ru.xllifi.rewards.progression.Progression
+import ru.xllifi.rewards.utils.resizeEnd
+import ru.xllifi.rewards.progression.sql.getCollectedTierIndexes
+
+class ProgressionScreen : SimpleGui {
+  val progression: Progression
+  val lines: List<List<Progression.Tier?>>
+  val audiences: MinecraftServerAudiences
+
+  constructor(
+    progression: Progression,
+    player: ServerPlayer,
+  ) : super(
+    /* type = */ when (progression.lines) {
+      1 -> MenuType.GENERIC_9x1
+      2 -> MenuType.GENERIC_9x2
+      3 -> MenuType.GENERIC_9x3
+      4 -> MenuType.GENERIC_9x4
+      5 -> MenuType.GENERIC_9x5
+      6 -> MenuType.GENERIC_9x6
+      else -> throw IllegalStateException("Invalid lines count: ${progression.lines}!")
+    },
+    /* player = */ player,
+    /* manipulatePlayerSlots = */ false,
+  ) {
+    this.progression = progression
+    this.lines = progression.tiers
+      .resizeEnd(progression.lines * 7, null) { a, b -> a ?: b }
+      .chunked(7)
+
+    this.audiences = MinecraftServerAudiences.of(player.level().server)
+    this.title = audiences.asNative(progression.title)
+    this.updateDisplay()
+    this.open()
+  }
+
+  fun updateDisplay() {
+    for (i in 0..<progression.lines) {
+      // Blanks (most left column)
+      this.setSlot(
+        column = 0,
+        row = i,
+        element = blankGuiElement
+      )
+      // Blanks (most right column)
+      this.setSlot(
+        column = 8,
+        row = i,
+        element = blankGuiElement
+      )
+    }
+    val collectedTierIndexes = progression.getCollectedTierIndexes(player)
+    logger.info("Updating screen for ${player.uuid}")
+    lines.forEachIndexed { row, line ->
+      line.forEachIndexed { col, tier ->
+        this.setSlot(
+          column = col + 1,
+          row = row,
+          element = getGuiElement(tier, row * 7 + col, collectedTierIndexes),
+        )
+      }
+    }
+  }
+
+  fun getGuiElement(tier: Progression.Tier?, tierIdx: Int, collectedTierIndexes: List<Int>): GuiElement = run {
+    logger.info("Collected indexes: {}. Current idx: {}", collectedTierIndexes, tierIdx)
+    when {
+      tier == null -> noTierGuiElement
+      collectedTierIndexes.contains(tierIdx) -> collectedTierGuiElement(tier)
+      else -> when (tier.unlockCondition.status(player)) {
+        null -> pendingTierGuiElement(tier)
+        true -> completedTierGuiElement(tier)
+        false -> failedTierGuiElement(tier)
+      }
+    }
+  }
+}
+
+fun SimpleGui.setSlot(
+  column: Int,
+  row: Int,
+  element: GuiElement,
+) {
+  setSlot(row * 9 + column, element)
+}

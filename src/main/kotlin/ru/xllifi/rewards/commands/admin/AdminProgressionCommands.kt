@@ -1,141 +1,141 @@
 package ru.xllifi.rewards.commands.admin
 
+import com.mojang.brigadier.arguments.IntegerArgumentType
 import com.mojang.brigadier.context.CommandContext
 import de.phyrone.brig.wrapper.DSLCommandNode
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.arguments.EntityArgument
 import ru.xllifi.rewards.commands.Command
-import ru.xllifi.rewards.calendar.commands.calendarArgument
-import ru.xllifi.rewards.calendar.commands.cellArgument
-import ru.xllifi.rewards.calendar.commands.getCalendarAndCellArguments
 import net.minecraft.network.chat.Component
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import ru.xllifi.rewards.Main
-import ru.xllifi.rewards.calendar.commands.getCalendarArgument
-import ru.xllifi.rewards.calendar.sql.CollectedCell
-import ru.xllifi.rewards.calendar.sql.CollectedCellTable
-import ru.xllifi.rewards.calendar.sql.setCellCollectedFor
+import ru.xllifi.rewards.progression.commands.getProgressionAndTierIdxArguments
+import ru.xllifi.rewards.progression.commands.getProgressionArgument
+import ru.xllifi.rewards.progression.commands.progressionArgument
+import ru.xllifi.rewards.progression.sql.CollectedProgressionTiers
+import ru.xllifi.rewards.progression.sql.CollectedProgressionTiersTable
+import ru.xllifi.rewards.progression.sql.setTierCollection
 import ru.xllifi.rewards.utils.plus
 
-object AdminCalendarCommands : Command {
+object AdminProgressionCommands : Command {
   override fun DSLCommandNode<CommandSourceStack>.register() {
-    literal("calendar") {
+    literal("progression") {
       with(AdminTiersCommands) { register() }
     }
   }
 }
 
-object AdminCellsCommands : Command {
+object AdminTiersCommands : Command {
   fun uncollectAllForEveryone(ctx: CommandContext<CommandSourceStack>): Int {
-    val calendar = ctx.getCalendarArgument("calendar")
+    val progression = ctx.getProgressionArgument("progression")
 
     transaction(Main.database) {
-      val cells = CollectedCell.find {
-        CollectedCellTable.calendarId eq calendar.id
+      val tiers = CollectedProgressionTiers.find {
+        CollectedProgressionTiersTable.progressionId eq progression.id
       }
-      for (cell in cells) {
-        cell.delete()
+      for (tier in tiers) {
+        tier.delete()
       }
     }
 
     ctx.source.sendSuccess({
       Component.translatable(
-        "rewards.commands.admin.calendar.uncollect_all_for_everyone.success",
-        calendar.id
+        "rewards.commands.admin.progression.uncollect_all_for_everyone.success",
+        progression.id
       )
     }, true)
     return Command.SINGLE_SUCCESS
   }
 
   fun collectAll(ctx: CommandContext<CommandSourceStack>): Int {
-    val calendar = ctx.getCalendarArgument("calendar")
+    val progression = ctx.getProgressionArgument("progression")
     val player = EntityArgument.getPlayer(ctx, "player")
 
     transaction(Main.database) {
-      for (cell in calendar.cells) {
-        CollectedCell.new {
+      for (index in 0..<progression.tiers.size) {
+        CollectedProgressionTiers.new {
           playerUuid = player.uuid
-          calendarId = calendar.id
-          cellId = cell.id
+          progressionId = progression.id
+          tierIndex = index
         }
       }
     }
 
     ctx.source.sendSuccess({
       Component.translatable(
-        "rewards.commands.admin.calendar.collect_all.success",
-        calendar.id, player.plainTextName
+        "rewards.commands.admin.progression.collect_all.success",
+        progression.id, player.plainTextName
       )
     }, true)
     return Command.SINGLE_SUCCESS
   }
 
   fun uncollectAll(ctx: CommandContext<CommandSourceStack>): Int {
-    val calendar = ctx.getCalendarArgument("calendar")
+    val progression = ctx.getProgressionArgument("progression")
     val player = EntityArgument.getPlayer(ctx, "player")
 
     transaction(Main.database) {
-      val cells = CollectedCell.find {
-        CollectedCellTable.playerUuid.eq(player.uuid) +
-        CollectedCellTable.calendarId.eq(calendar.id)
+      val tiers = CollectedProgressionTiers.find {
+        CollectedProgressionTiersTable.playerUuid.eq(player.uuid) +
+        CollectedProgressionTiersTable.progressionId.eq(progression.id)
       }
-      for (cell in cells) {
-        cell.delete()
+      for (tier in tiers) {
+        tier.delete()
       }
     }
 
     ctx.source.sendSuccess({
       Component.translatable(
-        "rewards.commands.admin.calendar.uncollect_all.success",
-        calendar.id, player.plainTextName
+        "rewards.commands.admin.progression.uncollect_all.success",
+        progression.id, player.plainTextName
       )
     }, true)
     return Command.SINGLE_SUCCESS
   }
 
   fun collect(ctx: CommandContext<CommandSourceStack>): Int {
-    val (calendar, cell) = ctx.getCalendarAndCellArguments("calendar", "cell")
+    val (progression, tierIdx) = ctx.getProgressionAndTierIdxArguments("progression", "tier_index")
     val player = EntityArgument.getPlayer(ctx, "player")
 
-    calendar.setCellCollectedFor(player, cell, true)
+    progression.setTierCollection(player, tierIdx, true)
 
     ctx.source.sendSuccess({
       Component.translatable(
-        "rewards.commands.admin.calendar.cell.collect.success",
-        cell.id, player.plainTextName
+        "rewards.commands.admin.progression.tier.collect.success",
+        tierIdx, player.plainTextName
       )
     }, true)
     return Command.SINGLE_SUCCESS
   }
 
   fun uncollect(ctx: CommandContext<CommandSourceStack>): Int {
-    val (calendar, cell) = ctx.getCalendarAndCellArguments("calendar", "cell")
+    val (progression, tierIdx) = ctx.getProgressionAndTierIdxArguments("progression", "tier_index")
     val player = EntityArgument.getPlayer(ctx, "player")
 
-    calendar.setCellCollectedFor(player, cell, false)
+    progression.setTierCollection(player, tierIdx, false)
 
     ctx.source.sendSuccess({
       Component.translatable(
-        "rewards.commands.admin.calendar.cell.uncollect.success",
-        cell.id, player.plainTextName
+        "rewards.commands.admin.progression.tier.uncollect.success",
+        tierIdx, player.plainTextName
       )
     }, true)
     return Command.SINGLE_SUCCESS
   }
 
   override fun DSLCommandNode<CommandSourceStack>.register() {
-    literal("cell") {
+    literal("tier") {
       literal("uncollect_all_for_everyone") {
-        calendarArgument("calendar") {
+        progressionArgument("progression") {
           executes { ctx -> uncollectAllForEveryone(ctx) }
         }
       }
       argument("player", EntityArgument.player()) {
-        calendarArgument("calendar") {
+        progressionArgument("progression") {
           literal("collect_all") { executes { ctx -> collectAll(ctx) } }
           literal("uncollect_all") { executes { ctx -> uncollectAll(ctx) } }
-          cellArgument("calendar", "cell") {
+          argument("tier_index", IntegerArgumentType.integer()) {
             literal("collect") { executes { ctx -> collect(ctx) } }
             literal("uncollect") { executes { ctx -> uncollect(ctx) } }
           }

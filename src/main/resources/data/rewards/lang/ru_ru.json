@@ -6,12 +6,16 @@
   "rewards.commands.root": "Используется Rewards, версия %s",
   "rewards.commands.admin.reload_configs.success": "Конфиг перезагружен!",
   "rewards.commands.admin.reload_configs.failure": "Не удалось перезагрузить конфиг. Смотрите консоль сервера, чтобы узнать подробности",
-  "rewards.commands.admin.calendar.cell.generic.failure.no_player": "Не удалось найти данные игрока %s (%s)",
   "rewards.commands.admin.calendar.uncollect_all_for_everyone.success": "Все ячейки календаря %s теперь не собраны для всех",
   "rewards.commands.admin.calendar.collect_all.success": "Все ячейки календаря %s теперь собраны для %s",
   "rewards.commands.admin.calendar.cell.collect.success": "Ячейка %s теперь собрана для %s",
   "rewards.commands.admin.calendar.uncollect_all.success": "Все ячейки календаря %s теперь не собраны для %s",
   "rewards.commands.admin.calendar.cell.uncollect.success": "Ячейка %s теперь не собрана для %s",
+  "rewards.commands.admin.progression.uncollect_all_for_everyone.success": "Все уровни прогрессии %s теперь не собраны для всех",
+  "rewards.commands.admin.progression.collect_all.success": "Все уровни прогрессии %s теперь собраны для %s",
+  "rewards.commands.admin.progression.tier.collect.success": "Уровень %s теперь собран для %s",
+  "rewards.commands.admin.progression.uncollect_all.success": "Все уровни в прогрессии %s теперь не собраны для %s",
+  "rewards.commands.admin.progression.tier.uncollect.success": "Уровень %s теперь не собран для %s",
 
   "rewards.commands.calendar.open.failure.inactive": "Календарь «%s» не активен!",
 
@@ -29,6 +33,7 @@
   "rewards.condition.stat.item_dropped": "Выбросьте %s %d раз(а)",
   "rewards.condition.stat.entity_killed": "Убейте %s %d раз(а)",
   "rewards.condition.stat.entity_killed_by": "Умрите от %s %d раз(а)",
+  "rewards.condition.stat.x_more": " (ещё %s)",
   "rewards.condition.time.wait": "Подождите до %s",
   "rewards.condition.time.wait_expirable": "Подождите до %s и соберите ранее %s",
   "rewards.condition.time.expired": "Соберите ранее %s",
@@ -49,6 +54,13 @@
   "rewards.calendar.cell.missed.lore": "Эту ячейку больше не собрать",
   "rewards.calendar.cell.collected": "Собранная ячейка",
   "rewards.calendar.cell.collected.lore": "Эта ячейка уже собрана",
+
+  "rewards.progression.tier.pending": "Незавершённый уровень",
+  "rewards.progression.tier.pending.lore": "Выполните следующее условие:",
+  "rewards.progression.tier.failed": "Проваленный уровень",
+  "rewards.progression.tier.failed.lore": "Вы провалили условие этого уровня:",
+  "rewards.progression.tier.collected": "Собранный уровень",
+  "rewards.progression.tier.collected.lore": "Вы уже собрали награды этого уровня:",
 
   "": ""
 }

@@ -35,6 +35,7 @@ object AdminCommands : Command {
         executes { ctx -> reloadConfigs(ctx) }
       }
       with(AdminCalendarCommands) { register() }
+      with(AdminProgressionCommands) { register() }
     }
   }
 }

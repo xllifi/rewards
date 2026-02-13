@@ -60,19 +60,13 @@ class CalendarScreen : SimpleGui {
       this.setSlot(
         column = 0,
         row = i,
-        element = GuiElementBuilder(Items.PAPER)
-          .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "w${i + 1}"))
-          .hideTooltip()
-          .build()
+        element = weekGuiElement(i + 1),
       )
       // Blanks (most right column)
       this.setSlot(
         column = 8,
         row = i,
-        element = GuiElementBuilder(Items.PAPER)
-          .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "blank"))
-          .hideTooltip()
-          .build()
+        element = blankGuiElement
       )
     }
     val collectedCells = transaction {

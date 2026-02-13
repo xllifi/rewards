@@ -19,15 +19,27 @@ import ru.xllifi.rewards.modId
 import ru.xllifi.rewards.serializers.time.dayHumanReadable
 import ru.xllifi.rewards.calendar.sql.setCellCollectedFor
 
+val CalendarScreen.blankGuiElement: GuiElement
+  get() = GuiElementBuilder(Items.PAPER)
+    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "calendar/blank"))
+    .hideTooltip()
+    .build()
+
+fun CalendarScreen.weekGuiElement(w: Int): GuiElement =
+  GuiElementBuilder(Items.PAPER)
+    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "calendar/w${w}"))
+    .hideTooltip()
+    .build()
+
 val CalendarScreen.noCellGuiElement: GuiElement
   get() = GuiElementBuilder(Items.PAPER)
-    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "nocell"))
+    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "calendar/nocell"))
     .hideTooltip()
     .build()
 
 fun CalendarScreen.upcomingCellElement(cell: Calendar.Cell): GuiElement =
   GuiElementBuilder(Items.PAPER)
-    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "upcoming"))
+    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "calendar/upcoming"))
     .setItemName(Component.translatable("rewards.calendar.cell.upcoming").withStyle(ChatFormatting.GRAY))
     .setLore(
       listOf(
@@ -43,7 +55,7 @@ fun CalendarScreen.upcomingCellElement(cell: Calendar.Cell): GuiElement =
 
 val CalendarScreen.missedCellElement: GuiElement
   get() = GuiElementBuilder(Items.PAPER)
-    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "missed"))
+    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "calendar/missed"))
     .setItemName(Component.translatable("rewards.calendar.cell.missed").withStyle(ChatFormatting.GRAY))
     .setLore(
       listOf(
@@ -54,7 +66,7 @@ val CalendarScreen.missedCellElement: GuiElement
 
 val CalendarScreen.collectedCellGuiElement: GuiElement
   get() = GuiElementBuilder(Items.PAPER)
-    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "collected"))
+    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "calendar/collected"))
     .setItemName(Component.translatable("rewards.calendar.cell.collected").withStyle(ChatFormatting.GRAY))
     .setLore(
       listOf(

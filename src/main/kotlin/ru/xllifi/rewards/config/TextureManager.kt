@@ -6,6 +6,7 @@ import ru.xllifi.rewards.configDir
 import ru.xllifi.rewards.logger
 import ru.xllifi.rewards.modId
 import java.nio.file.FileAlreadyExistsException
+import java.nio.file.FileSystem
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.io.path.copyTo
@@ -13,43 +14,41 @@ import kotlin.io.path.createDirectories
 import kotlin.io.path.extension
 import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
-import kotlin.io.path.name
-import kotlin.io.path.nameWithoutExtension
 import kotlin.io.path.notExists
 import kotlin.io.path.readBytes
 import kotlin.jvm.optionals.getOrNull
 
 object TextureManager {
-  val texturesPath: Path = configDir.resolve("textures")
+  val localTexturesPath: Path = configDir.resolve("textures")
   val modContainer = FabricLoader.getInstance().getModContainer(modId).get()
   fun copyDefaultTextures() {
     // Ensure config dir exists
-    texturesPath.createDirectories()
+    localTexturesPath.createDirectories()
 
-    val defaultTexturesPath = modContainer.findPath("assets/$modId/default_textures").getOrNull()
-    if (defaultTexturesPath == null) {
+    val zipTexturesPath = modContainer.findPath("assets/$modId/default_textures").getOrNull()
+    if (zipTexturesPath == null) {
       logger.error("No default textures! Please tell the developer!")
       return
     }
 
-    val dirs = Files.walk(defaultTexturesPath).filter { it.isDirectory() }
+    val dirs = Files.walk(zipTexturesPath).filter { it.isDirectory() }
     for (path in dirs) {
-      val targetPath = texturesPath.resolve(defaultTexturesPath.relativize(path))
-      targetPath.createDirectories()
+      val localTargetPath = localTexturesPath.resolve(zipTexturesPath.relativize(path).toString())
+      localTargetPath.createDirectories()
     }
 
-    val pngs = Files.walk(defaultTexturesPath).filter { it.isRegularFile() && it.extension == "png" }
+    val pngs = Files.walk(zipTexturesPath).filter { it.isRegularFile() && it.extension == "png" }
     for (path in pngs) {
-      val targetPath = texturesPath.resolve(defaultTexturesPath.relativize(path))
+      val localTargetPath = localTexturesPath.resolve(zipTexturesPath.relativize(path).toString())
       try {
-        path.copyTo(targetPath)
+        path.copyTo(localTargetPath)
       } catch (_: FileAlreadyExistsException) {
-        logger.debug("{} already exists, not copying asset {}!", targetPath, path)
+        logger.debug("{} already exists, not copying asset {}!", localTargetPath, path)
       }
     }
   }
   fun registerResourceLoader() {
-    if (texturesPath.notExists()) texturesPath.createDirectories()
+    if (localTexturesPath.notExists()) localTexturesPath.createDirectories()
     copyDefaultTextures()
     // TODO: Properly load textures for client when running this mod on client
 
@@ -58,9 +57,9 @@ object TextureManager {
       builder.addData("assets/$modId/models/item/gui18.json", modContainer.findPath("assets/$modId/models/item/gui18.json").get().readBytes())
 
       // From configs
-      val pngs = Files.walk(texturesPath).filter { it.isRegularFile() && it.extension == "png" }
+      val pngs = Files.walk(localTexturesPath).filter { it.isRegularFile() && it.extension == "png" }
       pngs.forEach { path ->
-        val assetName = texturesPath.relativize(path).toString().split(".").first()
+        val assetName = localTexturesPath.relativize(path).toString().split(".").first()
         val bytes = path.readBytes()
         builder.addData("assets/$modId/textures/item/${assetName}.png", bytes)
         builder.addStringData(

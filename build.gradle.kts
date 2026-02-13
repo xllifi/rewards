@@ -57,12 +57,19 @@ dependencies {
   include(libs.servertranslations)
 
   implementation(libs.exposed.core)
+  include(libs.exposed.core)
   implementation(libs.exposed.dao)
+  include(libs.exposed.dao)
   implementation(libs.exposed.jdbc)
+  include(libs.exposed.jdbc)
   implementation(libs.exposed.json)
+  include(libs.exposed.json)
   implementation(libs.sqlite.jdbc)
+  include(libs.sqlite.jdbc)
   implementation(libs.pqsql.jdbc)
+  include(libs.pqsql.jdbc)
   implementation(libs.brigadierkt)
+  include(libs.brigadierkt)
 }
 
 tasks.processResources {

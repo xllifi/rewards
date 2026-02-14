@@ -62,5 +62,9 @@
   "rewards.progression.tier.collected": "Collected tier",
   "rewards.progression.tier.collected.lore": "You've already collected this tier's rewards:",
 
+  "rewards.paged_screen.next": "Next page",
+  "rewards.paged_screen.prev": "Previous page",
+  "rewards.paged_screen.close": "Close",
+
   "": ""
 }

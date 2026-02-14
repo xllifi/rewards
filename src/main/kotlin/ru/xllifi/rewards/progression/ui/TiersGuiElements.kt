@@ -11,7 +11,7 @@ import ru.xllifi.rewards.logger
 import ru.xllifi.rewards.progression.Progression
 import ru.xllifi.rewards.progression.sql.setTierCollection
 import ru.xllifi.rewards.rewards.grant
-import ru.xllifi.rewards.utils.texturedGuiElement
+import ru.xllifi.rewards.utils.ui.texturedGuiElement
 
 val ProgressionScreen.blankGuiElement: GuiElement
   get() = texturedGuiElement("progression/blank").hideTooltip().build()

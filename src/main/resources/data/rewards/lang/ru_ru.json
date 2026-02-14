@@ -62,5 +62,9 @@
   "rewards.progression.tier.collected": "Собранный уровень",
   "rewards.progression.tier.collected.lore": "Вы уже собрали награды этого уровня:",
 
+  "rewards.paged_screen.next": "Следующая страница",
+  "rewards.paged_screen.prev": "Предыдущая страница",
+  "rewards.paged_screen.close": "Закрыть",
+
   "": ""
 }

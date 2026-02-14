@@ -15,6 +15,7 @@ import kotlin.math.ceil
 data class Progression(
   val id: String,
   val title: Component,
+  @Contextual val displayItem: ItemStack,
   val tiers: List<Tier>,
 
   @Transient

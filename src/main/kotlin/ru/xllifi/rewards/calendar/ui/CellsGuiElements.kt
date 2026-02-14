@@ -14,7 +14,7 @@ import ru.xllifi.rewards.calendar.sql.setCellCollectedFor
 import ru.xllifi.rewards.logger
 import ru.xllifi.rewards.rewards.grant
 import ru.xllifi.rewards.serializers.time.dayHumanReadable
-import ru.xllifi.rewards.utils.texturedGuiElement
+import ru.xllifi.rewards.utils.ui.texturedGuiElement
 
 val CalendarScreen.blankGuiElement: GuiElement
   get() = texturedGuiElement("calendar/blank")

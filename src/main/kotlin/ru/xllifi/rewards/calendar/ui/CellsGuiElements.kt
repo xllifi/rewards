@@ -4,42 +4,35 @@ import eu.pb4.sgui.api.elements.GuiElement
 import eu.pb4.sgui.api.elements.GuiElementBuilder
 import kotlinx.datetime.atStartOfDayIn
 import net.minecraft.ChatFormatting
-import net.minecraft.core.component.DataComponents
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundSource
-import net.minecraft.world.item.Items
 import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.calendar.Calendar
-import ru.xllifi.rewards.rewards.grant
-import ru.xllifi.rewards.logger
-import ru.xllifi.rewards.modId
-import ru.xllifi.rewards.serializers.time.dayHumanReadable
 import ru.xllifi.rewards.calendar.sql.setCellCollectedFor
+import ru.xllifi.rewards.logger
+import ru.xllifi.rewards.rewards.grant
+import ru.xllifi.rewards.serializers.time.dayHumanReadable
+import ru.xllifi.rewards.utils.texturedGuiElement
 
 val CalendarScreen.blankGuiElement: GuiElement
-  get() = GuiElementBuilder(Items.PAPER)
-    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "calendar/blank"))
+  get() = texturedGuiElement("calendar/blank")
     .hideTooltip()
     .build()
 
 fun CalendarScreen.weekGuiElement(w: Int): GuiElement =
-  GuiElementBuilder(Items.PAPER)
-    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "calendar/w${w}"))
+  texturedGuiElement("calendar/w${w}")
     .hideTooltip()
     .build()
 
 val CalendarScreen.noCellGuiElement: GuiElement
-  get() = GuiElementBuilder(Items.PAPER)
-    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "calendar/nocell"))
+  get() = texturedGuiElement("calendar/nocell")
     .hideTooltip()
     .build()
 
 fun CalendarScreen.upcomingCellElement(cell: Calendar.Cell): GuiElement =
-  GuiElementBuilder(Items.PAPER)
-    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "calendar/upcoming"))
+  texturedGuiElement("calendar/upcoming")
     .setItemName(Component.translatable("rewards.calendar.cell.upcoming").withStyle(ChatFormatting.GRAY))
     .setLore(
       listOf(
@@ -54,8 +47,7 @@ fun CalendarScreen.upcomingCellElement(cell: Calendar.Cell): GuiElement =
     .build()
 
 val CalendarScreen.missedCellElement: GuiElement
-  get() = GuiElementBuilder(Items.PAPER)
-    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "calendar/missed"))
+  get() = texturedGuiElement("calendar/missed")
     .setItemName(Component.translatable("rewards.calendar.cell.missed").withStyle(ChatFormatting.GRAY))
     .setLore(
       listOf(
@@ -65,8 +57,7 @@ val CalendarScreen.missedCellElement: GuiElement
     .build()
 
 val CalendarScreen.collectedCellGuiElement: GuiElement
-  get() = GuiElementBuilder(Items.PAPER)
-    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "calendar/collected"))
+  get() = texturedGuiElement("calendar/collected")
     .setItemName(Component.translatable("rewards.calendar.cell.collected").withStyle(ChatFormatting.GRAY))
     .setLore(
       listOf(
@@ -88,7 +79,7 @@ fun CalendarScreen.activeGuiElement(cell: Calendar.Cell): GuiElement {
         Component.translatable("rewards.generic.click_to_collect").withStyle(ChatFormatting.YELLOW),
       )
     )
-    .setCallback { itemIndex, simpleClickType, minecraftClickType ->
+    .setCallback { _, _, _ ->
       calendar.setCellCollectedFor(player, cell, true)
       if (cell.collectionSound != null) {
         try {

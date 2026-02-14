@@ -3,34 +3,24 @@ package ru.xllifi.rewards.progression.ui
 import eu.pb4.sgui.api.elements.GuiElement
 import eu.pb4.sgui.api.elements.GuiElementBuilder
 import net.minecraft.ChatFormatting
-import net.minecraft.core.component.DataComponents
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.sounds.SoundSource
-import net.minecraft.world.item.Items
-import ru.xllifi.rewards.rewards.grant
 import ru.xllifi.rewards.logger
-import ru.xllifi.rewards.modId
 import ru.xllifi.rewards.progression.Progression
 import ru.xllifi.rewards.progression.sql.setTierCollection
+import ru.xllifi.rewards.rewards.grant
+import ru.xllifi.rewards.utils.texturedGuiElement
 
 val ProgressionScreen.blankGuiElement: GuiElement
-  get() = GuiElementBuilder(Items.PAPER)
-    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "progression/blank"))
-    .hideTooltip()
-    .build()
+  get() = texturedGuiElement("progression/blank").hideTooltip().build()
 
 val ProgressionScreen.noTierGuiElement: GuiElement
-  get() = GuiElementBuilder(Items.PAPER)
-    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "progression/blank"))
-    .hideTooltip()
-    .build()
+  get() = texturedGuiElement("progression/blank").hideTooltip().build()
 
 fun ProgressionScreen.pendingTierGuiElement(tier: Progression.Tier): GuiElement =
-  GuiElementBuilder(Items.PAPER)
-    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "progression/pending"))
+  texturedGuiElement("progression/pending")
     .setItemName(Component.translatable("rewards.progression.tier.pending").withStyle(ChatFormatting.GRAY))
     .setLore(
       listOf(
@@ -41,8 +31,7 @@ fun ProgressionScreen.pendingTierGuiElement(tier: Progression.Tier): GuiElement 
     .build()
 
 fun ProgressionScreen.failedTierGuiElement(tier: Progression.Tier): GuiElement =
-  GuiElementBuilder(Items.PAPER)
-    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "progression/failed"))
+  texturedGuiElement("progression/failed")
     .setItemName(Component.translatable("rewards.progression.tier.failed").withStyle(ChatFormatting.GRAY))
     .setLore(
       listOf(
@@ -53,8 +42,7 @@ fun ProgressionScreen.failedTierGuiElement(tier: Progression.Tier): GuiElement =
     .build()
 
 fun ProgressionScreen.collectedTierGuiElement(tier: Progression.Tier): GuiElement =
-  GuiElementBuilder(Items.PAPER)
-    .setComponent(DataComponents.ITEM_MODEL, ResourceLocation.fromNamespaceAndPath(modId, "progression/collected"))
+  texturedGuiElement("progression/collected")
     .setItemName(Component.translatable("rewards.progression.tier.collected").withStyle(ChatFormatting.GRAY))
     .setLore(
       listOf(
@@ -77,7 +65,7 @@ fun ProgressionScreen.completedTierGuiElement(tier: Progression.Tier): GuiElemen
         Component.translatable("rewards.generic.click_to_collect").withStyle(ChatFormatting.YELLOW),
       )
     )
-    .setCallback { itemIndex, simpleClickType, minecraftClickType ->
+    .setCallback { _, _, _ ->
       progression.setTierCollection(player, progression.tiers.indexOf(tier), true)
       if (tier.collectionSound != null) {
         try {

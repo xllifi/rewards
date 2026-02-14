@@ -6,7 +6,6 @@ import ru.xllifi.rewards.configDir
 import ru.xllifi.rewards.logger
 import ru.xllifi.rewards.modId
 import java.nio.file.FileAlreadyExistsException
-import java.nio.file.FileSystem
 import java.nio.file.Files
 import java.nio.file.Path
 import kotlin.io.path.copyTo
@@ -79,12 +78,23 @@ const val itemDefinitionTemplate: String = """{
   "oversized_in_gui": true,
   "model": {
     "type": "minecraft:model",
-    "model": "$modId:item/<NAME>"
+    "model": "$modId:item/<NAME>",
+    "tints": [
+      {
+        "type": "minecraft:constant",
+        "value": [1, 1, 1]
+      },
+      {
+        "type": "minecraft:dye",
+        "default": 9145227
+      }
+    ]
   }
 }"""
 const val itemModelDefinitionTemplate: String = """{
   "parent": "$modId:item/gui18",
   "textures": {
-    "layer0": "$modId:item/<NAME>"
+    "layer0": "$modId:item/blank",
+    "layer1": "$modId:item/<NAME>"
   }
 }"""

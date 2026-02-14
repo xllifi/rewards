@@ -62,8 +62,13 @@
   "rewards.progression.tier.collected": "Собранный уровень",
   "rewards.progression.tier.collected.lore": "Вы уже собрали награды этого уровня:",
 
+  "rewards.progression.discovery.title": "Все прогрессии",
+  "rewards.progression.discovery.entry.lore.x_tiers": "%s уровня(ей)",
+  "rewards.progression.discovery.entry.lore.action": "Нажмите, чтобы открыть",
+
   "rewards.paged_screen.next": "Следующая страница",
   "rewards.paged_screen.prev": "Предыдущая страница",
+  "rewards.paged_screen.back": "Вернуться",
   "rewards.paged_screen.close": "Закрыть",
 
   "": ""

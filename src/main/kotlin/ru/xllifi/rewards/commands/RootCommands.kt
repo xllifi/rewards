@@ -28,6 +28,9 @@ fun registerCommands() {
     dispatcher.literal("calendar") {
       with(CalendarCommands) { register() }
     }
+    dispatcher.literal("progression") {
+      with(ProgressionCommands) { register() }
+    }
   }
 }
 

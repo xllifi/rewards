@@ -62,8 +62,13 @@
   "rewards.progression.tier.collected": "Collected tier",
   "rewards.progression.tier.collected.lore": "You've already collected this tier's rewards:",
 
+  "rewards.progression.discovery.title": "Progressions discovery",
+  "rewards.progression.discovery.entry.lore.x_tiers": "%s tier(s)",
+  "rewards.progression.discovery.entry.lore.action": "Click to open",
+
   "rewards.paged_screen.next": "Next page",
   "rewards.paged_screen.prev": "Previous page",
+  "rewards.paged_screen.back": "Back",
   "rewards.paged_screen.close": "Close",
 
   "": ""

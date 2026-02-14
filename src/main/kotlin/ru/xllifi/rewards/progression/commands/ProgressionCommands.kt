@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component
 import ru.xllifi.rewards.calendar.ui.CalendarScreen
 import ru.xllifi.rewards.commands.Command
 import ru.xllifi.rewards.config.getServerAttachment
+import ru.xllifi.rewards.progression.ui.DiscoverProgressionsScreen
 import ru.xllifi.rewards.progression.ui.ProgressionScreen
 
 object ProgressionCommands : Command {
@@ -22,11 +23,22 @@ object ProgressionCommands : Command {
     return Command.SINGLE_SUCCESS
   }
 
+  fun discover(ctx: CommandContext<CommandSourceStack>): Int {
+    val screen = DiscoverProgressionsScreen(ctx.source.playerOrException)
+    screen.refreshOpen()
+
+    return Command.SINGLE_SUCCESS
+  }
+
   override fun DSLCommandNode<CommandSourceStack>.register() {
     literal("open") {
       progressionArgument("progression") {
         executes { ctx -> open(ctx) }
       }
     }
+    literal("discover") {
+      executes { ctx -> discover(ctx) }
+    }
+    executes { ctx -> discover(ctx) }
   }
 }

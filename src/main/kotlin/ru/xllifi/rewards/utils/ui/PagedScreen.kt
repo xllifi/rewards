@@ -93,7 +93,7 @@ abstract class PagedScreen(player: ServerPlayer, protected val closeCallback: Ru
       7 -> DisplayElement.of(
         texturedGuiElement("paged_screen/close")
           .setName(
-            Component.translatable(if (this.closeCallback != null) "rewards.paged_screen.prev" else "rewards.paged_screen.close")
+            Component.translatable(if (this.closeCallback != null) "rewards.paged_screen.back" else "rewards.paged_screen.close")
               .withStyle(ChatFormatting.RED)
           )
           .hideDefaultTooltip()

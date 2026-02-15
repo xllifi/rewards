@@ -42,10 +42,9 @@ class PrefixLockerItem(
 ) : LockerItem() {
   override val kind: LockerItemKind = PrefixItemKind
 
-  override fun getGuiElement(audiences: MinecraftServerAudiences): GuiElement =
+  override fun getGuiElementBuilder(audiences: MinecraftServerAudiences): GuiElementBuilder =
     texturedGuiElement("locker_item/prefix", this.getNative(audiences).style.color?.value ?: DEFAULT_COLOR)
       .setItemName(this.getNative(audiences))
-      .build()
 
   fun getNative(player: ServerPlayer): McComponent =
     player.level().server.getServerAttachment().audiences.asNative(this.component)
@@ -78,6 +77,9 @@ fun setupPrefixPlaceholder() {
     equippedPrefixes
       .map { it.getNative(ctx.server) }
       .forEach { component.append(it) }
+    if (equippedPrefixes.isNotEmpty()) {
+      component.append(" ")
+    }
 
     return@register PlaceholderResult.value(component)
   }

@@ -79,6 +79,10 @@
   "rewards.locker.title": "Locker",
   "rewards.locker.item_list.prefix.title": "Collected prefixes",
   "rewards.locker.item_list.suffix.title": "Collected suffixes",
+  "rewards.locker.item_list.equipped.false": "Not equipped",
+  "rewards.locker.item_list.equipped.false.action": "Click to equip!",
+  "rewards.locker.item_list.equipped.true": "Equipped",
+  "rewards.locker.item_list.equipped.true.action": "Click to unequip!",
 
   "": ""
 }

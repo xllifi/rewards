@@ -11,7 +11,6 @@ import net.minecraft.world.item.component.DyedItemColor
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import ru.xllifi.rewards.config.getServerAttachment
-import ru.xllifi.rewards.logger
 import ru.xllifi.rewards.playerlocker.items.LockerItem
 import ru.xllifi.rewards.playerlocker.items.LockerItemKind
 import ru.xllifi.rewards.playerlocker.items.LockerRegistry
@@ -22,7 +21,6 @@ import ru.xllifi.rewards.utils.ui.DISABLED_COLOR
 import ru.xllifi.rewards.utils.ui.PagedScreen
 import ru.xllifi.rewards.utils.ui.texturedGuiElement
 import kotlin.reflect.KClass
-import kotlin.reflect.jvm.jvmName
 
 val EMPTY_ELEMENT: GuiElement = texturedGuiElement("blank")
   .hideTooltip()
@@ -97,7 +95,7 @@ class LockerItemListScreen(
     this.title = Component.translatable("rewards.locker.item_list.${kind.name}.title")
   }
 
-  val items = transaction {
+  var items: List<CollectedLockerItem> = transaction {
     CollectedLockerItem.find {
       CollectedLockerItemTable.playerUuid.eq(player.uuid) +
         CollectedLockerItemTable.kind.eq(kind)
@@ -106,9 +104,34 @@ class LockerItemListScreen(
   override val pageAmount: Int
     get() = 1
 
+  fun updateItems() {
+    this.items = transaction {
+      CollectedLockerItem.find {
+        CollectedLockerItemTable.playerUuid.eq(player.uuid) +
+          CollectedLockerItemTable.kind.eq(kind)
+      }.toList()
+    }
+  }
+
   override fun getElement(id: Int): DisplayElement? {
     return if (id < items.size) {
-      DisplayElement.of(items[id].item.getGuiElement(player.level().server.getServerAttachment().audiences))
+      val collectedLockerItem = items[id]
+      DisplayElement.of(
+        collectedLockerItem.item.getGuiElementBuilder(player.level().server.getServerAttachment().audiences)
+          .setLore(
+            listOf(
+              Component.translatable("rewards.locker.item_list.equipped.${collectedLockerItem.equipped}")
+                .withStyle(ChatFormatting.GRAY),
+              Component.translatable("rewards.locker.item_list.equipped.${collectedLockerItem.equipped}.action")
+                .withStyle(ChatFormatting.YELLOW),
+            )
+          )
+          .setCallback { _ ->
+            collectedLockerItem.item.setEquippedFor(player, !collectedLockerItem.equipped)
+            this.updateItems()
+            this.updateDisplay()
+          }
+      )
     } else {
       null
     }

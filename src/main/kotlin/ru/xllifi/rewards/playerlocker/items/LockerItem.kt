@@ -1,6 +1,5 @@
 package ru.xllifi.rewards.playerlocker.items
 
-import eu.pb4.sgui.api.elements.GuiElement
 import eu.pb4.sgui.api.elements.GuiElementBuilder
 import kotlinx.serialization.Serializable
 import net.kyori.adventure.platform.modcommon.MinecraftServerAudiences
@@ -52,7 +51,7 @@ sealed interface LockerItemKind {
 @Serializable
 sealed class LockerItem() {
   abstract val kind: LockerItemKind
-  abstract fun getGuiElement(audiences: MinecraftServerAudiences): GuiElement
+  abstract fun getGuiElementBuilder(audiences: MinecraftServerAudiences): GuiElementBuilder
 
   private fun thisItem(player: ServerPlayer): Op<Boolean> =
     CollectedLockerItemTable.playerUuid.eq(player.uuid) +
@@ -75,7 +74,9 @@ sealed class LockerItem() {
       val found = CollectedLockerItem.find { thisItem(player) }.firstOrNull()
 
       if (found != null) {
-        found.equipped = to
+        CollectedLockerItem.findSingleByAndUpdate(thisItem(player)) {
+          it.equipped = to
+        }
       } else {
         CollectedLockerItem.new {
           this.playerUuid = player.uuid

@@ -61,12 +61,6 @@ object Main : ModInitializer {
     // Setup placeholders
     setupPrefixPlaceholder()
     setupSuffixPlaceholder()
-
-    // Register locker items
-    val kClassess = LockerItem::class.sealedSubclasses
-    kClassess.forEach {
-
-    }
   }
 
   fun setup() {

@@ -79,6 +79,10 @@
   "rewards.locker.title": "Шкафчик",
   "rewards.locker.item_list.prefix.title": "Собранные префиксы",
   "rewards.locker.item_list.suffix.title": "Собранные суффиксы",
+  "rewards.locker.item_list.equipped.false": "Не экипировано",
+  "rewards.locker.item_list.equipped.false.action": "Нажмите, чтобы экипировать!",
+  "rewards.locker.item_list.equipped.true": "Экипировано",
+  "rewards.locker.item_list.equipped.true.action": "Нажмите, чтобы снять!",
 
   "": ""
 }

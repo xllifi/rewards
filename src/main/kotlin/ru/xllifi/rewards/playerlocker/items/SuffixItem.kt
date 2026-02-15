@@ -15,6 +15,7 @@ import net.minecraft.server.level.ServerPlayer
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import ru.xllifi.rewards.config.getServerAttachment
+import ru.xllifi.rewards.logger
 import ru.xllifi.rewards.modId
 import ru.xllifi.rewards.playerlocker.sql.CollectedLockerItem
 import ru.xllifi.rewards.playerlocker.sql.CollectedLockerItemTable
@@ -42,10 +43,9 @@ class SuffixLockerItem(
 ) : LockerItem() {
   override val kind: LockerItemKind = SuffixItemKind
 
-  override fun getGuiElement(audiences: MinecraftServerAudiences): GuiElement =
+  override fun getGuiElementBuilder(audiences: MinecraftServerAudiences): GuiElementBuilder =
     texturedGuiElement("locker_item/suffix", this.getNative(audiences).style.color?.value ?: DEFAULT_COLOR)
       .setItemName(this.getNative(audiences))
-      .build()
 
   fun getNative(player: ServerPlayer): McComponent =
     player.level().server.getServerAttachment().audiences.asNative(this.component)
@@ -61,6 +61,7 @@ class SuffixLockerItem(
 }
 
 fun setupSuffixPlaceholder() {
+  logger.info("Registering suffix placeholder!")
   Placeholders.register(resLoc(modId, "locker_suffix")) { ctx, _ ->
     if (!ctx.hasPlayer())
       return@register PlaceholderResult.invalid("No player!")
@@ -75,9 +76,12 @@ fun setupSuffixPlaceholder() {
     }
 
     val component: MutableComponent = McComponent.empty()
+    if (equippedSuffixes.isNotEmpty()) {
+      component.append(" ")
+    }
     equippedSuffixes
       .map { it.getNative(ctx.server) }
-      .forEach { component.append(it) }
+      .forEach { component.append(" ").append(it) }
 
     return@register PlaceholderResult.value(component)
   }

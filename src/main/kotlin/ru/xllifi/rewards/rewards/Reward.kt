@@ -8,7 +8,7 @@ import net.minecraft.server.level.ServerPlayer
 @Serializable
 sealed interface Reward {
   fun grant(player: ServerPlayer)
-  fun lore(): Component
+  fun lore(player: ServerPlayer): Component
 }
 
 val mark: Component = Component.translatable("rewards.generic.mark").append(" ").withStyle(ChatFormatting.GRAY)

@@ -2,6 +2,7 @@
   "rewards.generic.mark": "–",
   "rewards.generic.rewards": "Награды:",
   "rewards.generic.click_to_collect": "Кликните, чтобы собрать!",
+  "rewards.generic.click_to_open": "Кликните, чтобы открыть!",
 
   "rewards.commands.root": "Используется Rewards, версия %s",
   "rewards.commands.admin.reload_configs.success": "Конфиг перезагружен!",
@@ -70,6 +71,14 @@
   "rewards.paged_screen.prev": "Предыдущая страница",
   "rewards.paged_screen.back": "Вернуться",
   "rewards.paged_screen.close": "Закрыть",
+
+  "rewards.reward.locker_item.prefix": "Префикс «%s»",
+  "rewards.reward.locker_item.prefix.kind": "Префиксы",
+  "rewards.reward.locker_item.suffix": "Суффикс «%s»",
+  "rewards.reward.locker_item.suffix.kind": "Суффиксы",
+  "rewards.locker.title": "Шкафчик",
+  "rewards.locker.item_list.prefix.title": "Собранные префиксы",
+  "rewards.locker.item_list.suffix.title": "Собранные суффиксы",
 
   "": ""
 }

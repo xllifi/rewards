@@ -1,23 +1,17 @@
 package ru.xllifi.rewards.calendar.ui
 
 import eu.pb4.sgui.api.elements.GuiElement
-import eu.pb4.sgui.api.elements.GuiElementBuilder
 import eu.pb4.sgui.api.gui.SimpleGui
 import net.kyori.adventure.platform.modcommon.MinecraftServerAudiences
-import net.minecraft.core.component.DataComponents
-import net.minecraft.resources.ResourceLocation
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.inventory.MenuType
-import net.minecraft.world.item.Items
 import org.jetbrains.exposed.v1.core.StdOutSqlLogger
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
-import ru.xllifi.rewards.commands.DebugCommands
 import ru.xllifi.rewards.calendar.Calendar
-import ru.xllifi.rewards.logger
-import ru.xllifi.rewards.modId
 import ru.xllifi.rewards.calendar.sql.CollectedCell
 import ru.xllifi.rewards.calendar.sql.CollectedCellTable
+import ru.xllifi.rewards.commands.DebugCommands
 import ru.xllifi.rewards.utils.plus
 import ru.xllifi.rewards.utils.resizeEnd
 
@@ -76,7 +70,6 @@ class CalendarScreen : SimpleGui {
         CollectedCellTable.calendarId.eq(calendar.id)
       }.map { it.cellId }.toSet()
     }
-    logger.info("Updaing screen for ${player.uuid}")
     weeks.forEachIndexed { weekIndex, week ->
       week.forEachIndexed { cellIndex, cell ->
         this.setSlot(

@@ -53,7 +53,7 @@ object DebugCommands : Command {
     val (calendar, cell) = ctx.getCalendarAndCellArguments("calendar", "cell")
 
     val rewards = cell.rewards.map {
-      Component.empty().append(it.lore()).append("\n")
+      Component.empty().append(it.lore(ctx.source.playerOrException)).append("\n")
     }.reduce { acc, com -> acc.append(com) }
     ctx.source.sendSystemMessage(rewards)
 

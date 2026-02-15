@@ -74,7 +74,7 @@ fun CalendarScreen.activeGuiElement(cell: Calendar.Cell): GuiElement {
         *cell.description.map { audiences.asNative(it) }.toTypedArray(),
         Component.empty(),
         Component.translatable("rewards.generic.rewards").withStyle(ChatFormatting.GRAY),
-        *cell.rewards.map { it.lore() }.toTypedArray(),
+        *cell.rewards.map { it.lore(player) }.toTypedArray(),
         Component.empty(),
         Component.translatable("rewards.generic.click_to_collect").withStyle(ChatFormatting.YELLOW),
       )

@@ -18,7 +18,6 @@ data class CondTimeDays(
     val now = Clock.System.now()
     return when {
       expiredAt != null && now > expiredAt -> false
-      expiredAt != null && now > unlockedAt -> null
       now > unlockedAt -> true
       else -> null
     }

@@ -141,7 +141,7 @@ abstract class PagedScreen(player: ServerPlayer, protected val closeCallback: Ru
           )
 
           false -> this.of(
-            texturedGuiElement("paged_screen/next_disabled")
+            texturedGuiElement("paged_screen/next", DISABLED_COLOR)
               .hideTooltip()
           )
         }
@@ -159,7 +159,7 @@ abstract class PagedScreen(player: ServerPlayer, protected val closeCallback: Ru
           )
 
           false -> this.of(
-            texturedGuiElement("paged_screen/prev_disabled")
+            texturedGuiElement("paged_screen/prev", DISABLED_COLOR)
               .hideTooltip()
           )
         }

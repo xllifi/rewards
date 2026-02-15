@@ -31,7 +31,7 @@ class RewXp(
     }
   }
 
-  override fun lore(): Component =
+  override fun lore(player: ServerPlayer): Component =
     mark.copy() + Component.translatable(
       "rewards.reward.xp",
       amount,

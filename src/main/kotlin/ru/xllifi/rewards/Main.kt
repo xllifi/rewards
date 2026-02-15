@@ -15,6 +15,10 @@ import ru.xllifi.rewards.commands.registerCommands
 import ru.xllifi.rewards.config.*
 import ru.xllifi.rewards.config.TextureManager
 import ru.xllifi.rewards.calendar.sql.CollectedCellTable
+import ru.xllifi.rewards.playerlocker.items.LockerItem
+import ru.xllifi.rewards.playerlocker.items.setupPrefixPlaceholder
+import ru.xllifi.rewards.playerlocker.items.setupSuffixPlaceholder
+import ru.xllifi.rewards.playerlocker.sql.CollectedLockerItemTable
 import ru.xllifi.rewards.progression.sql.CollectedProgressionTiersTable
 import java.nio.file.Path
 import kotlin.io.path.createDirectories
@@ -45,12 +49,23 @@ object Main : ModInitializer {
     TextureManager.registerResourceLoader()
     registerCommands()
 
-    // Loading server attachmentz
+    // Loading server attachments
     ServerLifecycleEvents.SERVER_STARTED.register { server -> server.setServerAttachment() }
     ServerLifecycleEvents.END_DATA_PACK_RELOAD.register { server, _, _ -> server.setServerAttachment() }
 
+    // Setup notifications
     ServerPlayerEvents.JOIN.register { player ->
       Calendar.notifyPlayerOfAvailableUncollectedCells(globalConfig, player)
+    }
+
+    // Setup placeholders
+    setupPrefixPlaceholder()
+    setupSuffixPlaceholder()
+
+    // Register locker items
+    val kClassess = LockerItem::class.sealedSubclasses
+    kClassess.forEach {
+
     }
   }
 
@@ -60,6 +75,7 @@ object Main : ModInitializer {
     transaction(database) {
       SchemaUtils.create(CollectedCellTable)
       SchemaUtils.create(CollectedProgressionTiersTable)
+      SchemaUtils.create(CollectedLockerItemTable)
     }
   }
 }

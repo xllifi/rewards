@@ -13,6 +13,7 @@ import ru.xllifi.rewards.calendar.commands.CalendarCommands
 import ru.xllifi.rewards.commands.admin.AdminCommands
 import ru.xllifi.rewards.config.getServerAttachment
 import ru.xllifi.rewards.modId
+import ru.xllifi.rewards.playerlocker.commands.LockerCommands
 import ru.xllifi.rewards.progression.commands.ProgressionCommands
 import ru.xllifi.rewards.utils.plus
 
@@ -30,6 +31,9 @@ fun registerCommands() {
     }
     dispatcher.literal("progression") {
       with(ProgressionCommands) { register() }
+    }
+    dispatcher.literal("locker") {
+      with(LockerCommands) { register() }
     }
   }
 }
@@ -55,6 +59,9 @@ object RewardsCommands : Command {
     }
     literal("progression") {
       with(ProgressionCommands) { register() }
+    }
+    literal("locker") {
+      with(LockerCommands) { register() }
     }
     with(AdminCommands) { register() }
   }

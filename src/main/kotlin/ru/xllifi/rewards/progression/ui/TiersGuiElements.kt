@@ -47,7 +47,7 @@ fun ProgressionScreen.collectedTierGuiElement(tier: Progression.Tier): GuiElemen
     .setLore(
       listOf(
         Component.translatable("rewards.progression.tier.collected.lore").withStyle(ChatFormatting.GRAY),
-        *tier.rewards.map { it.lore() }.toTypedArray(),
+        *tier.rewards.map { it.lore(player) }.toTypedArray(),
       )
     )
     .build()
@@ -60,7 +60,7 @@ fun ProgressionScreen.completedTierGuiElement(tier: Progression.Tier): GuiElemen
         *tier.description.map { audiences.asNative(it) }.toTypedArray(),
         Component.empty(),
         Component.translatable("rewards.generic.rewards").withStyle(ChatFormatting.GRAY),
-        *tier.rewards.map { it.lore() }.toTypedArray(),
+        *tier.rewards.map { it.lore(player) }.toTypedArray(),
         Component.empty(),
         Component.translatable("rewards.generic.click_to_collect").withStyle(ChatFormatting.YELLOW),
       )

@@ -18,7 +18,7 @@ class RewItem(
     player.addItem(itemStack.copy())
   }
 
-  override fun lore(): Component =
+  override fun lore(player: ServerPlayer): Component =
     mark.copy() + Component.translatable(
       "rewards.reward.item",
       itemStack.count,

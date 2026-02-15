@@ -76,9 +76,6 @@ fun setupSuffixPlaceholder() {
     }
 
     val component: MutableComponent = McComponent.empty()
-    if (equippedSuffixes.isNotEmpty()) {
-      component.append(" ")
-    }
     equippedSuffixes
       .map { it.getNative(ctx.server) }
       .forEach { component.append(" ").append(it) }

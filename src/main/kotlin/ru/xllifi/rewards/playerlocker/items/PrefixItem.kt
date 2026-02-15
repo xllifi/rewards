@@ -76,10 +76,7 @@ fun setupPrefixPlaceholder() {
     val component: MutableComponent = McComponent.empty()
     equippedPrefixes
       .map { it.getNative(ctx.server) }
-      .forEach { component.append(it) }
-    if (equippedPrefixes.isNotEmpty()) {
-      component.append(" ")
-    }
+      .forEach { component.append(it).append(" ") }
 
     return@register PlaceholderResult.value(component)
   }

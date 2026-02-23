@@ -1,6 +1,7 @@
 package ru.xllifi.rewards
 
 import kotlinx.serialization.json.Json
+import net.fabricmc.api.EnvType
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
@@ -15,7 +16,6 @@ import ru.xllifi.rewards.commands.registerCommands
 import ru.xllifi.rewards.config.*
 import ru.xllifi.rewards.config.TextureManager
 import ru.xllifi.rewards.calendar.sql.CollectedCellTable
-import ru.xllifi.rewards.playerlocker.items.LockerItem
 import ru.xllifi.rewards.playerlocker.items.setupPrefixPlaceholder
 import ru.xllifi.rewards.playerlocker.items.setupSuffixPlaceholder
 import ru.xllifi.rewards.playerlocker.sql.CollectedLockerItemTable
@@ -45,8 +45,24 @@ object Main : ModInitializer {
     }
 
   override fun onInitialize() {
-    setup()
-    TextureManager.registerResourceLoader()
+    // Create a config directory
+    if (configDir.notExists()) configDir.createDirectories()
+
+    // Initialize database
+    if (localDbPath.notExists()) localDbPath.createFile()
+    transaction(database) {
+      SchemaUtils.create(CollectedCellTable)
+      SchemaUtils.create(CollectedProgressionTiersTable)
+      SchemaUtils.create(CollectedLockerItemTable)
+    }
+
+    // Add textures from config to polymer resource pack
+    if (FabricLoader.getInstance().environmentType == EnvType.SERVER) {
+      TextureManager.copyDefaultTextures()
+      TextureManager.registerPolymerResourceLoader()
+    }
+
+    // Commands
     registerCommands()
 
     // Loading server attachments
@@ -61,15 +77,5 @@ object Main : ModInitializer {
     // Setup placeholders
     setupPrefixPlaceholder()
     setupSuffixPlaceholder()
-  }
-
-  fun setup() {
-    if (configDir.notExists()) configDir.createDirectories()
-    if (localDbPath.notExists()) localDbPath.createFile()
-    transaction(database) {
-      SchemaUtils.create(CollectedCellTable)
-      SchemaUtils.create(CollectedProgressionTiersTable)
-      SchemaUtils.create(CollectedLockerItemTable)
-    }
   }
 }

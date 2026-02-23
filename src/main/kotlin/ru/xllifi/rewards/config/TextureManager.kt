@@ -13,7 +13,6 @@ import kotlin.io.path.createDirectories
 import kotlin.io.path.extension
 import kotlin.io.path.isDirectory
 import kotlin.io.path.isRegularFile
-import kotlin.io.path.notExists
 import kotlin.io.path.readBytes
 import kotlin.jvm.optionals.getOrNull
 
@@ -24,7 +23,7 @@ object TextureManager {
     // Ensure config dir exists
     localTexturesPath.createDirectories()
 
-    val zipTexturesPath = modContainer.findPath("assets/$modId/default_textures").getOrNull()
+    val zipTexturesPath = modContainer.findPath("assets/$modId/textures").getOrNull()
     if (zipTexturesPath == null) {
       logger.error("No default textures! Please tell the developer!")
       return
@@ -46,11 +45,7 @@ object TextureManager {
       }
     }
   }
-  fun registerResourceLoader() {
-    if (localTexturesPath.notExists()) localTexturesPath.createDirectories()
-    copyDefaultTextures()
-    // TODO: Properly load textures for client when running this mod on client
-
+  fun registerPolymerResourceLoader() {
     PolymerResourcePackUtils.RESOURCE_PACK_CREATION_EVENT.register { builder ->
       // From assets
       builder.addData("assets/$modId/models/item/gui18.json", modContainer.findPath("assets/$modId/models/item/gui18.json").get().readBytes())

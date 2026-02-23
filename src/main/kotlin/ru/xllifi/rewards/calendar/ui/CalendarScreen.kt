@@ -62,7 +62,7 @@ class CalendarScreen : SimpleGui {
       setSlotInPlayerInventory(
         column = 0,
         row = 0,
-        element = texturedGuiElement("paged_screen/prev")
+        element = texturedGuiElement("paged_screen/close")
           .setItemName(Component.translatable("rewards.paged_screen.back"))
           .setCallback(callback)
           .build()

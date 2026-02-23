@@ -13,6 +13,7 @@ import ru.xllifi.rewards.logger
 import ru.xllifi.rewards.progression.Progression
 import ru.xllifi.rewards.utils.resizeEnd
 import ru.xllifi.rewards.progression.sql.getCollectedTierIndexes
+import ru.xllifi.rewards.utils.setSlot
 import ru.xllifi.rewards.utils.ui.texturedGuiElement
 
 class ProgressionScreen : SimpleGui {
@@ -121,20 +122,4 @@ class ProgressionScreen : SimpleGui {
       }
     }
   }
-}
-
-fun SimpleGui.setSlot(
-  column: Int,
-  row: Int,
-  element: GuiElement,
-) {
-  setSlot(row * 9 + column, element)
-}
-
-fun SimpleGui.setSlot(
-  column: Int,
-  row: Int,
-  itemStack: ItemStack
-) {
-  setSlot(row * 9 + column, itemStack)
 }

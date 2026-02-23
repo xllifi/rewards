@@ -14,6 +14,7 @@ import ru.xllifi.rewards.calendar.sql.CollectedCellTable
 import ru.xllifi.rewards.commands.DebugCommands
 import ru.xllifi.rewards.utils.plus
 import ru.xllifi.rewards.utils.resizeEnd
+import ru.xllifi.rewards.utils.setSlot
 
 class CalendarScreen : SimpleGui {
   val calendar: Calendar
@@ -92,12 +93,4 @@ class CalendarScreen : SimpleGui {
         Calendar.CellStatus.Ended -> missedCellElement
       }
     }
-}
-
-fun SimpleGui.setSlot(
-  column: Int,
-  row: Int,
-  element: GuiElement,
-) {
-  setSlot(row * 9 + column, element)
 }

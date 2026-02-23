@@ -17,6 +17,8 @@ import ru.xllifi.rewards.playerlocker.items.LockerRegistry
 import ru.xllifi.rewards.playerlocker.sql.CollectedLockerItem
 import ru.xllifi.rewards.playerlocker.sql.CollectedLockerItemTable
 import ru.xllifi.rewards.utils.plus
+import ru.xllifi.rewards.utils.restorePlayerInventory
+import ru.xllifi.rewards.utils.setSlotInPlayerInventory
 import ru.xllifi.rewards.utils.ui.DISABLED_COLOR
 import ru.xllifi.rewards.utils.ui.PagedScreen
 import ru.xllifi.rewards.utils.ui.texturedGuiElement
@@ -27,16 +29,42 @@ val EMPTY_ELEMENT: GuiElement = texturedGuiElement("blank")
   .build()
 
 class LockerScreen : SimpleGui {
+  val callback: (() -> Unit)?
+  val kClasses = LockerItem::class.sealedSubclasses
+
   constructor(
-    player: ServerPlayer
+    player: ServerPlayer,
+    callback: (() -> Unit)? = null,
   ) : super(
     /* type = */ MenuType.GENERIC_9x1,
     /* player = */ player,
-    /* manipulatePlayerSlots = */ false
+    /* manipulatePlayerSlots = */ true,
   ) {
     this.title = Component.translatable("rewards.locker.title")
-    val kClasses = LockerItem::class.sealedSubclasses
-    for (index in 0..<this.size) {
+    this.callback = callback
+    this.updateDisplay()
+    this.open()
+  }
+
+  override fun onClose() {
+    if (callback != null) {
+      callback()
+    }
+  }
+
+  fun updateDisplay() {
+    restorePlayerInventory()
+    if (callback != null) {
+      setSlotInPlayerInventory(
+        column = 0,
+        row = 0,
+        element = texturedGuiElement("paged_screen/close")
+          .setItemName(Component.translatable("rewards.paged_screen.back").withStyle(ChatFormatting.RED))
+          .setCallback(callback)
+          .build()
+      )
+    }
+    for (index in 0..<this.height*9) {
       if (index < kClasses.size) {
         val kClass = kClasses[index]
         val kind = LockerRegistry.getKind(kClass)
@@ -86,10 +114,10 @@ class LockerScreen : SimpleGui {
 class LockerItemListScreen(
   val kind: LockerItemKind,
   player: ServerPlayer,
-  closeCallback: Runnable,
+  callback: (() -> Unit)? = null,
 ) : PagedScreen(
   player,
-  closeCallback,
+  callback,
 ) {
   init {
     this.title = Component.translatable("rewards.locker.item_list.${kind.name}.title")
@@ -141,10 +169,10 @@ class LockerItemListScreen(
     fun create(
       kClass: KClass<out LockerItem>,
       player: ServerPlayer,
-      closeCallback: Runnable
+      callback: (() -> Unit)? = null,
     ): LockerItemListScreen {
       val kind = LockerRegistry.getKind(kClass)
-      return LockerItemListScreen(kind, player, closeCallback)
+      return LockerItemListScreen(kind, player, callback)
     }
   }
 }

@@ -3,6 +3,7 @@ package ru.xllifi.rewards.calendar.ui
 import eu.pb4.sgui.api.elements.GuiElement
 import eu.pb4.sgui.api.gui.SimpleGui
 import net.kyori.adventure.platform.modcommon.MinecraftServerAudiences
+import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.inventory.MenuType
@@ -56,6 +57,12 @@ class CalendarScreen : SimpleGui {
     this.open()
   }
 
+  override fun onClose() {
+    if (callback != null) {
+      callback()
+    }
+  }
+
   fun updateDisplay() {
     restorePlayerInventory()
     if (callback != null) {
@@ -63,7 +70,7 @@ class CalendarScreen : SimpleGui {
         column = 0,
         row = 0,
         element = texturedGuiElement("paged_screen/close")
-          .setItemName(Component.translatable("rewards.paged_screen.back"))
+          .setItemName(Component.translatable("rewards.paged_screen.back").withStyle(ChatFormatting.RED))
           .setCallback(callback)
           .build()
       )

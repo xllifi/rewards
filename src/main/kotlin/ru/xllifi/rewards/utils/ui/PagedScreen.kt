@@ -6,10 +6,7 @@ import eu.pb4.sgui.api.elements.GuiElementInterface
 import eu.pb4.sgui.api.gui.SimpleGui
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
-import net.minecraft.network.protocol.game.ClientboundSoundEntityPacket
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.sounds.SoundEvents
-import net.minecraft.sounds.SoundSource
 import net.minecraft.world.inventory.MenuType
 import net.minecraft.world.inventory.Slot
 import net.minecraft.world.item.ItemStack
@@ -18,10 +15,9 @@ import kotlin.math.min
 
 // Based on https://github.com/Patbox/get-off-my-lawn-reserved/blob/main/src/main/java/draylar/goml/ui/PagedGui.java
 
-abstract class PagedScreen(player: ServerPlayer, protected val closeCallback: Runnable?) :
+abstract class PagedScreen(player: ServerPlayer, protected val callback: (() -> Unit)? = null) :
   SimpleGui(MenuType.GENERIC_9x5, player, false) {
   protected var page: Int = 0
-  var ignoreCloseCallback: Boolean = false
 
   fun refreshOpen() {
     this.updateDisplay()
@@ -29,8 +25,8 @@ abstract class PagedScreen(player: ServerPlayer, protected val closeCallback: Ru
   }
 
   override fun onClose() {
-    if (this.closeCallback != null && !ignoreCloseCallback) {
-      this.closeCallback.run()
+    if (callback != null) {
+      callback()
     }
   }
 
@@ -93,13 +89,12 @@ abstract class PagedScreen(player: ServerPlayer, protected val closeCallback: Ru
       7 -> DisplayElement.of(
         texturedGuiElement("paged_screen/close")
           .setName(
-            Component.translatable(if (this.closeCallback != null) "rewards.paged_screen.back" else "rewards.paged_screen.close")
+            Component.translatable(if (this.callback != null) "rewards.paged_screen.back" else "rewards.paged_screen.close")
               .withStyle(ChatFormatting.RED)
           )
           .hideDefaultTooltip()
-          .setCallback { _, _, _ ->
-            playClickSound(this.player)
-            this.close(this.closeCallback != null)
+          .setCallback { _ ->
+            this.close(this.callback != null)
           }
       )
 
@@ -134,8 +129,7 @@ abstract class PagedScreen(player: ServerPlayer, protected val closeCallback: Ru
             texturedGuiElement("paged_screen/next")
               .setItemName(Component.translatable("rewards.paged_screen.next"))
               .hideDefaultTooltip()
-              .setCallback { _, _, _ ->
-                playClickSound(gui.player)
+              .setCallback { _ ->
                 gui.openNextPage()
               }
           )
@@ -152,8 +146,7 @@ abstract class PagedScreen(player: ServerPlayer, protected val closeCallback: Ru
             texturedGuiElement("paged_screen/prev")
               .setItemName(Component.translatable("rewards.paged_screen.prev"))
               .hideDefaultTooltip()
-              .setCallback { _, _, _ ->
-                playClickSound(gui.player)
+              .setCallback { _ ->
                 gui.openPrevPage()
               }
           )
@@ -176,12 +169,5 @@ abstract class PagedScreen(player: ServerPlayer, protected val closeCallback: Ru
 
   companion object {
     const val PAGE_SIZE: Int = 9 * 4
-    fun playClickSound(player: ServerPlayer) {
-      player.connection.send(
-        ClientboundSoundEntityPacket(
-          SoundEvents.UI_BUTTON_CLICK, SoundSource.UI, player, 1f, 1f, player.getRandom().nextLong()
-        )
-      )
-    }
   }
 }

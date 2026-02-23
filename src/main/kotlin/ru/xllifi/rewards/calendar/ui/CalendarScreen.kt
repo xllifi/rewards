@@ -3,6 +3,7 @@ package ru.xllifi.rewards.calendar.ui
 import eu.pb4.sgui.api.elements.GuiElement
 import eu.pb4.sgui.api.gui.SimpleGui
 import net.kyori.adventure.platform.modcommon.MinecraftServerAudiences
+import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.inventory.MenuType
 import org.jetbrains.exposed.v1.core.StdOutSqlLogger
@@ -14,9 +15,13 @@ import ru.xllifi.rewards.calendar.sql.CollectedCellTable
 import ru.xllifi.rewards.commands.DebugCommands
 import ru.xllifi.rewards.utils.plus
 import ru.xllifi.rewards.utils.resizeEnd
+import ru.xllifi.rewards.utils.restorePlayerInventory
 import ru.xllifi.rewards.utils.setSlot
+import ru.xllifi.rewards.utils.setSlotInPlayerInventory
+import ru.xllifi.rewards.utils.ui.texturedGuiElement
 
 class CalendarScreen : SimpleGui {
+  val callback: (() -> Unit)?
   val calendar: Calendar
   val weeks: List<List<Calendar.Cell?>>
   val audiences: MinecraftServerAudiences
@@ -24,6 +29,7 @@ class CalendarScreen : SimpleGui {
   constructor(
     calendar: Calendar,
     player: ServerPlayer,
+    callback: (() -> Unit)? = null,
   ) : super(
     /* type = */ when (calendar.weeksCount) {
       1 -> MenuType.GENERIC_9x1
@@ -35,8 +41,9 @@ class CalendarScreen : SimpleGui {
       else -> throw IllegalStateException("Invalid weeksCount: ${calendar.weeksCount}!")
     },
     /* player = */ player,
-    /* manipulatePlayerSlots = */ false,
+    /* manipulatePlayerSlots = */ true,
   ) {
+    this.callback = callback
     this.calendar = calendar
     val paddedCells = List(calendar.startDayPadding) { null } + calendar.cells
     this.weeks = paddedCells
@@ -50,6 +57,18 @@ class CalendarScreen : SimpleGui {
   }
 
   fun updateDisplay() {
+    restorePlayerInventory()
+    if (callback != null) {
+      setSlotInPlayerInventory(
+        column = 0,
+        row = 0,
+        element = texturedGuiElement("paged_screen/prev")
+          .setItemName(Component.translatable("rewards.paged_screen.back"))
+          .setCallback(callback)
+          .build()
+      )
+    }
+
     for (i in 0..<calendar.weeksCount) {
       // Weeks (most left column)
       this.setSlot(

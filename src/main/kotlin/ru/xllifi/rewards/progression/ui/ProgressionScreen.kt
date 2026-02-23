@@ -13,7 +13,9 @@ import ru.xllifi.rewards.logger
 import ru.xllifi.rewards.progression.Progression
 import ru.xllifi.rewards.utils.resizeEnd
 import ru.xllifi.rewards.progression.sql.getCollectedTierIndexes
+import ru.xllifi.rewards.utils.restorePlayerInventory
 import ru.xllifi.rewards.utils.setSlot
+import ru.xllifi.rewards.utils.setSlotInPlayerInventory
 import ru.xllifi.rewards.utils.ui.texturedGuiElement
 
 class ProgressionScreen : SimpleGui {
@@ -25,7 +27,7 @@ class ProgressionScreen : SimpleGui {
   constructor(
     progression: Progression,
     player: ServerPlayer,
-    callback: (() -> Unit)? = null
+    callback: (() -> Unit)? = null,
   ) : super(
     /* type = */
     when (progression.lines) {
@@ -53,29 +55,11 @@ class ProgressionScreen : SimpleGui {
   }
 
   fun updateDisplay() {
-    // Restore player inventory
-    val height = GuiHelpers.getHeight(this.type)
-    for (row in 0..3) {
-      val isHotbar: Boolean = (row == 3)
-      for (col in 0..8) {
-        this.setSlot(
-          row = row + height,
-          column = col,
-          itemStack = player.inventory.getItem(
-            if (isHotbar) {
-              col
-            } else {
-              (row + 1) * 9 + col
-            }
-          )
-        )
-      }
-    }
-    // Set ephemeral item
+    restorePlayerInventory()
     if (callback != null) {
-      this.setSlot(
+      setSlotInPlayerInventory(
         column = 0,
-        row = height,
+        row = 0,
         element = texturedGuiElement("paged_screen/prev")
           .setItemName(Component.translatable("rewards.paged_screen.back"))
           .setCallback(callback)

@@ -57,10 +57,8 @@ object Main : ModInitializer {
     }
 
     // Add textures from config to polymer resource pack
-    if (FabricLoader.getInstance().environmentType == EnvType.SERVER) {
-      TextureManager.copyDefaultTextures()
-      TextureManager.registerPolymerResourceLoader()
-    }
+    TextureManager.copyDefaultTextures()
+    TextureManager.registerPolymerResourceLoader()
 
     // Commands
     registerCommands()

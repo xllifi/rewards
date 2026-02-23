@@ -12,6 +12,7 @@ import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.calendar.commands.CalendarCommands
 import ru.xllifi.rewards.commands.admin.AdminCommands
 import ru.xllifi.rewards.config.getServerAttachment
+import ru.xllifi.rewards.mainmenu.MainMenuGui
 import ru.xllifi.rewards.modId
 import ru.xllifi.rewards.playerlocker.commands.LockerCommands
 import ru.xllifi.rewards.progression.commands.ProgressionCommands
@@ -40,18 +41,11 @@ fun registerCommands() {
 
 object RewardsCommands : Command {
   override fun run(ctx: CommandContext<CommandSourceStack>): Int {
-    ctx.source.sendSuccess({
-      ctx.getServerAttachment().audiences.asNative(Main.globalConfig.prefix) + Component.literal(" ") + Component
-        .translatable(
-          "rewards.commands.root",
-          Component
-            .literal(FabricLoader.getInstance().getModContainer(modId).get().metadata.version.friendlyString)
-            .withStyle(ChatFormatting.YELLOW)
-        )
-        .withStyle(ChatFormatting.GRAY)
-    }, false)
+    MainMenuGui(ctx.source.playerOrException)
     return Command.SINGLE_SUCCESS
   }
+
+  // TODO: discover() command. New argument type for discovery type (calendar or progression)
 
   override fun DSLCommandNode<CommandSourceStack>.register() {
     literal("calendar") {

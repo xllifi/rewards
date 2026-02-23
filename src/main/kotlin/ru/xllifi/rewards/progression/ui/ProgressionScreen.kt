@@ -25,6 +25,7 @@ class ProgressionScreen : SimpleGui {
   val lines: List<List<Progression.Tier?>>
   val audiences: MinecraftServerAudiences
 
+  // TODO: move to init{} blocks
   constructor(
     progression: Progression,
     player: ServerPlayer,

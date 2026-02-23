@@ -27,6 +27,7 @@ class CalendarScreen : SimpleGui {
   val weeks: List<List<Calendar.Cell?>>
   val audiences: MinecraftServerAudiences
 
+  // TODO: move to init{} blocks
   constructor(
     calendar: Calendar,
     player: ServerPlayer,

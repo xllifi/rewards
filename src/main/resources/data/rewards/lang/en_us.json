@@ -56,6 +56,10 @@
   "rewards.calendar.cell.collected": "Collected cell",
   "rewards.calendar.cell.collected.lore": "This cell is already collected",
 
+  "rewards.calendar.discovery.title": "Calendars discovery",
+  "rewards.calendar.discovery.entry.lore.duration": "Active since %s until %s",
+  "rewards.calendar.discovery.entry.lore.action": "Click to open",
+
   "rewards.progression.tier.pending": "Incomplete tier",
   "rewards.progression.tier.pending.lore": "Complete the following condition:",
   "rewards.progression.tier.failed": "Failed tier",
@@ -71,6 +75,11 @@
   "rewards.paged_screen.prev": "Previous page",
   "rewards.paged_screen.back": "Back",
   "rewards.paged_screen.close": "Close",
+
+  "rewards.mainmenu.title": "Rewards menu",
+  "rewards.mainmenu.calendars": "Calendars",
+  "rewards.mainmenu.progressions": "Progressions",
+  "rewards.mainmenu.locker": "Locker",
 
   "rewards.reward.locker_item.prefix": "\"%s\" prefix",
   "rewards.reward.locker_item.prefix.kind": "Prefixes",

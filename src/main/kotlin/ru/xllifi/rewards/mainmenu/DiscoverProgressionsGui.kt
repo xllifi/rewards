@@ -1,4 +1,4 @@
-package ru.xllifi.rewards.progression.ui
+package ru.xllifi.rewards.mainmenu
 
 import eu.pb4.sgui.api.elements.GuiElementBuilder
 import net.minecraft.ChatFormatting
@@ -6,15 +6,18 @@ import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import ru.xllifi.rewards.config.ServerAttachment
 import ru.xllifi.rewards.config.getServerAttachment
+import ru.xllifi.rewards.progression.ui.ProgressionScreen
 import ru.xllifi.rewards.utils.ui.PagedScreen
 
-class DiscoverProgressionsScreen(
-  player: ServerPlayer
-) : PagedScreen(player, null) {
+class DiscoverProgressionsGui(
+  player: ServerPlayer,
+  callback: (() -> Unit)? = null,
+) : PagedScreen(player, callback) {
   val attachment: ServerAttachment = player.level().server.getServerAttachment()
 
   init {
     this.title = Component.translatable("rewards.progression.discovery.title")
+    this.refreshOpen()
   }
 
   override val pageAmount: Int

@@ -28,6 +28,7 @@ data class Calendar(
   val id: String,
   val title: Component,
   val startDay: InstantAsDay,
+  @Contextual val displayItem: ItemStack,
   val cells: List<Cell>,
 
   @Transient

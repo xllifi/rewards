@@ -56,6 +56,10 @@
   "rewards.calendar.cell.collected": "Собранная ячейка",
   "rewards.calendar.cell.collected.lore": "Эта ячейка уже собрана",
 
+  "rewards.calendar.discovery.title": "Все календари",
+  "rewards.calendar.discovery.entry.lore.duration": "Активен с %s до %s",
+  "rewards.calendar.discovery.entry.lore.action": "Нажмите, чтобы открыть",
+
   "rewards.progression.tier.pending": "Незавершённый уровень",
   "rewards.progression.tier.pending.lore": "Выполните следующее условие:",
   "rewards.progression.tier.failed": "Проваленный уровень",
@@ -71,6 +75,11 @@
   "rewards.paged_screen.prev": "Предыдущая страница",
   "rewards.paged_screen.back": "Вернуться",
   "rewards.paged_screen.close": "Закрыть",
+
+  "rewards.mainmenu.title": "Меню наград",
+  "rewards.mainmenu.calendars": "Календари",
+  "rewards.mainmenu.progressions": "Прогрессии",
+  "rewards.mainmenu.locker": "Шкафчик",
 
   "rewards.reward.locker_item.prefix": "Префикс «%s»",
   "rewards.reward.locker_item.prefix.kind": "Префиксы",

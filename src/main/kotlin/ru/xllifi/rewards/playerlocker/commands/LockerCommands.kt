@@ -5,8 +5,6 @@ import de.phyrone.brig.wrapper.DSLCommandNode
 import net.minecraft.commands.CommandSourceStack
 import ru.xllifi.rewards.commands.Command
 import ru.xllifi.rewards.playerlocker.ui.LockerScreen
-import ru.xllifi.rewards.progression.ui.DiscoverProgressionsScreen
-import ru.xllifi.rewards.progression.ui.ProgressionScreen
 
 object LockerCommands : Command {
   override fun run(ctx: CommandContext<CommandSourceStack>): Int {

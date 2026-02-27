@@ -6,6 +6,7 @@ import kotlinx.datetime.plus
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
+import ru.xllifi.rewards.calendar.Calendar
 import ru.xllifi.rewards.calendar.ui.CalendarScreen
 import ru.xllifi.rewards.config.ServerAttachment
 import ru.xllifi.rewards.config.getServerAttachment
@@ -18,17 +19,19 @@ class DiscoverCalendarsGui(
 ) : PagedScreen(player, callback) {
   val attachment: ServerAttachment = player.level().server.getServerAttachment()
 
+  val activeCalendars: List<Calendar> = attachment.calendars.filter { it.isActive }
+
   init {
     this.title = Component.translatable("rewards.calendar.discovery.title")
     this.refreshOpen()
   }
 
   override val pageAmount: Int
-    get() = attachment.calendars.size / PAGE_SIZE
+    get() = activeCalendars.size / PAGE_SIZE
 
   override fun getElement(id: Int): DisplayElement? {
-    return if (id < attachment.calendars.size) {
-      val calendar = attachment.calendars[id]
+    return if (id < activeCalendars.size) {
+      val calendar = activeCalendars[id]
       DisplayElement.of(
         GuiElementBuilder(calendar.displayItem)
           .setItemName(attachment.audiences.asNative(calendar.title))

@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.attachment.v1.AttachmentRegistry
 import net.fabricmc.fabric.api.attachment.v1.AttachmentType
 import net.kyori.adventure.platform.modcommon.MinecraftServerAudiences
 import net.minecraft.commands.CommandSourceStack
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 import net.minecraft.server.MinecraftServer
 import ru.xllifi.rewards.calendar.Calendar
 import ru.xllifi.rewards.configDir
@@ -18,7 +18,7 @@ import java.nio.file.Path
 import kotlin.io.path.createDirectories
 
 val serverAttachmentType: AttachmentType<ServerAttachment> = AttachmentRegistry.create(
-  ResourceLocation.fromNamespaceAndPath(modId, "server_attachment")
+  Identifier.fromNamespaceAndPath(modId, "server_attachment")
 )
 
 data class ServerAttachment(

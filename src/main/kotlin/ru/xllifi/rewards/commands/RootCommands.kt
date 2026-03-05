@@ -5,18 +5,12 @@ import de.phyrone.brig.wrapper.DSLCommandNode
 import de.phyrone.brig.wrapper.literal
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback
 import net.fabricmc.loader.api.FabricLoader
-import net.minecraft.ChatFormatting
 import net.minecraft.commands.CommandSourceStack
-import net.minecraft.network.chat.Component
-import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.calendar.commands.CalendarCommands
 import ru.xllifi.rewards.commands.admin.AdminCommands
-import ru.xllifi.rewards.config.getServerAttachment
 import ru.xllifi.rewards.mainmenu.MainMenuGui
-import ru.xllifi.rewards.modId
 import ru.xllifi.rewards.playerlocker.commands.LockerCommands
 import ru.xllifi.rewards.progression.commands.ProgressionCommands
-import ru.xllifi.rewards.utils.plus
 
 fun registerCommands() {
   CommandRegistrationCallback.EVENT.register { dispatcher, registryAccess, environment ->

@@ -76,7 +76,7 @@ fun ProgressionScreen.completedTierGuiElement(tier: Progression.Tier): GuiElemen
                 tier.collectionSound
               )
             ).get().value()
-          player.playNotifySound(sound, SoundSource.UI, 1f, 1f)
+          player.playSound(sound, 1f, 1f)
         } catch (e: Exception) {
           logger.error("Failed to play sound ${tier.collectionSound} to player ${player.plainTextName}: ${e.stackTraceToString()}")
         }

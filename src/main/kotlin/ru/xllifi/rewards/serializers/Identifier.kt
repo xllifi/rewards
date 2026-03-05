@@ -8,22 +8,22 @@ import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
-typealias ResourceLocation = @Serializable(with = ResourceLocationSerializer::class) ResourceLocation
+typealias Identifier = @Serializable(with = IdentifierSerializer::class) Identifier
 
-object ResourceLocationSerializer : KSerializer<ResourceLocation> {
+object IdentifierSerializer : KSerializer<ru.xllifi.rewards.serializers.Identifier> {
   override val descriptor: SerialDescriptor
-    get() = PrimitiveSerialDescriptor("resource_location", PrimitiveKind.STRING)
+    get() = PrimitiveSerialDescriptor("Identifier", PrimitiveKind.STRING)
 
-  override fun serialize(encoder: Encoder, value: ResourceLocation) =
+  override fun serialize(encoder: Encoder, value: ru.xllifi.rewards.serializers.Identifier) =
     encoder.encodeString("${value.namespace}:${value.path}")
 
-  override fun deserialize(decoder: Decoder): ResourceLocation {
+  override fun deserialize(decoder: Decoder): ru.xllifi.rewards.serializers.Identifier {
     val split = decoder.decodeString().split(":")
     if (split.size != 2) {
-      throw SerializationException("ResourceLocation should be formatted like \"namespace:path\"!")
+      throw SerializationException("Identifier should be formatted like \"namespace:path\"!")
     }
-    return ResourceLocation.fromNamespaceAndPath(split[0], split[1])
+    return Identifier.fromNamespaceAndPath(split[0], split[1])
   }
 }

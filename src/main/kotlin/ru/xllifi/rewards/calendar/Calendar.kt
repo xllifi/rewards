@@ -14,7 +14,7 @@ import ru.xllifi.rewards.calendar.sql.isCellCollectedBy
 import ru.xllifi.rewards.config.GlobalConfig
 import ru.xllifi.rewards.config.getServerAttachment
 import ru.xllifi.rewards.rewards.Reward
-import ru.xllifi.rewards.serializers.ResourceLocation
+import ru.xllifi.rewards.serializers.Identifier
 import ru.xllifi.rewards.serializers.text.Component
 import ru.xllifi.rewards.serializers.time.InstantAsDay
 import ru.xllifi.rewards.utils.plus
@@ -79,7 +79,7 @@ data class Calendar(
     val id: String,
     val title: Component,
     val description: List<Component>,
-    val collectionSound: ResourceLocation? = null,
+    val collectionSound: Identifier? = null,
     @Contextual val displayItem: ItemStack,
     val rewards: List<Reward>,
   )

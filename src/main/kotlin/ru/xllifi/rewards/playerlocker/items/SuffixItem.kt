@@ -3,7 +3,6 @@ package ru.xllifi.rewards.playerlocker.items
 import com.mojang.brigadier.context.CommandContext
 import eu.pb4.placeholders.api.PlaceholderResult
 import eu.pb4.placeholders.api.Placeholders
-import eu.pb4.sgui.api.elements.GuiElement
 import eu.pb4.sgui.api.elements.GuiElementBuilder
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -20,7 +19,7 @@ import ru.xllifi.rewards.modId
 import ru.xllifi.rewards.playerlocker.sql.CollectedLockerItem
 import ru.xllifi.rewards.playerlocker.sql.CollectedLockerItemTable
 import ru.xllifi.rewards.utils.plus
-import ru.xllifi.rewards.utils.resLoc
+import ru.xllifi.rewards.utils.id
 import ru.xllifi.rewards.utils.ui.DEFAULT_COLOR
 import ru.xllifi.rewards.utils.ui.texturedGuiElement
 import ru.xllifi.rewards.serializers.text.Component as AdvComponent
@@ -62,7 +61,7 @@ class SuffixLockerItem(
 
 fun setupSuffixPlaceholder() {
   logger.info("Registering suffix placeholder!")
-  Placeholders.register(resLoc(modId, "locker_suffix")) { ctx, _ ->
+  Placeholders.register(id(modId, "locker_suffix")) { ctx, _ ->
     if (!ctx.hasPlayer())
       return@register PlaceholderResult.invalid("No player!")
     val player = ctx.player!!

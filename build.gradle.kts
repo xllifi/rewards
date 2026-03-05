@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.internal.config.LanguageVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {

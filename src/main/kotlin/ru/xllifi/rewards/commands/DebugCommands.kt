@@ -7,6 +7,9 @@ import net.kyori.adventure.text.minimessage.MiniMessage
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.commands.arguments.EntityArgument
 import net.minecraft.network.chat.Component
+import net.minecraft.server.permissions.Permission
+import net.minecraft.server.permissions.PermissionLevel
+import net.minecraft.server.permissions.PermissionSet
 import ru.xllifi.rewards.calendar.commands.calendarArgument
 import ru.xllifi.rewards.calendar.commands.cellArgument
 import ru.xllifi.rewards.calendar.commands.getCalendarAndCellArguments
@@ -62,7 +65,7 @@ object DebugCommands : Command {
 
   override fun DSLCommandNode<CommandSourceStack>.register() {
     literal("debug") {
-      require { hasPermission(2) }
+      require { permissions().hasPermission(Permission.HasCommandLevel(PermissionLevel.GAMEMASTERS)) }
       require { FabricLoader.getInstance().isDevelopmentEnvironment }
       literal("show_server_attachment") {
         executes { showServer(it) }

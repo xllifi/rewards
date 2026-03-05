@@ -90,7 +90,7 @@ fun CalendarScreen.activeGuiElement(cell: Calendar.Cell): GuiElement {
                 cell.collectionSound
               )
             ).get().value()
-          player.playNotifySound(sound, SoundSource.UI, 1f, 1f)
+          player.playSound(sound, 1f, 1f)
         } catch (e: Exception) {
           logger.error("Failed to play sound ${cell.collectionSound} to player ${player.plainTextName}: ${e.stackTraceToString()}")
         }

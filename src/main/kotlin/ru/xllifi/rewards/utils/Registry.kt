@@ -1,19 +1,19 @@
 package ru.xllifi.rewards.utils
 
 import net.minecraft.core.Registry
-import net.minecraft.resources.ResourceLocation
+import net.minecraft.resources.Identifier
 
-fun <V> Registry<V>.getOrThrow(
-  resourceLocation: ResourceLocation
+fun <V : Any> Registry<V>.getOrThrow(
+  identifier: Identifier
 ): V {
   val value = try {
-    this.get(resourceLocation).get().value()
+    this.get(identifier).get().value()
   } catch (e: Exception) {
     when (e) {
       is NoSuchElementException,
       is IllegalStateException -> {
         throw kotlin.NoSuchElementException(
-          "Value for $resourceLocation not found in registry $this!"
+          "Value for $identifier not found in registry $this!"
         )
       }
 

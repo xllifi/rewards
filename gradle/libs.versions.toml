@@ -1,20 +1,21 @@
 [versions]
 # https://fabricmc.net/develop/
-fabric_loom = "1.14-SNAPSHOT"
-minecraft = "1.21.10"
-fabric_loader = "0.18.1"
-fabric_kotlin = "1.13.7+kotlin.2.2.21"
-fabric_api = "0.138.3+1.21.10"
+fabric_loom = "1.15-SNAPSHOT"
+minecraft = "1.21.11"
+fabric_loader = "0.18.4"
+fabric_api = "0.141.3+1.21.11"
+# https://github.com/FabricMC/fabric-language-kotlin/releases
+fabric_kotlin = "1.13.9+kotlin.2.3.10"
 # https://docs.papermc.io/adventure/platform/modded/#dependency
-advntr = "6.7.0"
+advntr = "6.8.0"
 # https://github.com/Patbox/sgui/releases
-sgui = "1.11.0+1.21.9"
+sgui = "1.12.0+1.21.11"
 # https://maven.nucleoid.xyz/eu/pb4/polymer-core/
-polymer = "0.14.3+1.21.10"
+polymer = "0.15.2+1.21.11"
 # https://maven.nucleoid.xyz/xyz/nucleoid/server-translations-api/
 servertranslations = "2.5.2+1.21.9-pre3"
 # https://github.com/JetBrains/Exposed/releases
-exposed = "1.0.0-rc-4"
+exposed = "1.0.0-rc-2"
 # https://github.com/xerial/sqlite-jdbc/releases
 sqlite = "3.51.1.0"
 # https://mvnrepository.com/artifact/org.postgresql/postgresql

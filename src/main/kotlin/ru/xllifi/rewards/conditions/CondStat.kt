@@ -7,15 +7,14 @@ import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.stats.Stat
 import net.minecraft.stats.Stats
-import ru.xllifi.rewards.logger
-import ru.xllifi.rewards.serializers.ResourceLocation
+import ru.xllifi.rewards.serializers.Identifier
 import ru.xllifi.rewards.utils.getOrThrow
 
 @Serializable
 @SerialName("stat")
 data class CondStat(
   val statType: Type,
-  val stat: ResourceLocation,
+  val stat: Identifier,
   val threshold: Int,
 ) : Condition {
   @Serializable

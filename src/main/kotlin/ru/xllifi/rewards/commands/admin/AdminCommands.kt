@@ -4,6 +4,8 @@ import com.mojang.brigadier.context.CommandContext
 import de.phyrone.brig.wrapper.DSLCommandNode
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.network.chat.Component
+import net.minecraft.server.permissions.Permission
+import net.minecraft.server.permissions.PermissionLevel
 import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.commands.Command
 import ru.xllifi.rewards.config.setServerAttachment
@@ -30,7 +32,7 @@ object AdminCommands : Command {
 
   override fun DSLCommandNode<CommandSourceStack>.register() {
     literal("admin") {
-      require { hasPermission(2) }
+      require { permissions().hasPermission(Permission.HasCommandLevel(PermissionLevel.GAMEMASTERS)) }
       literal("reload_configs") {
         executes { ctx -> reloadConfigs(ctx) }
       }

@@ -4,9 +4,9 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
-import ru.xllifi.rewards.playerlocker.items.LockerItem
-import ru.xllifi.rewards.playerlocker.items.PrefixLockerItem
-import ru.xllifi.rewards.playerlocker.items.SuffixLockerItem
+import ru.xllifi.rewards.locker.items.LockerItem
+import ru.xllifi.rewards.locker.items.PrefixLockerItem
+import ru.xllifi.rewards.locker.items.SuffixLockerItem
 import ru.xllifi.rewards.utils.plus
 
 @Serializable

@@ -1,4 +1,4 @@
-package ru.xllifi.rewards.playerlocker.ui
+package ru.xllifi.rewards.locker.ui
 
 import eu.pb4.sgui.api.elements.GuiElement
 import eu.pb4.sgui.api.gui.SimpleGui
@@ -11,11 +11,11 @@ import net.minecraft.world.item.component.DyedItemColor
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import ru.xllifi.rewards.config.getServerAttachment
-import ru.xllifi.rewards.playerlocker.items.LockerItem
-import ru.xllifi.rewards.playerlocker.items.LockerItemKind
-import ru.xllifi.rewards.playerlocker.items.LockerRegistry
-import ru.xllifi.rewards.playerlocker.sql.CollectedLockerItem
-import ru.xllifi.rewards.playerlocker.sql.CollectedLockerItemTable
+import ru.xllifi.rewards.locker.items.LockerItem
+import ru.xllifi.rewards.locker.items.LockerItemKind
+import ru.xllifi.rewards.locker.items.LockerRegistry
+import ru.xllifi.rewards.locker.sql.CollectedLockerItem
+import ru.xllifi.rewards.locker.sql.CollectedLockerItemTable
 import ru.xllifi.rewards.utils.plus
 import ru.xllifi.rewards.utils.restorePlayerInventory
 import ru.xllifi.rewards.utils.setSlotInPlayerInventory

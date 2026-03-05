@@ -1,4 +1,4 @@
-package ru.xllifi.rewards.playerlocker.items
+package ru.xllifi.rewards.locker.items
 
 import com.mojang.brigadier.context.CommandContext
 import eu.pb4.placeholders.api.PlaceholderResult
@@ -16,8 +16,8 @@ import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import ru.xllifi.rewards.config.getServerAttachment
 import ru.xllifi.rewards.logger
 import ru.xllifi.rewards.modId
-import ru.xllifi.rewards.playerlocker.sql.CollectedLockerItem
-import ru.xllifi.rewards.playerlocker.sql.CollectedLockerItemTable
+import ru.xllifi.rewards.locker.sql.CollectedLockerItem
+import ru.xllifi.rewards.locker.sql.CollectedLockerItemTable
 import ru.xllifi.rewards.utils.plus
 import ru.xllifi.rewards.utils.id
 import ru.xllifi.rewards.utils.ui.DEFAULT_COLOR

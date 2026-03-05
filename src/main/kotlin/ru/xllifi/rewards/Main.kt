@@ -1,7 +1,6 @@
 package ru.xllifi.rewards
 
 import kotlinx.serialization.json.Json
-import net.fabricmc.api.EnvType
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
@@ -16,9 +15,9 @@ import ru.xllifi.rewards.commands.registerCommands
 import ru.xllifi.rewards.config.*
 import ru.xllifi.rewards.config.TextureManager
 import ru.xllifi.rewards.calendar.sql.CollectedCellTable
-import ru.xllifi.rewards.playerlocker.items.setupPrefixPlaceholder
-import ru.xllifi.rewards.playerlocker.items.setupSuffixPlaceholder
-import ru.xllifi.rewards.playerlocker.sql.CollectedLockerItemTable
+import ru.xllifi.rewards.locker.items.setupPrefixPlaceholder
+import ru.xllifi.rewards.locker.items.setupSuffixPlaceholder
+import ru.xllifi.rewards.locker.sql.CollectedLockerItemTable
 import ru.xllifi.rewards.progression.sql.CollectedProgressionTiersTable
 import java.nio.file.Path
 import kotlin.io.path.createDirectories

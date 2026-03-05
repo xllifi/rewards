@@ -4,7 +4,7 @@ import eu.pb4.sgui.api.gui.SimpleGui
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.inventory.MenuType
-import ru.xllifi.rewards.playerlocker.ui.LockerScreen
+import ru.xllifi.rewards.locker.ui.LockerScreen
 import ru.xllifi.rewards.utils.setSlot
 import ru.xllifi.rewards.utils.ui.texturedGuiElement
 

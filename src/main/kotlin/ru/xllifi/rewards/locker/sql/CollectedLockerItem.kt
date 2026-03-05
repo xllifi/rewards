@@ -1,4 +1,4 @@
-package ru.xllifi.rewards.playerlocker.sql
+package ru.xllifi.rewards.locker.sql
 
 import kotlinx.serialization.json.Json
 import org.jetbrains.exposed.v1.core.Column
@@ -6,8 +6,8 @@ import org.jetbrains.exposed.v1.core.dao.id.EntityID
 import org.jetbrains.exposed.v1.core.dao.id.IntIdTable
 import org.jetbrains.exposed.v1.dao.IntEntity
 import org.jetbrains.exposed.v1.dao.IntEntityClass
-import ru.xllifi.rewards.playerlocker.items.LockerItem
-import ru.xllifi.rewards.playerlocker.items.LockerItemKind
+import ru.xllifi.rewards.locker.items.LockerItem
+import ru.xllifi.rewards.locker.items.LockerItemKind
 import java.util.UUID
 
 class CollectedLockerItem(id: EntityID<Int>) : IntEntity(id) {

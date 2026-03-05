@@ -1,4 +1,4 @@
-package ru.xllifi.rewards.playerlocker.items
+package ru.xllifi.rewards.locker.items
 
 import eu.pb4.sgui.api.elements.GuiElementBuilder
 import kotlinx.serialization.Serializable
@@ -7,8 +7,8 @@ import net.minecraft.server.level.ServerPlayer
 import org.jetbrains.exposed.v1.core.Op
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
-import ru.xllifi.rewards.playerlocker.sql.CollectedLockerItem
-import ru.xllifi.rewards.playerlocker.sql.CollectedLockerItemTable
+import ru.xllifi.rewards.locker.sql.CollectedLockerItem
+import ru.xllifi.rewards.locker.sql.CollectedLockerItemTable
 import ru.xllifi.rewards.utils.plus
 import kotlin.reflect.KClass
 import kotlin.reflect.full.createInstance

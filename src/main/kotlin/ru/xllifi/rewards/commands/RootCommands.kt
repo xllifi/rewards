@@ -9,7 +9,7 @@ import net.minecraft.commands.CommandSourceStack
 import ru.xllifi.rewards.calendar.commands.CalendarCommands
 import ru.xllifi.rewards.commands.admin.AdminCommands
 import ru.xllifi.rewards.mainmenu.MainMenuGui
-import ru.xllifi.rewards.playerlocker.commands.LockerCommands
+import ru.xllifi.rewards.locker.commands.LockerCommands
 import ru.xllifi.rewards.progression.commands.ProgressionCommands
 
 fun registerCommands() {

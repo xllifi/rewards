@@ -1,10 +1,10 @@
-package ru.xllifi.rewards.playerlocker.commands
+package ru.xllifi.rewards.locker.commands
 
 import com.mojang.brigadier.context.CommandContext
 import de.phyrone.brig.wrapper.DSLCommandNode
 import net.minecraft.commands.CommandSourceStack
 import ru.xllifi.rewards.commands.Command
-import ru.xllifi.rewards.playerlocker.ui.LockerScreen
+import ru.xllifi.rewards.locker.ui.LockerScreen
 
 object LockerCommands : Command {
   override fun run(ctx: CommandContext<CommandSourceStack>): Int {

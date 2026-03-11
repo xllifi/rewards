@@ -7,7 +7,7 @@ import kotlinx.serialization.json.JsonNamingStrategy
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.serializer
-import ru.xllifi.rewards.logger
+import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.utils.camelToSnakeCase
 import java.io.IOException
 import java.nio.file.Files
@@ -36,9 +36,9 @@ class ConfigManager(
     try {
       val jsonString = explicitJson.encodeToString(content)
       path.outputStream().write(jsonString.encodeToByteArray())
-      logger.info("File saved successfully to $path")
+      Main.logger.info("File saved successfully to $path")
     } catch (e: Exception) {
-      logger.error("Failed to save file: ${e.localizedMessage}")
+      Main.logger.error("Failed to save file: ${e.localizedMessage}")
     }
   }
 
@@ -46,7 +46,7 @@ class ConfigManager(
     try {
       if (path.notExists()) {
         if (default != null) {
-          logger.info("File (${path}) not found, generating from default.")
+          Main.logger.info("File (${path}) not found, generating from default.")
           saveFile(path, default)
           return default
         } else {
@@ -65,22 +65,22 @@ class ConfigManager(
         return ret
       }
     } catch (e: Exception) {
-      logger.error("Failed to load $path. See trace below.")
+      Main.logger.error("Failed to load $path. See trace below.")
       throw e
     }
   }
 
   inline fun <reified T : Any> loadDir(path: Path, extension: String = "json"): List<T> =
     Files.walk(path).use { paths ->
-      logger.info("Loading all json as ${T::class.simpleName ?: T::class.jvmName} files from dir $path")
+      Main.logger.info("Loading all json as ${T::class.simpleName ?: T::class.jvmName} files from dir $path")
       paths.filter { Files.isRegularFile(it) && it.extension == extension }
         .toList()
         .mapNotNull {
-          logger.info("Loading a ${T::class.simpleName ?: T::class.jvmName} from path $it")
+          Main.logger.info("Loading a ${T::class.simpleName ?: T::class.jvmName} from path $it")
           try {
             loadFile<T>(it, null)
           } catch (e: Exception) {
-            logger.error(e.stackTraceToString())
+            Main.logger.error(e.stackTraceToString())
             null
           }
         }

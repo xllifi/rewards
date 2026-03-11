@@ -4,9 +4,8 @@ import kotlinx.datetime.TimeZone
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
-import ru.xllifi.rewards.configDir
+import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.serializers.text.Component
-import java.nio.file.Path
 
 val defaultGlobalConfig = GlobalConfig(
   prefix = Component.text("[Rewards]"),
@@ -24,8 +23,6 @@ data class GlobalConfig(
   val timeZoneForSure: TimeZone get() = this.timeZone ?: TimeZone.currentSystemDefault()
 }
 
-val localDbPath: Path = configDir.resolve("database.db")
-
 @Serializable
 sealed interface DatabaseConfig {
   val username: String
@@ -39,7 +36,7 @@ sealed interface DatabaseConfig {
 object SqliteConfig : DatabaseConfig {
   @Transient
   override val jdbcUrl: String
-    get() = "jdbc:sqlite:${localDbPath}"
+    get() = "jdbc:sqlite:${Main.configDir.resolve("database.db")}"
   @Transient
   override val driver: String
     get() = "org.sqlite.JDBC"

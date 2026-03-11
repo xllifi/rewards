@@ -5,6 +5,7 @@ plugins {
   kotlin("jvm") version "2.2.21"
   kotlin("plugin.serialization") version "2.2.21"
   alias(libs.plugins.fabric.loom)
+  alias(libs.plugins.shadow)
   id("maven-publish")
 }
 
@@ -34,6 +35,11 @@ repositories {
   maven { url = uri("https://maven.nucleoid.xyz") }
 }
 
+val shadowMe: Configuration by configurations.creating {
+  // This ensures your code can still see these libraries during compilation
+  configurations.implementation.get().extendsFrom(this)
+}
+
 dependencies {
   // To change the versions see the gradle.properties file
   minecraft(libs.minecraft)
@@ -52,19 +58,39 @@ dependencies {
   modImplementation(libs.placeholderapi)
 
   implementation(libs.exposed.core)
-  include(libs.exposed.core)
+  shadowMe(libs.exposed.core)
   implementation(libs.exposed.dao)
-  include(libs.exposed.dao)
+  shadowMe(libs.exposed.dao)
   implementation(libs.exposed.jdbc)
-  include(libs.exposed.jdbc)
+  shadowMe(libs.exposed.jdbc)
   implementation(libs.exposed.json)
-  include(libs.exposed.json)
+  shadowMe(libs.exposed.json)
   implementation(libs.sqlite.jdbc)
-  include(libs.sqlite.jdbc)
+  shadowMe(libs.sqlite.jdbc)
   implementation(libs.pqsql.jdbc)
-  include(libs.pqsql.jdbc)
+  shadowMe(libs.pqsql.jdbc)
   implementation(libs.brigadierkt)
   include(libs.brigadierkt)
+}
+
+tasks.shadowJar {
+  configurations = listOf(shadowMe)
+
+  relocate("org.jetbrains.exposed", "ru.xllifi.rewards.shadow.exposed")
+  dependencies {
+    exclude(dependency("org.jetbrains.kotlin:.*"))
+  }
+
+  mergeServiceFiles()
+
+  archiveClassifier.set("shadow")
+}
+tasks.remapJar {
+  // This tells Loom to use the output of shadowJar as the input for remapping
+  inputFile.set(tasks.shadowJar.get().archiveFile)
+}
+tasks.build {
+  dependsOn(tasks.shadowJar)
 }
 
 tasks.processResources {

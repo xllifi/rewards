@@ -21,38 +21,51 @@ import ru.xllifi.rewards.locker.sql.CollectedLockerItemTable
 import ru.xllifi.rewards.progression.sql.CollectedProgressionTiersTable
 import java.nio.file.Path
 import kotlin.io.path.createDirectories
-import kotlin.io.path.createFile
 import kotlin.io.path.notExists
 
-const val modId = "rewards"
-val configDir: Path = FabricLoader.getInstance().configDir.resolve(modId)
-val globalConfigFile: Path = configDir.resolve("config.json")
-fun loadGlobalConfig() = Main.globalConfigManager.loadFile(globalConfigFile, defaultGlobalConfig)
-val logger: Logger = LoggerFactory.getLogger(modId)
+class Main : ModInitializer {
+  companion object {
+    const val MOD_ID = "rewards"
+    val logger: Logger = LoggerFactory.getLogger(MOD_ID)
 
-object Main : ModInitializer {
-  val globalConfigManager = ConfigManager(Json(defaultJson) { explicitNulls = true })
-  var globalConfig = loadGlobalConfig()
-  val database =
-    with(globalConfig.database) {
-      Database.connect(
-        url = jdbcUrl,
-        driver = driver,
-        user = username,
-        password = password,
-      )
+    val configDir: Path = FabricLoader.getInstance().configDir.resolve(MOD_ID)
+    val globalConfigFile: Path = configDir.resolve("config.json")
+
+    // Use standard delegation or lateinits
+    val globalConfigManager = ConfigManager(Json(defaultJson) { explicitNulls = true })
+    lateinit var globalConfig: GlobalConfig
+    lateinit var database: Database
+
+    fun refreshGlobalConfig() {
+      globalConfig = globalConfigManager.loadFile(globalConfigFile, defaultGlobalConfig)
     }
+  }
 
   override fun onInitialize() {
+    logger.info("Rewards mod initializing")
     // Create a config directory
     if (configDir.notExists()) configDir.createDirectories()
+    // Load config
+    globalConfig = globalConfigManager.loadFile(globalConfigFile, defaultGlobalConfig)
 
-    // Initialize database
-    if (localDbPath.notExists()) localDbPath.createFile()
-    transaction(database) {
-      SchemaUtils.create(CollectedCellTable)
-      SchemaUtils.create(CollectedProgressionTiersTable)
-      SchemaUtils.create(CollectedLockerItemTable)
+    // Initialize Database
+    try {
+      database = Database.connect(
+        url = globalConfig.database.jdbcUrl,
+        driver = globalConfig.database.driver,
+        user = globalConfig.database.username,
+        password = globalConfig.database.password,
+      )
+
+      transaction(database) {
+        SchemaUtils.create(CollectedCellTable)
+        SchemaUtils.create(CollectedProgressionTiersTable)
+        SchemaUtils.create(CollectedLockerItemTable)
+      }
+
+      logger.info("Rewards connecting to DB: ${database.url}")
+    } catch (e: Exception) {
+      logger.error("Failed to initialize database!", e)
     }
 
     // Add textures from config to polymer resource pack
@@ -74,5 +87,7 @@ object Main : ModInitializer {
     // Setup placeholders
     setupPrefixPlaceholder()
     setupSuffixPlaceholder()
+
+    logger.info("Rewards mod initialized!")
   }
 }

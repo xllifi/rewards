@@ -13,8 +13,8 @@ import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerPlayer
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.config.getServerAttachment
-import ru.xllifi.rewards.modId
 import ru.xllifi.rewards.locker.sql.CollectedLockerItem
 import ru.xllifi.rewards.locker.sql.CollectedLockerItemTable
 import ru.xllifi.rewards.utils.plus
@@ -59,12 +59,12 @@ class PrefixLockerItem(
 }
 
 fun setupPrefixPlaceholder() {
-  Placeholders.register(id(modId, "locker_prefix")) { ctx, _ ->
+  Placeholders.register(id(Main.MOD_ID, "locker_prefix")) { ctx, _ ->
     if (!ctx.hasPlayer())
       return@register PlaceholderResult.invalid("No player!")
     val player = ctx.player!!
 
-    val equippedPrefixes: List<PrefixLockerItem> = transaction {
+    val equippedPrefixes: List<PrefixLockerItem> = transaction(Main.database) {
       CollectedLockerItem.find {
         CollectedLockerItemTable.playerUuid.eq(player.uuid) +
           CollectedLockerItemTable.kind.eq(PrefixItemKind) +

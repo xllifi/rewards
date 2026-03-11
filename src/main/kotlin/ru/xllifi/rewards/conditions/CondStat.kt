@@ -149,7 +149,7 @@ data class CondStat(
       component.append(
         Component.translatable(
           "rewards.condition.stat.x_more",
-          this.threshold - statValue
+          stat.format(this.threshold - statValue)
         )
       )
     }

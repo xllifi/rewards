@@ -9,6 +9,7 @@ import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.dao.IntEntity
 import org.jetbrains.exposed.v1.dao.IntEntityClass
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.progression.Progression
 import ru.xllifi.rewards.utils.plus
 import java.util.UUID
@@ -36,7 +37,7 @@ object CollectedProgressionTiersTable : IntIdTable("t_collected_progression_tier
 
 fun Progression.getCollectedTierIndexes(player: ServerPlayer): List<Int> {
   val progression = this
-  return transaction {
+  return transaction(Main.database) {
     addLogger(StdOutSqlLogger)
     CollectedProgressionTiers.find {
       CollectedProgressionTiersTable.playerUuid.eq(player.uuid) +
@@ -50,7 +51,7 @@ fun Progression.setTierCollection(player: ServerPlayer, tierIndex: Int, to: Bool
   require(tierIndex < progression.tiers.size) {
     "Tier index is bigger than tiers list size"
   }
-  transaction {
+  transaction(Main.database) {
     addLogger(StdOutSqlLogger)
     if (to == true) {
       CollectedProgressionTiers.new {

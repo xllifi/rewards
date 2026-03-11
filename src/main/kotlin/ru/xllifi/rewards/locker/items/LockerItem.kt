@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerPlayer
 import org.jetbrains.exposed.v1.core.Op
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.locker.sql.CollectedLockerItem
 import ru.xllifi.rewards.locker.sql.CollectedLockerItemTable
 import ru.xllifi.rewards.utils.plus
@@ -63,14 +64,14 @@ sealed class LockerItem() {
    */
   fun isEquippedFor(player: ServerPlayer): Boolean? {
     val item = this
-    return transaction {
+    return transaction(Main.database) {
       CollectedLockerItem.find { thisItem(player) }.firstOrNull()?.equipped
     }
   }
 
   fun setEquippedFor(player: ServerPlayer, to: Boolean) {
     val item = this
-    return transaction {
+    return transaction(Main.database) {
       val found = CollectedLockerItem.find { thisItem(player) }.firstOrNull()
 
       if (found != null) {
@@ -90,7 +91,7 @@ sealed class LockerItem() {
 
   fun addItemFor(player: ServerPlayer) {
     val item = this
-    return transaction {
+    return transaction(Main.database) {
       val found = CollectedLockerItem.find { thisItem(player) }.firstOrNull()
 
       if (found == null) {

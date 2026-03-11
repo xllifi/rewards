@@ -6,8 +6,7 @@ import net.minecraft.ChatFormatting
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
-import net.minecraft.sounds.SoundSource
-import ru.xllifi.rewards.logger
+import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.progression.Progression
 import ru.xllifi.rewards.progression.sql.setTierCollection
 import ru.xllifi.rewards.rewards.grant
@@ -78,7 +77,7 @@ fun ProgressionScreen.completedTierGuiElement(tier: Progression.Tier): GuiElemen
             ).get().value()
           player.playSound(sound, 1f, 1f)
         } catch (e: Exception) {
-          logger.error("Failed to play sound ${tier.collectionSound} to player ${player.plainTextName}: ${e.stackTraceToString()}")
+          Main.logger.error("Failed to play sound ${tier.collectionSound} to player ${player.plainTextName}: ${e.stackTraceToString()}")
         }
       }
       tier.rewards.grant(player)

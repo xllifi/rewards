@@ -10,6 +10,7 @@ import net.minecraft.world.inventory.MenuType
 import net.minecraft.world.item.component.DyedItemColor
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.config.getServerAttachment
 import ru.xllifi.rewards.locker.items.LockerItem
 import ru.xllifi.rewards.locker.items.LockerItemKind
@@ -68,7 +69,7 @@ class LockerScreen : SimpleGui {
       if (index < kClasses.size) {
         val kClass = kClasses[index]
         val kind = LockerRegistry.getKind(kClass)
-        val count = transaction {
+        val count = transaction(Main.database) {
           CollectedLockerItem.find {
             CollectedLockerItemTable.playerUuid.eq(player.uuid) +
               CollectedLockerItemTable.kind.eq(kind)
@@ -123,7 +124,7 @@ class LockerItemListScreen(
     this.title = Component.translatable("rewards.locker.item_list.${kind.name}.title")
   }
 
-  var items: List<CollectedLockerItem> = transaction {
+  var items: List<CollectedLockerItem> = transaction(Main.database) {
     CollectedLockerItem.find {
       CollectedLockerItemTable.playerUuid.eq(player.uuid) +
         CollectedLockerItemTable.kind.eq(kind)
@@ -133,7 +134,7 @@ class LockerItemListScreen(
     get() = 1
 
   fun updateItems() {
-    this.items = transaction {
+    this.items = transaction(Main.database) {
       CollectedLockerItem.find {
         CollectedLockerItemTable.playerUuid.eq(player.uuid) +
           CollectedLockerItemTable.kind.eq(kind)

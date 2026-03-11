@@ -9,6 +9,7 @@ import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.dao.IntEntity
 import org.jetbrains.exposed.v1.dao.IntEntityClass
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.calendar.Calendar
 import ru.xllifi.rewards.utils.plus
 import java.util.UUID
@@ -36,7 +37,7 @@ object CollectedCellTable : IntIdTable("t_collected_cells") {
 
 private fun Calendar.getCollectedCell(cell: Calendar.Cell, player: ServerPlayer): CollectedCell? {
   val calendar = this
-  return transaction {
+  return transaction(Main.database) {
     addLogger(StdOutSqlLogger)
     CollectedCell.find {
       CollectedCellTable.playerUuid.eq(player.uuid) +
@@ -50,7 +51,7 @@ fun Calendar.isCellCollectedBy(player: ServerPlayer, cell: Calendar.Cell): Boole
 
 fun Calendar.setCellCollectedFor(player: ServerPlayer, cell: Calendar.Cell, to: Boolean) {
   val calendar = this
-  transaction {
+  transaction(Main.database) {
     addLogger(StdOutSqlLogger)
     if (to == true) {
       CollectedCell.new {

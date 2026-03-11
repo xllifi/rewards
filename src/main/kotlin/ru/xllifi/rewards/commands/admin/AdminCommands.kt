@@ -9,8 +9,6 @@ import net.minecraft.server.permissions.PermissionLevel
 import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.commands.Command
 import ru.xllifi.rewards.config.setServerAttachment
-import ru.xllifi.rewards.loadGlobalConfig
-import ru.xllifi.rewards.logger
 
 object AdminCommands : Command {
   override fun run(ctx: CommandContext<CommandSourceStack>): Int {
@@ -19,13 +17,13 @@ object AdminCommands : Command {
 
   fun reloadConfigs(ctx: CommandContext<CommandSourceStack>): Int {
     try {
-      Main.globalConfig = loadGlobalConfig()
+      Main.refreshGlobalConfig()
       ctx.source.server.setServerAttachment()
       ctx.source.sendSuccess({ Component.translatable("rewards.commands.admin.reload_configs.success") }, true)
       return Command.SINGLE_SUCCESS
     } catch (e: Exception) {
       ctx.source.sendFailure(Component.translatable("rewards.commands.admin.reload_configs.failure"))
-      logger.error(e.stackTraceToString())
+      Main.logger.error(e.stackTraceToString())
       return Command.SINGLE_FAILURE
     }
   }

@@ -10,6 +10,7 @@ import net.minecraft.world.inventory.MenuType
 import org.jetbrains.exposed.v1.core.StdOutSqlLogger
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.calendar.Calendar
 import ru.xllifi.rewards.calendar.sql.CollectedCell
 import ru.xllifi.rewards.calendar.sql.CollectedCellTable
@@ -91,7 +92,7 @@ class CalendarScreen : SimpleGui {
         element = blankGuiElement
       )
     }
-    val collectedCells = transaction {
+    val collectedCells = transaction(Main.database) {
       addLogger(StdOutSqlLogger)
       CollectedCell.find {
         CollectedCellTable.playerUuid.eq(player.uuid) +

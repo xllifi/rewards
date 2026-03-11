@@ -1,16 +1,13 @@
 package ru.xllifi.rewards.progression.ui
 
-import eu.pb4.sgui.api.GuiHelpers
 import eu.pb4.sgui.api.elements.GuiElement
-import eu.pb4.sgui.api.elements.GuiElementBuilder
 import eu.pb4.sgui.api.gui.SimpleGui
 import net.kyori.adventure.platform.modcommon.MinecraftServerAudiences
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.inventory.MenuType
-import net.minecraft.world.item.ItemStack
-import ru.xllifi.rewards.logger
+import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.progression.Progression
 import ru.xllifi.rewards.utils.resizeEnd
 import ru.xllifi.rewards.progression.sql.getCollectedTierIndexes
@@ -90,7 +87,7 @@ class ProgressionScreen : SimpleGui {
       )
     }
     val collectedTierIndexes = progression.getCollectedTierIndexes(player)
-    logger.info("Updating screen for ${player.uuid}")
+    Main.logger.info("Updating screen for ${player.uuid}")
     lines.forEachIndexed { row, line ->
       line.forEachIndexed { col, tier ->
         this.setSlot(
@@ -103,7 +100,6 @@ class ProgressionScreen : SimpleGui {
   }
 
   fun getGuiElement(tier: Progression.Tier?, tierIdx: Int, collectedTierIndexes: List<Int>): GuiElement = run {
-    logger.info("Collected indexes: {}. Current idx: {}", collectedTierIndexes, tierIdx)
     when {
       tier == null -> noTierGuiElement
       collectedTierIndexes.contains(tierIdx) -> collectedTierGuiElement(tier)

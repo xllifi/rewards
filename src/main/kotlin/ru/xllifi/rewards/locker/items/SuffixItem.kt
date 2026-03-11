@@ -13,9 +13,8 @@ import net.minecraft.server.MinecraftServer
 import net.minecraft.server.level.ServerPlayer
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
+import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.config.getServerAttachment
-import ru.xllifi.rewards.logger
-import ru.xllifi.rewards.modId
 import ru.xllifi.rewards.locker.sql.CollectedLockerItem
 import ru.xllifi.rewards.locker.sql.CollectedLockerItemTable
 import ru.xllifi.rewards.utils.plus
@@ -60,13 +59,13 @@ class SuffixLockerItem(
 }
 
 fun setupSuffixPlaceholder() {
-  logger.info("Registering suffix placeholder!")
-  Placeholders.register(id(modId, "locker_suffix")) { ctx, _ ->
+  Main.logger.info("Registering suffix placeholder!")
+  Placeholders.register(id(Main.MOD_ID, "locker_suffix")) { ctx, _ ->
     if (!ctx.hasPlayer())
       return@register PlaceholderResult.invalid("No player!")
     val player = ctx.player!!
 
-    val equippedSuffixes: List<SuffixLockerItem> = transaction {
+    val equippedSuffixes: List<SuffixLockerItem> = transaction(Main.database) {
       CollectedLockerItem.find {
         CollectedLockerItemTable.playerUuid.eq(player.uuid) +
           CollectedLockerItemTable.kind.eq(SuffixItemKind) +

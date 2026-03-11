@@ -7,11 +7,9 @@ import net.minecraft.ChatFormatting
 import net.minecraft.core.registries.Registries
 import net.minecraft.network.chat.Component
 import net.minecraft.resources.ResourceKey
-import net.minecraft.sounds.SoundSource
 import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.calendar.Calendar
 import ru.xllifi.rewards.calendar.sql.setCellCollectedFor
-import ru.xllifi.rewards.logger
 import ru.xllifi.rewards.rewards.grant
 import ru.xllifi.rewards.serializers.time.dayHumanReadable
 import ru.xllifi.rewards.utils.ui.texturedGuiElement
@@ -92,7 +90,7 @@ fun CalendarScreen.activeGuiElement(cell: Calendar.Cell): GuiElement {
             ).get().value()
           player.playSound(sound, 1f, 1f)
         } catch (e: Exception) {
-          logger.error("Failed to play sound ${cell.collectionSound} to player ${player.plainTextName}: ${e.stackTraceToString()}")
+          Main.logger.error("Failed to play sound ${cell.collectionSound} to player ${player.plainTextName}: ${e.stackTraceToString()}")
         }
       }
       cell.rewards.grant(player)

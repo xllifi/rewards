@@ -81,17 +81,21 @@
   "rewards.mainmenu.progressions": "Прогрессии",
   "rewards.mainmenu.locker": "Шкафчик",
 
-  "rewards.reward.locker_item.prefix": "Префикс «%s»",
-  "rewards.reward.locker_item.prefix.kind": "Префиксы",
-  "rewards.reward.locker_item.suffix": "Суффикс «%s»",
-  "rewards.reward.locker_item.suffix.kind": "Суффиксы",
-  "rewards.locker.title": "Шкафчик",
-  "rewards.locker.item_list.prefix.title": "Собранные префиксы",
-  "rewards.locker.item_list.suffix.title": "Собранные суффиксы",
-  "rewards.locker.item_list.equipped.false": "Не экипировано",
-  "rewards.locker.item_list.equipped.false.action": "Нажмите, чтобы экипировать!",
-  "rewards.locker.item_list.equipped.true": "Экипировано",
-  "rewards.locker.item_list.equipped.true.action": "Нажмите, чтобы снять!",
+  "cosmetic.rewards.prefix": "Префикс «%s»",
+  "cosmetic.rewards.suffix": "Суффикс «%s»",
+  "gui.rewards.locker.title": "Моя косметика",
+  "gui.rewards.locker.collected": "%s/%s собрано",
+  "gui.rewards.locker.kinds.prefix": "Префиксы",
+  "gui.rewards.locker.kinds.suffix": "Суффиксы",
+  "gui.rewards.locker.equipped.true": "Надето",
+  "gui.rewards.locker.equipped.false": "Не надето",
+  "gui.rewards.locker.prompt": "Нажмите, чтобы %s",
+  "gui.rewards.locker.prompt.to_true": "надеть",
+  "gui.rewards.locker.prompt.to_false": "снять",
+
+  "command.rewards.cosmetic.set_collected.success": "Теперь у игрока %s %2$s косметика %1$s",
+  "command.rewards.cosmetic.set_collected.success.to_true": "собрана",
+  "command.rewards.cosmetic.set_collected.success.to_false": "не собрана",
 
   "": ""
 }

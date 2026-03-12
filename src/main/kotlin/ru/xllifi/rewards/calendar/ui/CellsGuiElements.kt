@@ -12,6 +12,7 @@ import ru.xllifi.rewards.calendar.Calendar
 import ru.xllifi.rewards.calendar.sql.setCellCollectedFor
 import ru.xllifi.rewards.rewards.grant
 import ru.xllifi.rewards.serializers.time.dayHumanReadable
+import ru.xllifi.rewards.utils.hideDefaultTooltipComponents
 import ru.xllifi.rewards.utils.ui.texturedGuiElement
 
 val CalendarScreen.blankGuiElement: GuiElement
@@ -66,6 +67,7 @@ val CalendarScreen.collectedCellGuiElement: GuiElement
 
 fun CalendarScreen.activeGuiElement(cell: Calendar.Cell): GuiElement {
   val builder = GuiElementBuilder(cell.displayItem)
+    .hideDefaultTooltipComponents()
     .setName(audiences.asNative(cell.title))
     .setLore(
       listOf(

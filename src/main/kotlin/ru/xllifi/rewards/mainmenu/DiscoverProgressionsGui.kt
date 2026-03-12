@@ -7,12 +7,12 @@ import net.minecraft.server.level.ServerPlayer
 import ru.xllifi.rewards.config.ServerAttachment
 import ru.xllifi.rewards.config.getServerAttachment
 import ru.xllifi.rewards.progression.ui.ProgressionScreen
-import ru.xllifi.rewards.utils.ui.PagedScreen
+import ru.xllifi.rewards.utils.ui.PagedGui
 
 class DiscoverProgressionsGui(
   player: ServerPlayer,
   callback: (() -> Unit)? = null,
-) : PagedScreen(player, callback) {
+) : PagedGui(player, callback) {
   val attachment: ServerAttachment = player.level().server.getServerAttachment()
 
   init {
@@ -23,9 +23,9 @@ class DiscoverProgressionsGui(
   override val pageAmount: Int
     get() = attachment.progressions.size / PAGE_SIZE
 
-  override fun getElement(id: Int): DisplayElement? {
-    return if (id < attachment.progressions.size) {
-      val progression = attachment.progressions[id]
+  override fun getElement(index: Int): DisplayElement? {
+    return if (index < attachment.progressions.size) {
+      val progression = attachment.progressions[index]
       DisplayElement.of(
         GuiElementBuilder(progression.displayItem)
           .setItemName(attachment.audiences.asNative(progression.title))

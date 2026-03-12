@@ -15,7 +15,7 @@ import kotlin.math.min
 
 // Based on https://github.com/Patbox/get-off-my-lawn-reserved/blob/main/src/main/java/draylar/goml/ui/PagedGui.java
 
-abstract class PagedScreen(player: ServerPlayer, protected val callback: (() -> Unit)? = null) :
+abstract class PagedGui(player: ServerPlayer, protected val callback: (() -> Unit)? = null) :
   SimpleGui(MenuType.GENERIC_9x5, player, false) {
   protected var page: Int = 0
 
@@ -80,7 +80,7 @@ abstract class PagedScreen(player: ServerPlayer, protected val callback: (() -> 
 
   protected abstract val pageAmount: Int
 
-  protected abstract fun getElement(id: Int): DisplayElement?
+  protected abstract fun getElement(index: Int): DisplayElement?
 
   protected fun getNavElement(id: Int): DisplayElement? {
     return when (id) {
@@ -123,7 +123,7 @@ abstract class PagedScreen(player: ServerPlayer, protected val callback: (() -> 
         return DisplayElement(null, slot)
       }
 
-      fun nextPage(gui: PagedScreen): DisplayElement =
+      fun nextPage(gui: PagedGui): DisplayElement =
         when (gui.canNextPage) {
           true -> this.of(
             texturedGuiElement("paged_screen/next")
@@ -140,7 +140,7 @@ abstract class PagedScreen(player: ServerPlayer, protected val callback: (() -> 
           )
         }
 
-      fun prevPage(gui: PagedScreen): DisplayElement =
+      fun prevPage(gui: PagedGui): DisplayElement =
         when (gui.canPrevPage) {
           true -> this.of(
             texturedGuiElement("paged_screen/prev")

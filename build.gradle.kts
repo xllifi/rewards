@@ -71,6 +71,8 @@ dependencies {
   shadowMe(libs.pqsql.jdbc)
   implementation(libs.brigadierkt)
   include(libs.brigadierkt)
+  implementation(libs.kasechange)
+  include(libs.kasechange)
 }
 
 tasks.shadowJar {

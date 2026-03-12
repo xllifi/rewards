@@ -8,8 +8,8 @@ import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.commands.CommandSourceStack
 import ru.xllifi.rewards.calendar.commands.CalendarCommands
 import ru.xllifi.rewards.commands.admin.AdminCommands
+import ru.xllifi.rewards.cosmetic.commands.CosmeticCommands
 import ru.xllifi.rewards.mainmenu.MainMenuGui
-import ru.xllifi.rewards.locker.commands.LockerCommands
 import ru.xllifi.rewards.progression.commands.ProgressionCommands
 
 fun registerCommands() {
@@ -28,7 +28,7 @@ fun registerCommands() {
       with(ProgressionCommands) { register() }
     }
     dispatcher.literal("locker") {
-      with(LockerCommands) { register() }
+//      with(LockerCommands) { register() }
     }
   }
 }
@@ -48,8 +48,8 @@ object RewardsCommands : Command {
     literal("progression") {
       with(ProgressionCommands) { register() }
     }
-    literal("locker") {
-      with(LockerCommands) { register() }
+    literal("cosmetics") {
+      with(CosmeticCommands) { register() }
     }
     with(AdminCommands) { register() }
   }

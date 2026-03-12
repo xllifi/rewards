@@ -11,6 +11,8 @@ import net.minecraft.resources.Identifier
 import net.minecraft.server.MinecraftServer
 import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.calendar.Calendar
+import ru.xllifi.rewards.cosmetic.CosmeticDef
+import ru.xllifi.rewards.cosmetic.CosmeticKind
 import ru.xllifi.rewards.progression.Progression
 import ru.xllifi.rewards.serializers.JsonSerializers
 import java.nio.file.Path
@@ -26,24 +28,19 @@ data class ServerAttachment(
   val configManager: ConfigManager,
   val calendars: List<Calendar>,
   val progressions: List<Progression>,
-) {
-  override fun toString(): String {
-    return "ServerAttachment(audiences=$audiences, " +
-      "jsonSerializers=$jsonSerializers, " +
-      "configManager=$configManager, " +
-      "calendars=${jsonSerializers.json.encodeToString(calendars)}, " +
-      "progressions=${jsonSerializers.json.encodeToString(progressions)})"
-  }
-}
+  val cosmetics: Map<CosmeticKind, Map<String, CosmeticDef>>
+)
 
 val calendarsDir: Path = Main.configDir.resolve("calendars")
 val progressionsDir: Path = Main.configDir.resolve("progressions")
+val cosmeticsDir: Path = Main.configDir.resolve("cosmetics")
 
 private val MinecraftServer.defaultServerAttachment: ServerAttachment
   get() {
     // Ensure config dirs exists
     calendarsDir.createDirectories()
     progressionsDir.createDirectories()
+    cosmeticsDir.createDirectories()
 
     val jsonSerializers = JsonSerializers(this)
     val configManager = ConfigManager(jsonSerializers.json)
@@ -54,6 +51,11 @@ private val MinecraftServer.defaultServerAttachment: ServerAttachment
       configManager = configManager,
       calendars = configManager.loadDir(calendarsDir),
       progressions = configManager.loadDir(progressionsDir),
+      cosmetics = configManager.loadDir<CosmeticDef>(cosmeticsDir)
+        .groupBy { it.kind }
+        .mapValues { (_, cosmeticDefsOfKind) ->
+          cosmeticDefsOfKind.associateBy { it.id }
+        }
     )
   }
 

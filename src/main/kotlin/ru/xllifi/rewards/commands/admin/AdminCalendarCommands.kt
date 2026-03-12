@@ -21,7 +21,7 @@ import ru.xllifi.rewards.utils.plus
 object AdminCalendarCommands : Command {
   override fun DSLCommandNode<CommandSourceStack>.register() {
     literal("calendar") {
-      with(AdminTiersCommands) { register() }
+      with(AdminCellsCommands) { register() }
     }
   }
 }

@@ -4,8 +4,11 @@ import com.mojang.serialization.Codec
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.KSerializer
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.descriptors.SerialKind
+import kotlinx.serialization.descriptors.buildClassSerialDescriptor
 import kotlinx.serialization.descriptors.buildSerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
@@ -14,6 +17,8 @@ import kotlinx.serialization.json.JsonDecoder
 import kotlinx.serialization.json.JsonEncoder
 import kotlinx.serialization.json.JsonNamingStrategy
 import kotlinx.serialization.modules.SerializersModule
+import kotlinx.serialization.modules.contextual
+import kotlinx.serialization.modules.plus
 import net.minecraft.server.MinecraftServer
 import net.minecraft.sounds.SoundEvent
 import net.minecraft.world.item.ItemStack
@@ -21,9 +26,8 @@ import ru.xllifi.rewards.config.defaultJson
 import kotlin.reflect.KClass
 
 class JsonSerializers(
-  server: MinecraftServer,
+  val server: MinecraftServer,
 ) {
-
   private val registryOps = server.registryAccess().createSerializationContext(JsonOpsKotlinx) ?: JsonOpsKotlinx
 
   inner class CodecSerializer<T: Any>(
@@ -58,11 +62,6 @@ class JsonSerializers(
   }
 
   val json = Json(defaultJson) {
-    serializersModule = module
-  }
-
-  val jsonStrict get() = Json(json) {
-    ignoreUnknownKeys = false
-    explicitNulls = true
+    serializersModule += module
   }
 }

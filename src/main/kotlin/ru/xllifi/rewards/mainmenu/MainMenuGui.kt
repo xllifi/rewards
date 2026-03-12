@@ -4,7 +4,8 @@ import eu.pb4.sgui.api.gui.SimpleGui
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.inventory.MenuType
-import ru.xllifi.rewards.locker.ui.LockerScreen
+import ru.xllifi.rewards.cosmetic.ui.LockerGui
+//import ru.xllifi.rewards.cosmetic.ui.LockerScreen
 import ru.xllifi.rewards.utils.setSlot
 import ru.xllifi.rewards.utils.ui.texturedGuiElement
 
@@ -60,8 +61,7 @@ class MainMenuGui(player: ServerPlayer) : SimpleGui(MenuType.GENERIC_9x1, player
       element = texturedGuiElement("mainmenu/locker")
         .setItemName(Component.translatable("rewards.mainmenu.locker"))
         .setCallback { _ ->
-          val screen = LockerScreen(player, this::open)
-          screen.open()
+          LockerGui(player, this::open).open()
         }
         .build(),
     )

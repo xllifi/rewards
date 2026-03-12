@@ -36,6 +36,9 @@ object AdminCommands : Command {
       }
       with(AdminCalendarCommands) { register() }
       with(AdminProgressionCommands) { register() }
+      literal("cosmetics") {
+        with(AdminCosmeticsCommands) { register() }
+      }
     }
   }
 }

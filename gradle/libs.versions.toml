@@ -26,6 +26,8 @@ brigadierkt = "1.4.2"
 placeholderapi = "2.8.2+1.21.10"
 # https://github.com/GradleUp/shadow/releases
 shadow = "9.3.2"
+# https://github.com/pearxteam/kasechange/releases
+kasechange = "1.4.1"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
@@ -46,6 +48,7 @@ exposed-json = { module = "org.jetbrains.exposed:exposed-json", version.ref = "e
 sqlite-jdbc = { module = "org.xerial:sqlite-jdbc", version.ref = "sqlite" }
 pqsql-jdbc = { module = "org.postgresql:postgresql", version.ref = "pgsql" }
 brigadierkt = { module = "com.github.Phyrone:brigardier-kotlin", version.ref = "brigadierkt" }
+kasechange = { module = "net.pearx.kasechange:kasechange", version.ref = "kasechange" }
 
 [plugins]
 fabric_loom = { id = "fabric-loom", version.ref = "fabric_loom" }

@@ -11,12 +11,12 @@ import ru.xllifi.rewards.calendar.ui.CalendarScreen
 import ru.xllifi.rewards.config.ServerAttachment
 import ru.xllifi.rewards.config.getServerAttachment
 import ru.xllifi.rewards.serializers.time.dayHumanReadable
-import ru.xllifi.rewards.utils.ui.PagedScreen
+import ru.xllifi.rewards.utils.ui.PagedGui
 
 class DiscoverCalendarsGui(
   player: ServerPlayer,
   callback: (() -> Unit)? = null,
-) : PagedScreen(player, callback) {
+) : PagedGui(player, callback) {
   val attachment: ServerAttachment = player.level().server.getServerAttachment()
 
   val activeCalendars: List<Calendar> = attachment.calendars.filter { it.isActive }
@@ -29,9 +29,9 @@ class DiscoverCalendarsGui(
   override val pageAmount: Int
     get() = activeCalendars.size / PAGE_SIZE
 
-  override fun getElement(id: Int): DisplayElement? {
-    return if (id < activeCalendars.size) {
-      val calendar = activeCalendars[id]
+  override fun getElement(index: Int): DisplayElement? {
+    return if (index < activeCalendars.size) {
+      val calendar = activeCalendars[index]
       DisplayElement.of(
         GuiElementBuilder(calendar.displayItem)
           .setItemName(attachment.audiences.asNative(calendar.title))

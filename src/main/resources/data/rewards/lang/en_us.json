@@ -81,17 +81,21 @@
   "rewards.mainmenu.progressions": "Progressions",
   "rewards.mainmenu.locker": "Locker",
 
-  "rewards.reward.locker_item.prefix": "\"%s\" prefix",
-  "rewards.reward.locker_item.prefix.kind": "Prefixes",
-  "rewards.reward.locker_item.suffix": "\"%s\" suffix",
-  "rewards.reward.locker_item.suffix.kind": "Suffixes",
-  "rewards.locker.title": "Locker",
-  "rewards.locker.item_list.prefix.title": "Collected prefixes",
-  "rewards.locker.item_list.suffix.title": "Collected suffixes",
-  "rewards.locker.item_list.equipped.false": "Not equipped",
-  "rewards.locker.item_list.equipped.false.action": "Click to equip!",
-  "rewards.locker.item_list.equipped.true": "Equipped",
-  "rewards.locker.item_list.equipped.true.action": "Click to unequip!",
+  "cosmetic.rewards.prefix": "\"%s\" prefix",
+  "cosmetic.rewards.suffix": "\"%s\" suffix",
+  "gui.rewards.locker.title": "My cosmetics",
+  "gui.rewards.locker.collected": "%s/%s collected",
+  "gui.rewards.locker.kinds.prefix": "Prefixes",
+  "gui.rewards.locker.kinds.suffix": "Suffixes",
+  "gui.rewards.locker.equipped.true": "Equipped",
+  "gui.rewards.locker.equipped.false": "Not equipped",
+  "gui.rewards.locker.prompt": "Click to %s",
+  "gui.rewards.locker.prompt.to_true": "equip",
+  "gui.rewards.locker.prompt.to_false": "unequip",
+
+  "command.rewards.cosmetic.set_collected.success": "Player %s now has cosmetic %s %s",
+  "command.rewards.cosmetic.set_collected.success.to_true": "collected",
+  "command.rewards.cosmetic.set_collected.success.to_false": "uncollected",
 
   "": ""
 }

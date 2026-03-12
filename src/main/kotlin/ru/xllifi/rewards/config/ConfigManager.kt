@@ -6,9 +6,11 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonNamingStrategy
 import kotlinx.serialization.json.decodeFromJsonElement
 import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.modules.plus
 import kotlinx.serialization.serializer
+import net.pearx.kasechange.toSnakeCase
 import ru.xllifi.rewards.Main
-import ru.xllifi.rewards.utils.camelToSnakeCase
+import ru.xllifi.rewards.cosmetic.CosmeticDef
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.Path
@@ -26,6 +28,8 @@ val defaultJson = Json {
   explicitNulls = false
   prettyPrint = true
   namingStrategy = JsonNamingStrategy.SnakeCase
+
+  serializersModule += CosmeticDef.serializersModule
 }
 
 class ConfigManager(
@@ -59,7 +63,7 @@ class ConfigManager(
         val inputKeys = jsonObj.keys
         val ret: T = json.decodeFromJsonElement(jsonEl)
         // Only write to file if any default keys are missing
-        if (descriptor.elementNames.any { !inputKeys.contains(it.camelToSnakeCase()) }) {
+        if (descriptor.elementNames.any { !inputKeys.contains(it.toSnakeCase()) }) {
           saveFile(path, ret)
         }
         return ret

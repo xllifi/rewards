@@ -1,6 +1,7 @@
 package ru.xllifi.rewards
 
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.serializer
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
@@ -15,9 +16,9 @@ import ru.xllifi.rewards.commands.registerCommands
 import ru.xllifi.rewards.config.*
 import ru.xllifi.rewards.config.TextureManager
 import ru.xllifi.rewards.calendar.sql.CollectedCellTable
-import ru.xllifi.rewards.locker.items.setupPrefixPlaceholder
-import ru.xllifi.rewards.locker.items.setupSuffixPlaceholder
-import ru.xllifi.rewards.locker.sql.CollectedLockerItemTable
+import ru.xllifi.rewards.cosmetic.AffixPlaceholders
+import ru.xllifi.rewards.cosmetic.CosmeticDef
+import ru.xllifi.rewards.cosmetic.sql.CollectedCosmeticsTable
 import ru.xllifi.rewards.progression.sql.CollectedProgressionTiersTable
 import java.nio.file.Path
 import kotlin.io.path.createDirectories
@@ -31,7 +32,6 @@ class Main : ModInitializer {
     val configDir: Path = FabricLoader.getInstance().configDir.resolve(MOD_ID)
     val globalConfigFile: Path = configDir.resolve("config.json")
 
-    // Use standard delegation or lateinits
     val globalConfigManager = ConfigManager(Json(defaultJson) { explicitNulls = true })
     lateinit var globalConfig: GlobalConfig
     lateinit var database: Database
@@ -42,7 +42,6 @@ class Main : ModInitializer {
   }
 
   override fun onInitialize() {
-    logger.info("Rewards mod initializing")
     // Create a config directory
     if (configDir.notExists()) configDir.createDirectories()
     // Load config
@@ -60,10 +59,8 @@ class Main : ModInitializer {
       transaction(database) {
         SchemaUtils.create(CollectedCellTable)
         SchemaUtils.create(CollectedProgressionTiersTable)
-        SchemaUtils.create(CollectedLockerItemTable)
+        SchemaUtils.create(CollectedCosmeticsTable)
       }
-
-      logger.info("Rewards connecting to DB: ${database.url}")
     } catch (e: Exception) {
       logger.error("Failed to initialize database!", e)
     }
@@ -85,8 +82,7 @@ class Main : ModInitializer {
     }
 
     // Setup placeholders
-    setupPrefixPlaceholder()
-    setupSuffixPlaceholder()
+    AffixPlaceholders.registerPlaceholders()
 
     logger.info("Rewards mod initialized!")
   }

@@ -15,6 +15,7 @@ import ru.xllifi.rewards.calendar.Calendar
 import ru.xllifi.rewards.calendar.sql.CollectedCell
 import ru.xllifi.rewards.calendar.sql.CollectedCellTable
 import ru.xllifi.rewards.commands.DebugCommands
+import ru.xllifi.rewards.utils.GuiHelpersRewards
 import ru.xllifi.rewards.utils.plus
 import ru.xllifi.rewards.utils.resizeEnd
 import ru.xllifi.rewards.utils.restorePlayerInventory
@@ -34,15 +35,7 @@ class CalendarScreen : SimpleGui {
     player: ServerPlayer,
     callback: (() -> Unit)? = null,
   ) : super(
-    /* type = */ when (calendar.weeksCount) {
-      1 -> MenuType.GENERIC_9x1
-      2 -> MenuType.GENERIC_9x2
-      3 -> MenuType.GENERIC_9x3
-      4 -> MenuType.GENERIC_9x4
-      5 -> MenuType.GENERIC_9x5
-      6 -> MenuType.GENERIC_9x6
-      else -> throw IllegalStateException("Invalid weeksCount: ${calendar.weeksCount}!")
-    },
+    /* type = */ GuiHelpersRewards.menuTypeForRowCount(calendar.weeksCount),
     /* player = */ player,
     /* manipulatePlayerSlots = */ true,
   ) {

@@ -14,7 +14,7 @@ import ru.xllifi.rewards.cosmetic.kinds.AffixCosmeticDef
 import ru.xllifi.rewards.utils.plus
 
 @Serializable
-@SerialName("locker_item")
+@SerialName("cosmetic")
 class RewCosmetic(
   val kind: CosmeticKind,
   val id: String,

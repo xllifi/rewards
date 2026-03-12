@@ -36,28 +36,13 @@ interface CosmeticDef {
 
   fun getDisplayName(audiences: MinecraftServerAudiences): Component
 
-  fun idFor(player: ServerPlayer) =
-    CompositeID {
-      with(CollectedCosmeticsTable) {
-        it[playerUuid] = player.uuid
-        it[cosmeticKind] = this@CosmeticDef.kind
-        it[cosmeticId] = this@CosmeticDef.id
-      }
-    }
-
-  fun isEquippedFor(player: ServerPlayer): Boolean {
-    return transaction(Main.database) {
-      CollectedCosmetic.findById(idFor(player)) != null
-    }
-  }
-
-  fun updateOrCreateFor(player: ServerPlayer, equipped: Boolean) {
+  fun updateOrCreateFor(player: ServerPlayer, equipped: Boolean?) {
     return transaction(Main.database) {
       CollectedCosmeticsTable.upsert {
         it[playerUuid] = player.uuid
         it[cosmeticKind] = this@CosmeticDef.kind
         it[cosmeticId] = this@CosmeticDef.id
-        it[isEquipped] = equipped
+        if (equipped != null) it[isEquipped] = equipped
       }
     }
   }

@@ -38,7 +38,7 @@ object AffixPlaceholders {
         }
         cache.getOrDefault(kind, mutableMapOf())[player.uuid] = component
 
-        Main.logger.info("Current cache: ${cache[kind]}")
+        Main.logger.info("Updated cache for kind $kind: ${cache[kind]}")
         return cache[kind]!!
       }
     }
@@ -53,15 +53,13 @@ object AffixPlaceholders {
           return@register PlaceholderResult.invalid("No player!")
         val player = ctx.player!!
 
-        Main.logger.info("Cache: ${cache[kind]}")
-
         var cacheForKind = cache[kind]
-        if (cacheForKind != null) {
-          updateCacheFor(player, kind)
-        }
-        cacheForKind = cache[kind]!!
+        if (cacheForKind == null) cacheForKind = updateCacheFor(player, kind)
 
-        return@register PlaceholderResult.value(cacheForKind[player.uuid])
+        var cacheForPlayer = cacheForKind[player.uuid]
+        if (cacheForPlayer == null) cacheForPlayer = updateCacheFor(player, kind)[player.uuid]
+
+        return@register PlaceholderResult.value(cacheForPlayer)
       }
     }
   }

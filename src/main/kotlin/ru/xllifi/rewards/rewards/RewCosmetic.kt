@@ -29,7 +29,7 @@ class RewCosmetic(
   override fun lore(player: ServerPlayer): Component {
     val cosmeticDef = getCosmeticDef(player)
     return mark.copy() + Component.translatable(
-      "reward.rewards.cosmetic.${cosmeticDef.kind.snakeCaseName()}",
+      "cosmetic.rewards.${cosmeticDef.kind.snakeCaseName()}",
       when (cosmeticDef) {
         is AffixCosmeticDef -> cosmeticDef.asNative(player.level().server.getServerAttachment().audiences)
         else -> throw IllegalStateException("Unknown cosmeticDef type ${cosmeticDef::class.simpleName}")

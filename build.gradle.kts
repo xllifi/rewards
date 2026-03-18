@@ -63,8 +63,6 @@ dependencies {
   shadowMe(libs.exposed.dao)
   implementation(libs.exposed.jdbc)
   shadowMe(libs.exposed.jdbc)
-  implementation(libs.exposed.json)
-  shadowMe(libs.exposed.json)
   implementation(libs.sqlite.jdbc)
   shadowMe(libs.sqlite.jdbc)
   implementation(libs.pqsql.jdbc)

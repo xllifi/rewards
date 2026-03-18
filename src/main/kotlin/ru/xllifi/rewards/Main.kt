@@ -1,7 +1,6 @@
 package ru.xllifi.rewards
 
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.serializer
 import net.fabricmc.api.ModInitializer
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents
@@ -12,12 +11,10 @@ import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import ru.xllifi.rewards.calendar.Calendar
+import ru.xllifi.rewards.calendar.sql.CollectedCellTable
 import ru.xllifi.rewards.commands.registerCommands
 import ru.xllifi.rewards.config.*
-import ru.xllifi.rewards.config.TextureManager
-import ru.xllifi.rewards.calendar.sql.CollectedCellTable
 import ru.xllifi.rewards.cosmetic.AffixPlaceholders
-import ru.xllifi.rewards.cosmetic.CosmeticDef
 import ru.xllifi.rewards.cosmetic.sql.CollectedCosmeticsTable
 import ru.xllifi.rewards.progression.sql.CollectedProgressionTiersTable
 import java.nio.file.Path
@@ -57,9 +54,11 @@ class Main : ModInitializer {
       )
 
       transaction(database) {
-        SchemaUtils.create(CollectedCellTable)
-        SchemaUtils.create(CollectedProgressionTiersTable)
-        SchemaUtils.create(CollectedCosmeticsTable)
+        SchemaUtils.create(
+          CollectedCellTable,
+          CollectedProgressionTiersTable,
+          CollectedCosmeticsTable,
+        )
       }
     } catch (e: Exception) {
       logger.error("Failed to initialize database!", e)

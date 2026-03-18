@@ -12,6 +12,7 @@ class PrefixCosmeticDef(
   override val id: String,
   override val component: AdvComponent,
   override val shouldCountInTotal: Boolean,
+  override val collection: String?,
 ) : AffixCosmeticDef {
   @Transient
   override val kind: CosmeticKind = CosmeticKind.Prefix

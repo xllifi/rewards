@@ -13,6 +13,7 @@ import net.minecraft.network.chat.Component
 import org.jetbrains.exposed.v1.core.dao.id.CompositeID
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import ru.xllifi.rewards.Main
+import ru.xllifi.rewards.cosmetic.AffixPlaceholders
 import ru.xllifi.rewards.cosmetic.commands.getCosmeticArgument
 import ru.xllifi.rewards.cosmetic.sql.CollectedCosmetic
 import ru.xllifi.rewards.cosmetic.sql.CollectedCosmeticsTable
@@ -22,8 +23,9 @@ object AdminCosmeticsCommands : Command {
     val player = EntityArgument.getPlayer(ctx, "player")
     val (cosmeticKind, cosmetic) = ctx.getCosmeticArgument("cosmetic_kind", "cosmetic")
     val isCollected = BoolArgumentType.getBool(ctx, "is_collected")
+    val isEquipped = BoolArgumentType.getBool(ctx, "is_equipped")
     if (isCollected) {
-      cosmetic.updateOrCreateFor(player, null)
+      cosmetic.updateOrCreateFor(player, isEquipped)
     } else {
       transaction(Main.database) {
         CollectedCosmetic.findById(
@@ -35,6 +37,7 @@ object AdminCosmeticsCommands : Command {
         )?.delete()
       }
     }
+    AffixPlaceholders.updateCacheFor(player, cosmeticKind)
     ctx.source.sendSystemMessage(
       Component.translatable(
         "command.rewards.cosmetic.set_collected.success",
@@ -52,7 +55,9 @@ object AdminCosmeticsCommands : Command {
         cosmeticKindArgument("cosmetic_kind") {
           cosmeticArgument("cosmetic_kind", "cosmetic") {
             argument("is_collected", BoolArgumentType.bool()) {
-              executes { ctx -> setCollected(ctx) }
+              argument("is_equipped", BoolArgumentType.bool()) {
+                executes { ctx -> setCollected(ctx) }
+              }
             }
           }
         }

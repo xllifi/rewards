@@ -12,6 +12,7 @@ import ru.xllifi.rewards.cosmetic.CosmeticDef
 import ru.xllifi.rewards.cosmetic.CosmeticKind
 import ru.xllifi.rewards.cosmetic.getCollectedBy
 import ru.xllifi.rewards.cosmetic.kinds.AffixCosmeticDef
+import ru.xllifi.rewards.utils.id
 import ru.xllifi.rewards.utils.ui.PagedGui
 
 class CollectedCosmeticsOfKindGui(
@@ -80,10 +81,13 @@ class CollectedCosmeticsOfKindGui(
         updateDisplay()
       }
 
+    if (cosmeticsToEquippedMap[cosmeticDef] == true) {
+      builder.setComponent(DataComponents.ITEM_MODEL, id(Main.MOD_ID, "cosmetic_kind/equipped"))
+    }
+
     if (cosmeticDef is AffixCosmeticDef && cosmeticDef.component.color() != null) {
       builder = builder.setComponent(DataComponents.DYED_COLOR, DyedItemColor(cosmeticDef.component.color()!!.value()))
     }
-    // TODO: (P3) toggle equip status. Remember to update cache!
     return DisplayElement.of(builder.build())
   }
 

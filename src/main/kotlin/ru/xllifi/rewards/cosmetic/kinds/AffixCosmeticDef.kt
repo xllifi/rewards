@@ -15,8 +15,3 @@ interface AffixCosmeticDef : CosmeticDef {
   fun asNative(audiences: MinecraftServerAudiences): Component = audiences.asNative(component)
   override fun getDisplayName(audiences: MinecraftServerAudiences): Component = asNative(audiences)
 }
-
-
-
-// TODO: (P1) equipped affixes cache. Change on join and equip toggle.
-// TODO: (P2) affixes placeholders, pulling from cache.

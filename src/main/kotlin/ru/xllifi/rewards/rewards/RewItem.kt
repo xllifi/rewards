@@ -15,7 +15,16 @@ class RewItem(
   @Contextual val itemStack: ItemStack,
 ) : Reward {
   override fun grant(player: ServerPlayer) {
-    player.addItem(itemStack.copy())
+    val itemStack = itemStack.copy()
+
+    val added = player.inventory.add(itemStack)
+    if (!added) {
+      val drop = player.drop(itemStack, false)
+      if (drop != null) {
+        drop.setNoPickUpDelay()
+        drop.setTarget(player.uuid)
+      }
+    }
   }
 
   override fun lore(player: ServerPlayer): Component =

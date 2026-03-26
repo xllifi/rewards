@@ -22,30 +22,24 @@ import ru.xllifi.rewards.utils.extensions.setSlot
 import ru.xllifi.rewards.utils.extensions.setSlotInPlayerInventory
 import ru.xllifi.rewards.utils.ui.texturedGuiElement
 
-class CalendarScreen : SimpleGui {
-  val callback: (() -> Unit)?
-  val calendar: Calendar
-  val weeks: List<List<Calendar.Cell?>>
-  val audiences: MinecraftServerAudiences
-
-  // TODO: move to init{} blocks
-  constructor(
-    calendar: Calendar,
-    player: ServerPlayer,
-    callback: (() -> Unit)? = null,
-  ) : super(
-    /* type = */ GuiHelpersRewards.menuTypeForRowCount(calendar.weeksCount),
-    /* player = */ player,
-    /* manipulatePlayerSlots = */ true,
-  ) {
-    this.callback = callback
-    this.calendar = calendar
+class CalendarGui(
+  val calendar: Calendar,
+  player: ServerPlayer,
+  val callback: (() -> Unit)? = null,
+) : SimpleGui(
+  /* type = */ GuiHelpersRewards.menuTypeForRowCount(calendar.weeksCount),
+  /* player = */ player,
+  /* manipulatePlayerSlots = */ true,
+) {
+  val weeks: List<List<Calendar.Cell?>> = run {
     val paddedCells = List(calendar.startDayPadding) { null } + calendar.cells
-    this.weeks = paddedCells
+    paddedCells
       .resizeEnd(calendar.weeksCount * 7, null) { a, b -> a ?: b }
       .chunked(7)
+  }
+  val audiences: MinecraftServerAudiences = MinecraftServerAudiences.of(player.level().server)
 
-    this.audiences = MinecraftServerAudiences.of(player.level().server)
+  init {
     this.title = audiences.asNative(calendar.title)
     this.updateDisplay()
     this.open()
@@ -88,7 +82,7 @@ class CalendarScreen : SimpleGui {
       addLogger(StdOutSqlLogger)
       CollectedCell.find {
         CollectedCellTable.playerUuid.eq(player.uuid) +
-        CollectedCellTable.calendarId.eq(calendar.id)
+          CollectedCellTable.calendarId.eq(calendar.id)
       }.map { it.cellId }.toSet()
     }
     weeks.forEachIndexed { weekIndex, week ->

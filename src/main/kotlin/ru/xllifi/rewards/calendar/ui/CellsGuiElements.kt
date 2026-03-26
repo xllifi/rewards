@@ -15,22 +15,22 @@ import ru.xllifi.rewards.serializers.time.dayHumanReadable
 import ru.xllifi.rewards.utils.ui.hideDefaultTooltipComponents
 import ru.xllifi.rewards.utils.ui.texturedGuiElement
 
-val CalendarScreen.blankGuiElement: GuiElement
+val CalendarGui.blankGuiElement: GuiElement
   get() = texturedGuiElement("calendar/blank")
     .hideTooltip()
     .build()
 
-fun CalendarScreen.weekGuiElement(w: Int): GuiElement =
+fun CalendarGui.weekGuiElement(w: Int): GuiElement =
   texturedGuiElement("calendar/w${w}")
     .hideTooltip()
     .build()
 
-val CalendarScreen.noCellGuiElement: GuiElement
+val CalendarGui.noCellGuiElement: GuiElement
   get() = texturedGuiElement("calendar/nocell")
     .hideTooltip()
     .build()
 
-fun CalendarScreen.upcomingCellElement(cell: Calendar.Cell): GuiElement =
+fun CalendarGui.upcomingCellElement(cell: Calendar.Cell): GuiElement =
   texturedGuiElement("calendar/upcoming")
     .setItemName(Component.translatable("rewards.calendar.cell.upcoming").withStyle(ChatFormatting.GRAY))
     .setLore(
@@ -45,7 +45,7 @@ fun CalendarScreen.upcomingCellElement(cell: Calendar.Cell): GuiElement =
     )
     .build()
 
-val CalendarScreen.missedCellElement: GuiElement
+val CalendarGui.missedCellElement: GuiElement
   get() = texturedGuiElement("calendar/missed")
     .setItemName(Component.translatable("rewards.calendar.cell.missed").withStyle(ChatFormatting.GRAY))
     .setLore(
@@ -55,7 +55,7 @@ val CalendarScreen.missedCellElement: GuiElement
     )
     .build()
 
-val CalendarScreen.collectedCellGuiElement: GuiElement
+val CalendarGui.collectedCellGuiElement: GuiElement
   get() = texturedGuiElement("calendar/collected")
     .setItemName(Component.translatable("rewards.calendar.cell.collected").withStyle(ChatFormatting.GRAY))
     .setLore(
@@ -65,7 +65,7 @@ val CalendarScreen.collectedCellGuiElement: GuiElement
     )
     .build()
 
-fun CalendarScreen.activeGuiElement(cell: Calendar.Cell): GuiElement {
+fun CalendarGui.activeGuiElement(cell: Calendar.Cell): GuiElement {
   val builder = GuiElementBuilder(cell.displayItem)
     .hideDefaultTooltipComponents()
     .setName(audiences.asNative(cell.title))

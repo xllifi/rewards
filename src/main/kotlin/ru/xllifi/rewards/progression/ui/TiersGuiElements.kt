@@ -12,13 +12,13 @@ import ru.xllifi.rewards.progression.sql.setTierCollection
 import ru.xllifi.rewards.rewards.grant
 import ru.xllifi.rewards.utils.ui.texturedGuiElement
 
-val ProgressionScreen.blankGuiElement: GuiElement
+val ProgressionGui.blankGuiElement: GuiElement
   get() = texturedGuiElement("progression/blank").hideTooltip().build()
 
-val ProgressionScreen.noTierGuiElement: GuiElement
+val ProgressionGui.noTierGuiElement: GuiElement
   get() = texturedGuiElement("progression/blank").hideTooltip().build()
 
-fun ProgressionScreen.pendingTierGuiElement(tier: Progression.Tier): GuiElement =
+fun ProgressionGui.pendingTierGuiElement(tier: Progression.Tier): GuiElement =
   texturedGuiElement("progression/pending")
     .setItemName(Component.translatable("rewards.progression.tier.pending").withStyle(ChatFormatting.GRAY))
     .setLore(
@@ -29,7 +29,7 @@ fun ProgressionScreen.pendingTierGuiElement(tier: Progression.Tier): GuiElement 
     )
     .build()
 
-fun ProgressionScreen.failedTierGuiElement(tier: Progression.Tier): GuiElement =
+fun ProgressionGui.failedTierGuiElement(tier: Progression.Tier): GuiElement =
   texturedGuiElement("progression/failed")
     .setItemName(Component.translatable("rewards.progression.tier.failed").withStyle(ChatFormatting.GRAY))
     .setLore(
@@ -40,7 +40,7 @@ fun ProgressionScreen.failedTierGuiElement(tier: Progression.Tier): GuiElement =
     )
     .build()
 
-fun ProgressionScreen.collectedTierGuiElement(tier: Progression.Tier): GuiElement =
+fun ProgressionGui.collectedTierGuiElement(tier: Progression.Tier): GuiElement =
   texturedGuiElement("progression/collected")
     .setItemName(Component.translatable("rewards.progression.tier.collected").withStyle(ChatFormatting.GRAY))
     .setLore(
@@ -51,7 +51,7 @@ fun ProgressionScreen.collectedTierGuiElement(tier: Progression.Tier): GuiElemen
     )
     .build()
 
-fun ProgressionScreen.completedTierGuiElement(tier: Progression.Tier): GuiElement =
+fun ProgressionGui.completedTierGuiElement(tier: Progression.Tier): GuiElement =
   GuiElementBuilder(tier.displayItem)
     .setName(audiences.asNative(tier.title))
     .setLore(

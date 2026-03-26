@@ -16,29 +16,21 @@ import ru.xllifi.rewards.utils.extensions.setSlot
 import ru.xllifi.rewards.utils.extensions.setSlotInPlayerInventory
 import ru.xllifi.rewards.utils.ui.texturedGuiElement
 
-class ProgressionScreen : SimpleGui {
-  val callback: (() -> Unit)?
-  val progression: Progression
-  val lines: List<List<Progression.Tier?>>
-  val audiences: MinecraftServerAudiences
+class ProgressionGui(
+  val progression: Progression,
+  player: ServerPlayer,
+  val callback: (() -> Unit)? = null,
+) : SimpleGui(
+  /* type = */ GuiHelpersRewards.menuTypeForRowCount(progression.lines),
+  /* player = */ player,
+  /* manipulatePlayerSlots = */ true,
+) {
+  val lines: List<List<Progression.Tier?>> = progression.tiers
+    .resizeEnd(progression.lines * 7, null) { a, b -> a ?: b }
+    .chunked(7)
+  val audiences: MinecraftServerAudiences = MinecraftServerAudiences.of(player.level().server)
 
-  // TODO: move to init{} blocks
-  constructor(
-    progression: Progression,
-    player: ServerPlayer,
-    callback: (() -> Unit)? = null,
-  ) : super(
-    /* type = */ GuiHelpersRewards.menuTypeForRowCount(progression.lines),
-    /* player = */ player,
-    /* manipulatePlayerSlots = */ true,
-  ) {
-    this.callback = callback
-    this.progression = progression
-    this.lines = progression.tiers
-      .resizeEnd(progression.lines * 7, null) { a, b -> a ?: b }
-      .chunked(7)
-
-    this.audiences = MinecraftServerAudiences.of(player.level().server)
+  init {
     this.title = audiences.asNative(progression.title)
     this.updateDisplay()
     this.open()

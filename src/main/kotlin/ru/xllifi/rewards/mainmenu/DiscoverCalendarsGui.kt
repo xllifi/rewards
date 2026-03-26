@@ -7,7 +7,7 @@ import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import ru.xllifi.rewards.calendar.Calendar
-import ru.xllifi.rewards.calendar.ui.CalendarScreen
+import ru.xllifi.rewards.calendar.ui.CalendarGui
 import ru.xllifi.rewards.config.ServerAttachment
 import ru.xllifi.rewards.config.getServerAttachment
 import ru.xllifi.rewards.serializers.time.dayHumanReadable
@@ -49,7 +49,7 @@ class DiscoverCalendarsGui(
             )
           )
           .setCallback { _, _, _ ->
-            CalendarScreen(calendar, player, this::open)
+            CalendarGui(calendar, player, this::open)
           }
       )
     } else {

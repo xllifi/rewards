@@ -4,8 +4,7 @@ import com.mojang.brigadier.context.CommandContext
 import de.phyrone.brig.wrapper.DSLCommandNode
 import net.minecraft.commands.CommandSourceStack
 import ru.xllifi.rewards.commands.Command
-import ru.xllifi.rewards.mainmenu.DiscoverProgressionsGui
-import ru.xllifi.rewards.progression.ui.ProgressionScreen
+import ru.xllifi.rewards.progression.ui.ProgressionGui
 
 object ProgressionCommands : Command {
   override fun run(ctx: CommandContext<CommandSourceStack>): Int {
@@ -14,7 +13,7 @@ object ProgressionCommands : Command {
 
   fun open(ctx: CommandContext<CommandSourceStack>): Int {
     val progression = ctx.getProgressionArgument("progression")
-    val screen = ProgressionScreen(progression, ctx.source.playerOrException)
+    val screen = ProgressionGui(progression, ctx.source.playerOrException)
     screen.open()
 
     return Command.SINGLE_SUCCESS

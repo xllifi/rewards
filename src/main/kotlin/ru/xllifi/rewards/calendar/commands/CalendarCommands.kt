@@ -4,7 +4,7 @@ import com.mojang.brigadier.context.CommandContext
 import de.phyrone.brig.wrapper.DSLCommandNode
 import net.minecraft.commands.CommandSourceStack
 import net.minecraft.network.chat.Component
-import ru.xllifi.rewards.calendar.ui.CalendarScreen
+import ru.xllifi.rewards.calendar.ui.CalendarGui
 import ru.xllifi.rewards.commands.Command
 import ru.xllifi.rewards.config.getServerAttachment
 
@@ -21,7 +21,7 @@ object CalendarCommands : Command {
       )
       return Command.SINGLE_FAILURE
     }
-    val screen = CalendarScreen(calendar, ctx.source.playerOrException)
+    val screen = CalendarGui(calendar, ctx.source.playerOrException)
     screen.open()
 
     return Command.SINGLE_SUCCESS

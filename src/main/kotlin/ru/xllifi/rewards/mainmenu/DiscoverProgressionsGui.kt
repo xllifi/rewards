@@ -6,7 +6,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import ru.xllifi.rewards.config.ServerAttachment
 import ru.xllifi.rewards.config.getServerAttachment
-import ru.xllifi.rewards.progression.ui.ProgressionScreen
+import ru.xllifi.rewards.progression.ui.ProgressionGui
 import ru.xllifi.rewards.utils.ui.PagedGui
 
 class DiscoverProgressionsGui(
@@ -40,7 +40,7 @@ class DiscoverProgressionsGui(
             )
           )
           .setCallback { _, _, _ ->
-            ProgressionScreen(progression, player, this::open)
+            ProgressionGui(progression, player, this::open)
           }
       )
     } else {

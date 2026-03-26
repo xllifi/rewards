@@ -27,8 +27,8 @@ fun registerCommands() {
     dispatcher.literal("progression") {
       with(ProgressionCommands) { register() }
     }
-    dispatcher.literal("locker") {
-//      with(LockerCommands) { register() }
+    dispatcher.literal("cosmetics") {
+      with(CosmeticCommands) { register() }
     }
   }
 }
@@ -38,8 +38,6 @@ object RewardsCommands : Command {
     MainMenuGui(ctx.source.playerOrException)
     return Command.SINGLE_SUCCESS
   }
-
-  // TODO: discover() command. New argument type for discovery type (calendar or progression)
 
   override fun DSLCommandNode<CommandSourceStack>.register() {
     literal("calendar") {

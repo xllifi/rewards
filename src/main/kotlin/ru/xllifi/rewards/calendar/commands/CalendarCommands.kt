@@ -7,6 +7,7 @@ import net.minecraft.network.chat.Component
 import ru.xllifi.rewards.calendar.ui.CalendarGui
 import ru.xllifi.rewards.commands.Command
 import ru.xllifi.rewards.config.getServerAttachment
+import ru.xllifi.rewards.mainmenu.DiscoverCalendarsGui
 
 object CalendarCommands : Command {
   override fun run(ctx: CommandContext<CommandSourceStack>): Int {
@@ -27,7 +28,13 @@ object CalendarCommands : Command {
     return Command.SINGLE_SUCCESS
   }
 
+  fun discover(ctx: CommandContext<CommandSourceStack>): Int {
+    DiscoverCalendarsGui(ctx.source.playerOrException, null).open()
+    return Command.SINGLE_SUCCESS
+  }
+
   override fun DSLCommandNode<CommandSourceStack>.register() {
+    executes { ctx -> discover(ctx) }
     literal("open") {
       calendarArgument("calendar") {
         executes { ctx -> open(ctx) }

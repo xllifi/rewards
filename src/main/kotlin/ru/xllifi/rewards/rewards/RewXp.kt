@@ -4,7 +4,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
-import ru.xllifi.rewards.utils.plus
 
 @Serializable
 @SerialName("xp")
@@ -32,14 +31,16 @@ class RewXp(
   }
 
   override fun lore(player: ServerPlayer): Component =
-    mark.copy() + Component.translatable(
-      "rewards.reward.xp",
-      amount,
+    mark.copy().append(
       Component.translatable(
-        "rewards.reward.xp." + when (xpUnit) {
-          XpUnit.Points -> "points"
-          XpUnit.Levels -> "levels"
-        }
+        "rewards.reward.xp",
+        amount,
+        Component.translatable(
+          "rewards.reward.xp." + when (xpUnit) {
+            XpUnit.Points -> "points"
+            XpUnit.Levels -> "levels"
+          }
+        )
       )
     )
 }

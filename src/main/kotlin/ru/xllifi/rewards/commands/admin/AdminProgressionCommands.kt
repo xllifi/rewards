@@ -16,7 +16,7 @@ import ru.xllifi.rewards.progression.commands.progressionArgument
 import ru.xllifi.rewards.progression.sql.CollectedProgressionTiers
 import ru.xllifi.rewards.progression.sql.CollectedProgressionTiersTable
 import ru.xllifi.rewards.progression.sql.setTierCollection
-import ru.xllifi.rewards.utils.plus
+import ru.xllifi.rewards.utils.extensions.plus
 
 object AdminProgressionCommands : Command {
   override fun DSLCommandNode<CommandSourceStack>.register() {

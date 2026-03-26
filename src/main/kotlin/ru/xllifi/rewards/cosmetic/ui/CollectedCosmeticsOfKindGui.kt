@@ -12,7 +12,7 @@ import ru.xllifi.rewards.cosmetic.CosmeticDef
 import ru.xllifi.rewards.cosmetic.CosmeticKind
 import ru.xllifi.rewards.cosmetic.getCollectedBy
 import ru.xllifi.rewards.cosmetic.kinds.AffixCosmeticDef
-import ru.xllifi.rewards.utils.id
+import ru.xllifi.rewards.utils.idOf
 import ru.xllifi.rewards.utils.ui.PagedGui
 
 class CollectedCosmeticsOfKindGui(
@@ -82,7 +82,7 @@ class CollectedCosmeticsOfKindGui(
       }
 
     if (cosmeticsToEquippedMap[cosmeticDef] == true) {
-      builder.setComponent(DataComponents.ITEM_MODEL, id(Main.MOD_ID, "cosmetic_kind/equipped"))
+      builder.setComponent(DataComponents.ITEM_MODEL, idOf(Main.MOD_ID, "cosmetic_kind/equipped"))
     }
 
     if (cosmeticDef is AffixCosmeticDef && cosmeticDef.component.color() != null) {

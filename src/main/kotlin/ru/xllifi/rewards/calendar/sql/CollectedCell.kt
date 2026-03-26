@@ -11,7 +11,7 @@ import org.jetbrains.exposed.v1.dao.IntEntityClass
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.calendar.Calendar
-import ru.xllifi.rewards.utils.plus
+import ru.xllifi.rewards.utils.extensions.plus
 import java.util.UUID
 
 class CollectedCell(id: EntityID<Int>) : IntEntity(id) {

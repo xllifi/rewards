@@ -1,4 +1,4 @@
-package ru.xllifi.rewards.utils
+package ru.xllifi.rewards.utils.extensions
 
 import eu.pb4.sgui.api.elements.GuiElement
 import eu.pb4.sgui.api.gui.SimpleGui

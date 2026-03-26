@@ -1,4 +1,4 @@
-package ru.xllifi.rewards.utils
+package ru.xllifi.rewards.utils.ui
 
 import eu.pb4.sgui.api.elements.GuiElementBuilder
 import net.minecraft.core.component.DataComponents

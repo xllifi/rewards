@@ -6,8 +6,7 @@ import kotlinx.serialization.Serializable
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.item.ItemStack
-import ru.xllifi.rewards.utils.displayNameNoBrackets
-import ru.xllifi.rewards.utils.plus
+import ru.xllifi.rewards.utils.extensions.displayNameNoBrackets
 
 @Serializable
 @SerialName("item")
@@ -28,9 +27,11 @@ class RewItem(
   }
 
   override fun lore(player: ServerPlayer): Component =
-    mark.copy() + Component.translatable(
-      "rewards.reward.item",
-      itemStack.count,
-      itemStack.displayNameNoBrackets,
+    mark.copy().append(
+      Component.translatable(
+        "rewards.reward.item",
+        itemStack.count,
+        itemStack.displayNameNoBrackets,
+      )
     )
 }

@@ -1,6 +1,5 @@
 package ru.xllifi.rewards.cosmetic.sql
 
-import org.jetbrains.exposed.v1.core.and
 import org.jetbrains.exposed.v1.core.dao.id.CompositeID
 import org.jetbrains.exposed.v1.core.dao.id.CompositeIdTable
 import org.jetbrains.exposed.v1.core.dao.id.EntityID
@@ -9,7 +8,7 @@ import org.jetbrains.exposed.v1.core.isNotNull
 import org.jetbrains.exposed.v1.dao.CompositeEntity
 import org.jetbrains.exposed.v1.dao.CompositeEntityClass
 import ru.xllifi.rewards.cosmetic.CosmeticKind
-import ru.xllifi.rewards.utils.plus
+import ru.xllifi.rewards.utils.extensions.plus
 import java.util.UUID
 
 class CollectedCosmetic(id: EntityID<CompositeID>) : CompositeEntity(id) {

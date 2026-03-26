@@ -6,15 +6,14 @@ import net.kyori.adventure.platform.modcommon.MinecraftServerAudiences
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.inventory.MenuType
 import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.progression.Progression
-import ru.xllifi.rewards.utils.resizeEnd
+import ru.xllifi.rewards.utils.extensions.resizeEnd
 import ru.xllifi.rewards.progression.sql.getCollectedTierIndexes
-import ru.xllifi.rewards.utils.GuiHelpersRewards
-import ru.xllifi.rewards.utils.restorePlayerInventory
-import ru.xllifi.rewards.utils.setSlot
-import ru.xllifi.rewards.utils.setSlotInPlayerInventory
+import ru.xllifi.rewards.utils.ui.GuiHelpersRewards
+import ru.xllifi.rewards.utils.extensions.restorePlayerInventory
+import ru.xllifi.rewards.utils.extensions.setSlot
+import ru.xllifi.rewards.utils.extensions.setSlotInPlayerInventory
 import ru.xllifi.rewards.utils.ui.texturedGuiElement
 
 class ProgressionScreen : SimpleGui {

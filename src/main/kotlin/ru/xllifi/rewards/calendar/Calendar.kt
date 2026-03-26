@@ -17,7 +17,6 @@ import ru.xllifi.rewards.rewards.Reward
 import ru.xllifi.rewards.serializers.Identifier
 import ru.xllifi.rewards.serializers.text.Component
 import ru.xllifi.rewards.serializers.time.InstantAsDay
-import ru.xllifi.rewards.utils.plus
 import kotlin.math.ceil
 import kotlin.time.Clock
 import kotlin.time.Instant
@@ -45,10 +44,11 @@ data class Calendar(
     require(cells.size <= maxCells) { "Too many cells (${cells.size}). Make sure there are no more than $maxCells cells." }
   }
 
-  val isActive: Boolean get() {
-    val now = Clock.System.now()
-    return now in startDay..endDay
-  }
+  val isActive: Boolean
+    get() {
+      val now = Clock.System.now()
+      return now in startDay..endDay
+    }
 
   fun getCellStartLocalDate(cell: Cell): LocalDate {
     val index = cells.indexOf(cell)
@@ -103,14 +103,16 @@ data class Calendar(
               McComponent.translatable(
                 "rewards.calendar.notification",
                 serverAttachment.audiences.asNative(calendar.title)
-              ) +
-                McComponent.literal("\n") +
-                McComponent.translatable("rewards.calendar.notification.action").withStyle(
-                  Style.EMPTY
-                    .withUnderlined(true)
-                    .withColor(ChatFormatting.YELLOW)
-                    .withClickEvent(ClickEvent.RunCommand("/calendar open ${calendar.id}"))
+              ).append(
+                McComponent.literal("\n").append(
+                  McComponent.translatable("rewards.calendar.notification.action").withStyle(
+                    Style.EMPTY
+                      .withUnderlined(true)
+                      .withColor(ChatFormatting.YELLOW)
+                      .withClickEvent(ClickEvent.RunCommand("/calendar open ${calendar.id}"))
+                  )
                 )
+              )
             )
           }
         }

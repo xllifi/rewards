@@ -12,7 +12,7 @@ import ru.xllifi.rewards.calendar.Calendar
 import ru.xllifi.rewards.calendar.sql.setCellCollectedFor
 import ru.xllifi.rewards.rewards.grant
 import ru.xllifi.rewards.serializers.time.dayHumanReadable
-import ru.xllifi.rewards.utils.hideDefaultTooltipComponents
+import ru.xllifi.rewards.utils.ui.hideDefaultTooltipComponents
 import ru.xllifi.rewards.utils.ui.texturedGuiElement
 
 val CalendarScreen.blankGuiElement: GuiElement

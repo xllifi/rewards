@@ -6,7 +6,6 @@ import net.kyori.adventure.platform.modcommon.MinecraftServerAudiences
 import net.minecraft.ChatFormatting
 import net.minecraft.network.chat.Component
 import net.minecraft.server.level.ServerPlayer
-import net.minecraft.world.inventory.MenuType
 import org.jetbrains.exposed.v1.core.StdOutSqlLogger
 import org.jetbrains.exposed.v1.core.eq
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
@@ -15,12 +14,12 @@ import ru.xllifi.rewards.calendar.Calendar
 import ru.xllifi.rewards.calendar.sql.CollectedCell
 import ru.xllifi.rewards.calendar.sql.CollectedCellTable
 import ru.xllifi.rewards.commands.DebugCommands
-import ru.xllifi.rewards.utils.GuiHelpersRewards
-import ru.xllifi.rewards.utils.plus
-import ru.xllifi.rewards.utils.resizeEnd
-import ru.xllifi.rewards.utils.restorePlayerInventory
-import ru.xllifi.rewards.utils.setSlot
-import ru.xllifi.rewards.utils.setSlotInPlayerInventory
+import ru.xllifi.rewards.utils.ui.GuiHelpersRewards
+import ru.xllifi.rewards.utils.extensions.plus
+import ru.xllifi.rewards.utils.extensions.resizeEnd
+import ru.xllifi.rewards.utils.extensions.restorePlayerInventory
+import ru.xllifi.rewards.utils.extensions.setSlot
+import ru.xllifi.rewards.utils.extensions.setSlotInPlayerInventory
 import ru.xllifi.rewards.utils.ui.texturedGuiElement
 
 class CalendarScreen : SimpleGui {

@@ -1,4 +1,4 @@
-package ru.xllifi.rewards.utils
+package ru.xllifi.rewards.utils.extensions
 
 import net.minecraft.network.chat.Component
 import net.minecraft.network.chat.HoverEvent

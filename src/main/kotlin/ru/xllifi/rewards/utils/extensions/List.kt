@@ -1,4 +1,4 @@
-package ru.xllifi.rewards.utils
+package ru.xllifi.rewards.utils.extensions
 
 fun <T> List<T>.resizeEnd(size: Int, padElement: T, foldFunction: (T, T) -> T): List<T> =
   if (this.size <= size) {

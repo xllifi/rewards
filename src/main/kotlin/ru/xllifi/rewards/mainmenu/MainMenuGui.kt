@@ -6,7 +6,7 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.world.inventory.MenuType
 import ru.xllifi.rewards.cosmetic.ui.LockerGui
 //import ru.xllifi.rewards.cosmetic.ui.LockerScreen
-import ru.xllifi.rewards.utils.setSlot
+import ru.xllifi.rewards.utils.extensions.setSlot
 import ru.xllifi.rewards.utils.ui.texturedGuiElement
 
 class MainMenuGui(player: ServerPlayer) : SimpleGui(MenuType.GENERIC_9x1, player, false) {

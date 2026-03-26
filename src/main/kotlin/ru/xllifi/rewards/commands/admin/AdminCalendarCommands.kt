@@ -16,7 +16,7 @@ import ru.xllifi.rewards.calendar.commands.getCalendarArgument
 import ru.xllifi.rewards.calendar.sql.CollectedCell
 import ru.xllifi.rewards.calendar.sql.CollectedCellTable
 import ru.xllifi.rewards.calendar.sql.setCellCollectedFor
-import ru.xllifi.rewards.utils.plus
+import ru.xllifi.rewards.utils.extensions.plus
 
 object AdminCalendarCommands : Command {
   override fun DSLCommandNode<CommandSourceStack>.register() {

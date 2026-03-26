@@ -1,4 +1,4 @@
-package ru.xllifi.rewards.utils
+package ru.xllifi.rewards.utils.extensions
 
 import net.minecraft.core.Registry
 import net.minecraft.resources.Identifier

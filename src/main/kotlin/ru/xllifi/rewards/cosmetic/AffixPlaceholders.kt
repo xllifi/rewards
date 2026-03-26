@@ -8,8 +8,7 @@ import net.minecraft.server.level.ServerPlayer
 import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.config.getServerAttachment
 import ru.xllifi.rewards.cosmetic.kinds.AffixCosmeticDef
-import ru.xllifi.rewards.utils.id
-import ru.xllifi.rewards.utils.plus
+import ru.xllifi.rewards.utils.idOf
 import java.util.UUID
 
 object AffixPlaceholders {
@@ -48,7 +47,7 @@ object AffixPlaceholders {
     for (kind in arrayOf(CosmeticKind.Prefix, CosmeticKind.Suffix)) {
       Main.logger.info("Registering placeholders for $kind")
 
-      Placeholders.register(id(Main.MOD_ID, "cosmetic_${kind.snakeCaseName()}")) { ctx, _ ->
+      Placeholders.register(idOf(Main.MOD_ID, "cosmetic_${kind.snakeCaseName()}")) { ctx, _ ->
         if (!ctx.hasPlayer())
           return@register PlaceholderResult.invalid("No player!")
         val player = ctx.player!!

@@ -12,11 +12,11 @@ import net.minecraft.world.item.component.DyedItemColor
 import ru.xllifi.rewards.config.getServerAttachment
 import ru.xllifi.rewards.cosmetic.CosmeticKind
 import ru.xllifi.rewards.cosmetic.getCollectedBy
-import ru.xllifi.rewards.utils.GuiHelpersRewards
-import ru.xllifi.rewards.utils.extendAndAlign
-import ru.xllifi.rewards.utils.restorePlayerInventory
-import ru.xllifi.rewards.utils.setSlot
-import ru.xllifi.rewards.utils.setSlotInPlayerInventory
+import ru.xllifi.rewards.utils.ui.GuiHelpersRewards
+import ru.xllifi.rewards.utils.extensions.extendAndAlign
+import ru.xllifi.rewards.utils.extensions.restorePlayerInventory
+import ru.xllifi.rewards.utils.extensions.setSlot
+import ru.xllifi.rewards.utils.extensions.setSlotInPlayerInventory
 import ru.xllifi.rewards.utils.ui.DISABLED_COLOR
 import ru.xllifi.rewards.utils.ui.texturedGuiElement
 

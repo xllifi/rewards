@@ -8,7 +8,7 @@ import net.minecraft.server.level.ServerPlayer
 import net.minecraft.stats.Stat
 import net.minecraft.stats.Stats
 import ru.xllifi.rewards.serializers.Identifier
-import ru.xllifi.rewards.utils.getOrThrow
+import ru.xllifi.rewards.utils.extensions.getOrThrow
 
 @Serializable
 @SerialName("stat")

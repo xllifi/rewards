@@ -30,7 +30,6 @@ fun SuggestionsBuilder.cosmeticSuggestions(cosmeticKindArgumentName: String, ctx
     .forEach { suggest(it) }
 }
 
-
 fun CommandContext<CommandSourceStack>.getCosmeticArgument(
   cosmeticKindArgumentName: String,
   cosmeticArgumentName: String

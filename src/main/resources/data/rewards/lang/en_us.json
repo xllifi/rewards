@@ -97,5 +97,9 @@
   "command.rewards.cosmetic.set_collected.success.to_true": "collected",
   "command.rewards.cosmetic.set_collected.success.to_false": "uncollected",
 
+  "command.rewards.cosmetic.set_collected_by_collection.success": "Player %s now has cosmetics %s %s",
+  "command.rewards.cosmetic.set_collected_by_collection.success.to_true": "collected",
+  "command.rewards.cosmetic.set_collected_by_collection.success.to_false": "uncollected",
+
   "": ""
 }

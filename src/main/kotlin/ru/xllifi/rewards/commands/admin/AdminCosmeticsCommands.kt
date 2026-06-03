@@ -14,7 +14,9 @@ import org.jetbrains.exposed.v1.core.dao.id.CompositeID
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import ru.xllifi.rewards.Main
 import ru.xllifi.rewards.cosmetic.AffixPlaceholders
+import ru.xllifi.rewards.cosmetic.commands.cosmeticCollectionArgument
 import ru.xllifi.rewards.cosmetic.commands.getCosmeticArgument
+import ru.xllifi.rewards.cosmetic.commands.getCosmeticCollectionArgument
 import ru.xllifi.rewards.cosmetic.sql.CollectedCosmetic
 import ru.xllifi.rewards.cosmetic.sql.CollectedCosmeticsTable
 
@@ -49,6 +51,39 @@ object AdminCosmeticsCommands : Command {
     return Command.SINGLE_SUCCESS
   }
 
+  fun setCollectedByCollection(ctx: CommandContext<CommandSourceStack>): Int {
+    val player = EntityArgument.getPlayer(ctx, "player")
+    val cosmetics = ctx.getCosmeticCollectionArgument("cosmetic_collection")
+    val isCollected = BoolArgumentType.getBool(ctx, "is_collected")
+    val isEquipped = BoolArgumentType.getBool(ctx, "is_equipped")
+    cosmetics.forEach { cosmetic ->
+      Main.logger.info("${cosmetic.kind}")
+      if (isCollected) {
+        cosmetic.updateOrCreateFor(player, isEquipped)
+      } else {
+        transaction(Main.database) {
+          CollectedCosmetic.findById(
+            CompositeID {
+              it[CollectedCosmeticsTable.playerUuid] = player.uuid
+              it[CollectedCosmeticsTable.cosmeticKind] = cosmetic.kind
+              it[CollectedCosmeticsTable.cosmeticId] = cosmetic.id
+            }
+          )?.delete()
+        }
+      }
+      AffixPlaceholders.updateCacheFor(player, cosmetic.kind)
+    }
+    ctx.source.sendSystemMessage(
+      Component.translatable(
+        "command.rewards.cosmetic.set_collected_by_collection.success",
+        player.displayName,
+        Component.literal(cosmetics.joinToString(", ") { it.id }).withStyle(ChatFormatting.YELLOW),
+        Component.translatable("command.rewards.cosmetic.set_collected_by_collection.success.to_$isCollected")
+      )
+    )
+    return Command.SINGLE_SUCCESS
+  }
+
   override fun DSLCommandNode<CommandSourceStack>.register() {
     literal("set_collected") {
       argument("player", EntityArgument.player()) {
@@ -58,6 +93,17 @@ object AdminCosmeticsCommands : Command {
               argument("is_equipped", BoolArgumentType.bool()) {
                 executes { ctx -> setCollected(ctx) }
               }
+            }
+          }
+        }
+      }
+    }
+    literal("set_collected_by_collection") {
+      argument("player", EntityArgument.player()) {
+        cosmeticCollectionArgument("cosmetic_collection") {
+          argument("is_collected", BoolArgumentType.bool()) {
+            argument("is_equipped", BoolArgumentType.bool()) {
+              executes { ctx -> setCollectedByCollection(ctx) }
             }
           }
         }

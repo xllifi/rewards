@@ -97,5 +97,9 @@
   "command.rewards.cosmetic.set_collected.success.to_true": "собрана",
   "command.rewards.cosmetic.set_collected.success.to_false": "не собрана",
 
+  "command.rewards.cosmetic.set_collected_by_collection.success": "Теперь у игрока %s %2$s косметика %1$s",
+  "command.rewards.cosmetic.set_collected_by_collection.success.to_true": "собрана",
+  "command.rewards.cosmetic.set_collected_by_collection.success.to_false": "не собрана",
+
   "": ""
 }
